@@ -1,0 +1,64 @@
+@(topics: List[hfr.Topic])
+<!DOCTYPE html>
+<html ng-app="hfrcat">
+    <head>
+        <title>@Messages("project.title")</title>
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <link href="@routes.Assets.at("css/bootstrap.css")" rel="stylesheet">
+        <link href="@routes.Assets.at("css/main.css")" rel="stylesheet">
+        <link href="@routes.Assets.at("css/bootstrap-responsive.css")" rel="stylesheet">
+
+        <script src="@routes.Assets.at("js/lib/angular-1.0.4.min.js")"></script>
+        <script src="@routes.Assets.at("js/app.js")"></script>
+        <script src="@routes.Assets.at("js/controllers.js")"></script>
+    </head>
+    <body ng-controller="TopicGifsCtrl">
+        <div id="wrap">
+            <div class="container">
+                <div class="page-header muted">
+                    <ul class="nav nav-pills pull-right">
+                    @for(topic <- topics) {
+                        <li><a href="@topic.id">@topic.name</a></li>
+                    }
+                    </ul>
+                    <ul class="nav nav-pills pull-right">
+                        <li ng-repeat="phone in phones"><a href="phone.snippet">{{phone.name}}</a></li>
+                    </ul>
+                    <h1>@Messages("project.title")</h1>
+                </div>
+            </div>
+
+            <div class="container"
+                <p class="lead">gfdgdfgfdgfdgffgdgfd</p>
+                <p class="lead">
+                    <ul class="nav nav-pills pull-right">
+                        <li ng-repeat="image in gifs.images">
+                        <img ng-src="{{image}}"/>
+                        </li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <div id="footer">
+            <div class="container">
+                <p class="muted credit">
+                @Messages("project.about")
+                </p>
+            </div>
+        </div>
+
+        <script src="@routes.Assets.at("js/lib/jquery-1.7.1.min.js")"></script>
+        <script src="@routes.Assets.at("js/lib/bootstrap.min.js")"></script>
+        <script type="text/javascript">
+            /*$.ajax({url: " @routes.Application.gifs ", context: document.body})
+            .done(function(data) {
+            var images = eval(data).images;
+            document.write(" <hr /> ");
+            for (var i = 0; i < images.length ; i++) {
+            document.write(" <img src='" + images[i] +"'/> ");
+            }
+            })     */
+        </script>
+    </body>
+</html>

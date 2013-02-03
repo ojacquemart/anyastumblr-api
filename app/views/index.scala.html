@@ -1,0 +1,30 @@
+@(topics: List[hfr.Topic])
+<!DOCTYPE html>
+<html ng-app="hfrcat">
+    <head>
+        <title>@Messages("project.title")</title>
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <link href="@routes.Assets.at("css/bootstrap.css")" rel="stylesheet">
+        <link href="@routes.Assets.at("css/main.css")" rel="stylesheet">
+        <link href="@routes.Assets.at("css/bootstrap-responsive.css")" rel="stylesheet">
+
+        <script src="@routes.Assets.at("js/lib/angular-1.0.4.min.js")"></script>
+        <script src="@routes.Assets.at("js/app.js")"></script>
+        <script src="@routes.Assets.at("js/controllers.js")"></script>
+    </head>
+    <body>
+        <div id="wrap">
+            <div ng-view></div>
+        </div>
+
+        <div id="footer">
+            <div class="container">
+                <p class="muted credit">
+                @Messages("project.about")
+                </p>
+            </div>
+        </div>
+
+       script>
+    </body>
+</html>

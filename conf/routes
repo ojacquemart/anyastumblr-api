@@ -4,9 +4,8 @@
 
 # Home page
 GET     /                           controllers.Application.index
-GET     /gifs                       controllers.Application.gifs
 
-GET     /topics/list                     controllers.Application.topics()
+GET     /topics                controllers.Application.topics()
 GET     /topics/:id/gifs            controllers.Application.topicGifs(id: String)
 GET     /topics/:id/page/:page      controllers.Application.topicChangePage(id: String, page: Int)
 

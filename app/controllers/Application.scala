@@ -21,29 +21,11 @@ object Application extends Controller {
   }
 
   def topicGifs(id: String) = Action {
-    val topic: Topic = TopicRepository.findTopic(id)
-    Logger.info("Get topic from id: %s".format(id))
-
-    val url = topic.url
-    val json = Cache.getOrElse[JsValue](url) {
-      Logger.info("Load gifs")
-      new ContentFinder(url).getContentAsJson()
-    }
-    Ok(json).as("application/json")
+    Ok(ContentFinder(id).getContentAsJson()).as("application/json")
   }
 
   def topicChangePage(id: String, page: Int) = Action {
-    TODO
-  }
-
-  def gifs = Action { request =>
-    Logger.info("Gifs for " + request.session.get("url"))
-    val url = "http://forum.hardware.fr/hfr/Discussions/Loisirs/images-etonnantes-cons-sujet_78667_7682.htm"
-    val json = Cache.getOrElse[JsValue](url) {
-      Logger.info("Load gifs")
-      new ContentFinder(url).getContentAsJson()
-    }
-    Ok(json).as("application/json")
+    Ok(ContentFinder(id, page).getContentAsJson()).as("application/json")
   }
 
 }

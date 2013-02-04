@@ -1,85 +1,68 @@
 package hfr
 
-import collection.mutable.ListBuffer
-
 import play.api.libs.json._
 
-import org.jsoup.Jsoup
-import org.jsoup.nodes._
 import play.api.Logger
 
-case class HfrTopic(topic: String, pageNumber: Int) {
-
-  val Root = "http://forum.hardware.fr/hfr"
-  val Extension = ".htm"
-
-  override def toString = "%s/%s_%d%s".format(Root, topic, pageNumber, Extension)
-
-}
-
-case class Content(rootUrl: String, currentPage: Int, previousPage: Int, nextPage: Int, images: JsValue)
-
-object ContentFormats {
-
-  implicit object ContentFormat extends Format[Content] {
-    def reads(json: JsValue) = {
-      new Content((json \ "rootUrl").as[String],
-        (json \ "currentPage").as[Int], (json \"previousPage").as[Int], (json \ "nextPage").as[Int],
-        json \ "images")
-    }
-    def writes(content: Content): JsValue = {
-      JsObject(
-        List("rootUrl" -> JsString(content.rootUrl),
-            "currentPage" -> JsNumber(content.currentPage),
-            "previousPage" -> JsNumber(content.previousPage),
-            "nextPage" -> JsNumber(content.nextPage),
-            "images" -> content.images ))
-    }
-  }
-}
-
-case class ContentFinder(url: String) {
+case class ContentFinder(topic: Topic, pageNumber: Option[Int]) {
 
   import hfr.ContentFormats._
 
   val HfrRoot = "http://forum.hardware.fr"
-  val HfrSmilies = "http://forum-images.hardware.fr/images/perso"
+  val HfrFilters = List("http://forum-images.hardware.fr/images/perso", "http://forum-images.hardware.fr/icones")
+
+  // Css constants to select elements
+  val CssImgsSelector = "tr.message td.messCase2 img"
+  val CssLinksSelector = "tr.cBackHeader.fondForum2PagesHaut div.left a"
 
   // Regex to extract page number
   val RegexPageNumber = """([0-9]+)\.htm""".r
+  val RegexReplaceLastPage = """_[0-9]+\.""".r
 
-  // Css constants to select elements
-  val CssImgsSelector   = "tr.cBackCouleurTab2 p img"
-  val CssLinksSelector  = "tr.cBackHeader.fondForum2PagesHaut div.left a"
+  def getUrl() = {
+    RegexReplaceLastPage.replaceFirstIn(topic.url, "_%d.".format(getPageIndex))
+  }
 
-  // Html document
-  def getDocument() = Jsoup.connect(url)
-    .data("query", "Java")
-    .userAgent("Mozilla")
-    .cookie("auth", "token")
-    .timeout(3000)
-    .get()
+  def getPageIndex() = {
+    pageNumber match {
+      case None => getNbPages(topic.url)
+      case Some(pageNumber: Int) => pageNumber
+    }
+  }
 
   def getContent(): Content = {
-    val pageIndexes = getPageIndexes()
-    val images: JsValue = imagesAsJson()
-    Logger.info("pageIndexes=[current=%d,prev=%d,next=%d], images = %s".format(pageIndexes._1, pageIndexes._2, pageIndexes._3, images))
+    val url = getUrl()
+    val pageIndexes = getPageIndexes(url)
+    val images: JsValue = getImagesAsJson(url)
+    Logger.debug("pageIndexes=[current=%d,prev=%d,next=%d],images=[%s]".
+      format(pageIndexes._1, pageIndexes._2, pageIndexes._3,
+      images))
 
     new Content(HfrRoot, pageIndexes._1, pageIndexes._2, pageIndexes._3, images)
   }
-  def getContentAsJson(): JsValue = Json.toJson(getContent())
+  def getContentAsJson(): JsValue = {
+    Logger.info("Load gifs")
+    Json.toJson(getContent())
+  }
 
-  def getPageIndexes(): (Int, Int, Int) = {
-    val currentPage = getCurrentPage()
-    val nbPages = getNbPages()
-    val previousPage = if( currentPage <= 1) -1 else currentPage -1
-    val nextPage = if (currentPage >= nbPages) -1 else currentPage + 1
+  def getPageIndexes(url: String): (Int, Int, Int) = {
+    val currentPage = getCurrentPage(url)
+    val nbPages = getNbPages(url)
+    Logger.debug("Current page=%d,nbPages=%d".format(currentPage, nbPages))
+
+    val previousPage = if (currentPage <= 1) -1 else (currentPage - 1)
+    val nextPage = if (currentPage >= nbPages) -1 else (currentPage + 1)
 
     (currentPage, previousPage, nextPage)
   }
-  def getCurrentPage(): Int = extractNumberPage(url)
-  def getNbPages() = {
-    val links: List[String] = listElements(CssLinksSelector, "href")
+
+  def getCurrentPage(url: String) = pageNumber match {
+    case None => getNbPages(url)
+    case Some(i: Int) => i
+  }
+
+  def getNbPages(url: String): Int = {
+    val links: List[String] = new DocumentWrapper(url).listElements(CssLinksSelector, "href")
     // TODO: try to use css select :last-child added in jsoup 1.7.2
     extractNumberPage(links.reverse.head)
   }
@@ -89,24 +72,28 @@ case class ContentFinder(url: String) {
     result.group(1).toInt
   }
 
-  def imagesAsJson() = {
-    val images: List[String] = listElements(CssImgsSelector, "src")
-    val (smileyImages, otherImages) = images.partition(i => i.startsWith(HfrSmilies))
+  def getImages(url: String) = {
+    val images: List[String] = new DocumentWrapper(url).listElements(CssImgsSelector, "src")
+    val (smileyImages, otherImages) = images
+      .filterNot(_.startsWith("http://forum-images.hardware.fr/themes"))
+      .partition(i => HfrFilters.exists(i.startsWith))
 
-    Json.toJson(smileyImages ++ otherImages)
+    (smileyImages ++ otherImages).toSet
+  }
+  def getImagesAsJson(url: String) = {
+    Json.toJson(getImages(url))
   }
 
-  private def listElements(cssSelector: String, attributeName: String): List[String] = {
-    var buffer: ListBuffer[String] = ListBuffer()
+}
 
-    val imgs = getDocument().select(cssSelector)
-    val itImgs = imgs.iterator()
-    while (itImgs.hasNext) {
-      val img: Element = itImgs.next()
-      buffer += img.attr(attributeName)
-    }
+object ContentFinder {
 
-    buffer.toList
+  def apply(topicId: String) = {
+    new ContentFinder(TopicRepository.findTopic(topicId), None)
+  }
+
+  def apply(topicId: String, pageNumber: Int) = {
+    new ContentFinder(TopicRepository.findTopic(topicId), Some(pageNumber))
   }
 
 }

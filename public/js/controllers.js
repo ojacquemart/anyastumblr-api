@@ -1,37 +1,41 @@
-function HfrGifsCtrl($scope, $http) {
+/**
+ * AngularJS - Gifs controller.
+ */
 
-    $http.get('topics').success(function (data) {
-        $scope.topics = data;
-        $scope.topicId = data[0].id;
-    });
+function hfrGifsController($scope, $http) {
 
-    /**
-     * Load gifs from topicId.
-     */
+    $scope.images = [];
+
+    $scope.concatImages = function (data) {
+        $scope.images = $scope.images.concat(data.images)
+        $scope.gifs = data;
+        $scope.gifs.images = $scope.images;
+    }
+
     $scope.loadGifs = function () {
         $http.get("topics/" + $scope.topicId + "/gifs")
             .success(function (data) {
-                $scope.gifs = data;
+                $scope.images = [];
+                $scope.concatImages(data);
             });
+
     };
+    $http.get('topics').success(function (data) {
+        $scope.topics = data;
+        $scope.topicId = data[0].id;
 
-    $scope.loadGifs();
+        $scope.loadGifs();
+    });
 
-    $scope.changePage = function(pageNumber) {
-        if (pageNumber != -1) {
-            $http.get("topics/" + $scope.topicId + "/page/" + pageNumber)
-                .success(function (data) {
-                    $scope.gifs = data;
-                });
-        }
+
+    $scope.loadNextGifs = function () {
+        $http.get("topics/" + $scope.topicId + "/page/" + $scope.gifs.previousPage)
+            .success(function (data) {
+                $scope.concatImages(data);
+            });
     }
 
-    $scope.previousPage = function () {
-        $scope.changePage($scope.gifs.previousPage)
-    }
-
-    $scope.nextPage = function () {
-        $scope.changePage($scope.gifs.nextPage)
-    }
 }
+
+
 

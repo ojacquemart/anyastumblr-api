@@ -10,8 +10,8 @@ object Global extends GlobalSettings {
   }
 
   def proxify() {
-    System.setProperty("proxyHost", "proxy")
-    System.setProperty("proxyPort", "8888")
+//    System.setProperty("proxyHost", "proxy")
+//    System.setProperty("proxyPort", "8888")
   }
 
 }

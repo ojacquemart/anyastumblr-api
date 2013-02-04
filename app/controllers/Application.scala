@@ -12,7 +12,7 @@ object Application extends Controller {
 
   def index = Action {  request =>
     Logger.info("Index...")
-    Ok(views.html.index(TopicRepository.getTopics())).withSession("url" -> "http://forum.hardware.fr/hfr/Discussions/Loisirs/images-etonnantes-cons-sujet_78667_7682.htm")
+    Ok(views.html.index())
   }
 
   def topics = Action {

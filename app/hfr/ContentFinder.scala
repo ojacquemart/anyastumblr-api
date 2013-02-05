@@ -8,16 +8,17 @@ case class ContentFinder(topic: Topic, pageNumber: Option[Int]) {
 
   import hfr.ContentFormats._
 
-  val HfrRoot = "http://forum.hardware.fr"
-  val HfrFilters = List("http://forum-images.hardware.fr/images/perso", "http://forum-images.hardware.fr/icones")
+  val HfrRoot     = "http://forum.hardware.fr"
+  val HfrFilters  = List("http://forum-images.hardware.fr/images/perso", "http://forum-images.hardware.fr/icones")
+  val HfrThemes   = "http://forum-images.hardware.fr/themes"
 
   // Css constants to select elements
-  val CssImgsSelector = "tr.message td.messCase2 img"
-  val CssLinksSelector = "tr.cBackHeader.fondForum2PagesHaut div.left a"
+  val CssImgsSelector   = "tr.message td.messCase2 img"
+  val CssLinksSelector  = "tr.cBackHeader.fondForum2PagesHaut div.left a"
 
   // Regex to extract page number
-  val RegexPageNumber = """([0-9]+)\.htm""".r
-  val RegexReplaceLastPage = """_[0-9]+\.""".r
+  val RegexPageNumber       = """([0-9]+)\.htm""".r
+  val RegexReplaceLastPage  = """_[0-9]+\.""".r
 
   def getUrl() = {
     RegexReplaceLastPage.replaceFirstIn(topic.url, "_%d.".format(getPageIndex))
@@ -74,12 +75,18 @@ case class ContentFinder(topic: Topic, pageNumber: Option[Int]) {
 
   def getImages(url: String) = {
     val images: List[String] = new DocumentWrapper(url).listElements(CssImgsSelector, "src")
+    rearrangeImages(images)
+  }
+
+  def rearrangeImages(images: List[String]): List[String] = {
     val (smileyImages, otherImages) = images
-      .filterNot(_.startsWith("http://forum-images.hardware.fr/themes"))
+      .filterNot(_.startsWith(HfrThemes))
       .partition(i => HfrFilters.exists(i.startsWith))
 
-    (smileyImages ++ otherImages).toSet
+    val concat = smileyImages ++ otherImages
+    concat.distinct
   }
+
   def getImagesAsJson(url: String) = {
     Json.toJson(getImages(url))
   }

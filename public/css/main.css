@@ -1,24 +1,20 @@
-/* Sticky footer styles
-            -------------------------------------------------- */
-
 html,
 body {
     height: 100%;
 }
 
 a {
-    color: #A0C5DE;
-}
-a:hover {
-    color: #97A0C4;
+    color: #FFF !important;
 }
 
-/* Wrapper for page content to push down footer */
+i {
+    cursor: pointer;
+}
+
 #wrap {
     min-height: 100%;
     height: auto !important;
     height: 100%;
-    /* Negative indent footer by it's height */
     margin: 0 auto -60px;
 }
 
@@ -34,23 +30,35 @@ header {
     box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
 }
 
-#loading {
-    position: absolute;
-    left: 50%;
-    top: 5px;
-    display: none;
-    background: gold;
+.header-message {
+    position: fixed;
+    top: 4em;
+    left: 45%;
     padding: 0.3em;
     font-weight: bold;
+    display: none;
+    text-align: center;
+}
+#loading {
+    background: gold;
+    color: #000 !important;
 }
 
 header p {
     color: #A0C5DE !important;
 }
 
-header select {
+header select, input {
     margin-top: 5px;
     width: auto;
+}
+
+header input {
+    margin-top: 4px !important;
+}
+
+header i {
+    color: #fff;
 }
 
 section#content {
@@ -60,7 +68,6 @@ section#content {
 section#content img {
     padding: 1px;
 }
-
 
 section#content .next-page {
     text-align: center;
@@ -72,4 +79,20 @@ section#content .next-page {
 
 .nav-pills li, .thumbnail {
     padding: 1px;
+}
+
+footer {
+    background: white;
+    width: 100%;
+    padding: 5px;
+    position: fixed;
+    bottom: 0;
+}
+
+footer .input-append, .input-prepend {
+    margin-bottom: 0;
+}
+
+footer .container-image-focus {
+    text-align: center;
 }

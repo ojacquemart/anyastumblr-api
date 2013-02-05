@@ -18,11 +18,13 @@ angular.module('SharedServices', [])
                 // do something on success
                 // todo hide the spinner
                 $('#loading').hide();
+                $('#error').hide();
                 return response;
 
             }, function (response) {
                 // do something on error
                 // todo hide the spinner
+                $('#error').show();
                 $('#loading').hide();
                 return $q.reject(response);
             });
@@ -30,7 +32,32 @@ angular.module('SharedServices', [])
     })
 
 // TODO: improve scroll...
-angular.module('hfrGifs', ['SharedServices'])
+angular.module('hfrGifs', ['SharedServices']).directive('hoverable', function () {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function (scope, elm, attrs, ctrl) {
+// view -> model
+            elm.bind('hover', function () {
+                scope.$apply(function () {
+                    scope.test = elm.html();
+                    console.log(ctrl);
+                    console.log(elm.attr("src"));
+                    ctrl.$setViewValue(elm.html());
+                });
+
+            });
+
+// model -> view
+            ctrl.$render = function (value) {
+                elm.html(value);
+            };
+
+// load init value from DOM
+            ctrl.$setViewValue(elm.html());
+        }
+    };
+});
 //angular.module('hfrGifs', ['SharedServices']).directive('whenScrolled', function () {
 //    return function (scope, elm, attr) {
 //        var raw = elm[0];

@@ -3,18 +3,21 @@
 <head>
     <title>@Messages("project.title")</title>
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-    <link href="@routes.Assets.at("css/bootstrap.css")" rel="stylesheet">
     <link href="@routes.Assets.at("css/main.css")" rel="stylesheet">
-    <link href="@routes.Assets.at("css/bootstrap-responsive.css")" rel="stylesheet">
+    <link href="@routes.Assets.at("css/bootstrap.min.css")" rel="stylesheet">
+    <link href="@routes.Assets.at("css/font-awesome.min.css")" rel="stylesheet">
 
     <script src="@routes.Assets.at("js/lib/jquery-1.7.1.min.js")"></script>
     <script src="@routes.Assets.at("js/lib/angular-1.0.4.min.js")"></script>
     <script src="@routes.Assets.at("js/app.js")"></script>
     <script src="@routes.Assets.at("js/controllers.js")"></script>
+    <script src="@routes.Assets.at("js/lib/ZeroClipboard.js")"></script>
+    <script type="text/javascript">
+        ZeroClipboard.setDefaults( { moviePath: " @routes.Assets.at("js/lib/ZeroClipboard.swf") " } );
+    </script>
 </head>
 <body ng-controller="hfrGifsController">
     <header>
-        <div id="loading">@Messages("page.loading")</div>
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -23,28 +26,47 @@
                     <span class="icon-bar"></span>
                 </a>
                 <p class="brand">@Messages("project.title")</p>
+
                 <div class="nav-collapse collapse">
                     <select
                     ng-model="topicId"
                     ng-options="topic.id as topic.name for topic in topics"
                     ng-change="loadGifs();">
                     </select>
-                    <p class="navbar-text pull-right"><a href="@Messages("project.github.url")" target="_blank">@Messages("project.about")</a></p>
+                    <p class="navbar-text pull-right">
+                        <a href="@Messages("project.github.url")" target="_blank">@Messages("project.about")</a>
+                    </p>
+
+                    <input class="input-large" id="clipboard-image-src" ng-model="imageSrcFocus" type="text">
+                    <i id="button-paste-image-src" class="add-on icon-large icon-paste" data-clipboard-target="clipboard-image-src"></i>
                 </div>
             </div>
         </div>
     </header>
 
     <section id="content">
+        <div id="loading" class="header-message pagination-centered">
+            <span><i class="icon-spinner icon-spin"></i>@Messages("page.loading")</span>
+        </div>
+        <div id="error" class="header-message pagination-centered">
+            <span class="alert alert-error">@Messages("page.error")
+                <i class="add-on icon-large icon-refresh" ng-click="loadGifs();"></i>
+            </span>
+        </div>
         <div class="container" when-scrolled="loadNextGifs()">
             <ul class="nav nav-pills">
-                <li ng-repeat="image in gifs.images">
-                <img class="img-polaroid" ng-src="{{image}}"/>
+                <li ng-model="image" ng-repeat="image in gifs.images">
+                <img ng-click="srcToClipboard(image);" class="img-polaroid" ng-src="{{image}}"/>
                 </li>
             </ul>
 
-            <p class="next-page"><button type="button" class="btn" ng-click="loadNextGifs();">@Messages("page.next")</button></p>
+            <p ng-show="gifs.images" class="next-page">
+                <button type="button" class="btn" ng-click="loadNextGifs();">@Messages("page.moregifs")</button>
+            </p>
         </div>
     </section>
+
+    <footer>
+    </footer>
 </body>
 </html>

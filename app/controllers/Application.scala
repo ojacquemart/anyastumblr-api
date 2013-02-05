@@ -1,8 +1,6 @@
 package controllers
 
-import play.api.Play.current
 import play.api.mvc._
-import play.api.cache.Cache
 import play.api.Logger
 
 import hfr._

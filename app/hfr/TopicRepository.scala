@@ -38,13 +38,15 @@ object TopicFormats {
 
 object TopicRepository {
 
-  import TopicFormats.TopicFormat
+  import TopicFormats._
 
   def getTopics() = {
     List(
       Topic("Images étonnantes", "http://forum.hardware.fr/hfr/Discussions/Loisirs/images-etonnantes-cons-sujet_78667_1.htm"),
       Topic("Gifs: Femmes, Caca, Chutes&Co", "http://forum.hardware.fr/hfr/Discussions/Loisirs/chutes-warning-moderation-sujet_27848_1.htm"))
   }
+
+  def getFirstTopicUrl() = getTopics().head.url
 
   def getTopicsAsJson() = Json.toJson(getTopics())
 
@@ -55,5 +57,7 @@ object TopicRepository {
     Logger.info("Get topic %s from id %s".format(topic.name, id))
     topic
   }
+
+  def findTopicUrl(id: String) = findTopic(id).url
 
 }

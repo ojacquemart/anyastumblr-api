@@ -1,7 +1,6 @@
 /**
  * AngularJS - Gifs controller.
  */
-
 function hfrGifsController($scope, $http) {
 
     var clip = new ZeroClipboard($("#button-paste-image-src"));
@@ -15,7 +14,7 @@ function hfrGifsController($scope, $http) {
         $scope.gifs.images = $scope.images;
     }
 
-    $scope.loadGifs = function () {
+    $scope.loadImages = function () {
         $scope.images = [];
 //        var data =  {"rootUrl":"http://forum.hardware.fr",
 //                        "currentPage":7703,"previousPage":7702,"nextPage":-1,
@@ -27,22 +26,26 @@ function hfrGifsController($scope, $http) {
                 $scope.concatImages(data);
             });
     };
+
+    // on controller load.
     $http.get('topics').success(function (data) {
         $scope.topics = data;
-        $scope.topicId = data[0].id;
+        $scope.topicId = data[0].id; // to initialize default topic in select.
 
-        $scope.loadGifs();
+        $scope.loadImages();
     });
 
-    $scope.loadNextGifs = function () {
-        $http.get("topics/" + $scope.topicId + "/page/" + $scope.gifs.previousPage)
-            .success(function (data) {
-                $scope.concatImages(data);
-            });
+    $scope.loadPreviousPage = function () {
+        var pageNumber = $scope.gifs.pageNumber - 1;
+        if (pageNumber !== 1) {
+            $http.get("topics/" + $scope.topicId + "/page/" + pageNumber)
+                .success(function (data) {
+                    $scope.concatImages(data);
+                });
+        }
     }
 
-    $scope.srcToClipboard = function(image) {
-        console.log(image);
+    $scope.updateClipboardInput = function (image) {
         $scope.imageSrcFocus = image;
     }
 

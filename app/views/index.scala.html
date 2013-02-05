@@ -31,7 +31,7 @@
                     <select
                     ng-model="topicId"
                     ng-options="topic.id as topic.name for topic in topics"
-                    ng-change="loadGifs();">
+                    ng-change="loadImages();">
                     </select>
                     <p class="navbar-text pull-right">
                         <a href="@Messages("project.github.url")" target="_blank">@Messages("project.about")</a>
@@ -50,18 +50,18 @@
         </div>
         <div id="error" class="header-message pagination-centered">
             <span class="alert alert-error">@Messages("page.error")
-                <i class="add-on icon-large icon-refresh" ng-click="loadGifs();"></i>
+                <i class="add-on icon-large icon-refresh" ng-click="loadImages();"></i>
             </span>
         </div>
-        <div class="container" when-scrolled="loadNextGifs()">
+        <div class="container">
             <ul class="nav nav-pills">
                 <li ng-model="image" ng-repeat="image in gifs.images">
-                <img ng-click="srcToClipboard(image);" class="img-polaroid" ng-src="{{image}}"/>
+                <img ng-click="updateClipboardInput(image);" class="img-polaroid" ng-src="{{image}}"/>
                 </li>
             </ul>
 
             <p ng-show="gifs.images" class="next-page">
-                <button type="button" class="btn" ng-click="loadNextGifs();">@Messages("page.moregifs")</button>
+                <button type="button" class="btn" ng-click="loadPreviousPage();">@Messages("page.moregifs")</button>
             </p>
         </div>
     </section>

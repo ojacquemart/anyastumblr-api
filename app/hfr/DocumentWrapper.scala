@@ -10,7 +10,7 @@ import play.api.Logger
 
 case class DocumentWrapper(url: String) {
 
-  def getDocument(): Document = {
+  val document: Document = {
     Logger.debug("getDocument(%s)".format(url))
 
     Jsoup.connect(url)
@@ -24,7 +24,7 @@ case class DocumentWrapper(url: String) {
   def listElements(cssSelector: String, attributeName: String): List[String] = {
     var buffer: ListBuffer[String] = ListBuffer()
 
-    val elments: Elements = getDocument().select(cssSelector)
+    val elments: Elements = document.select(cssSelector)
     val it = elments.iterator()
     while (it.hasNext) {
       val img: Element = it.next()

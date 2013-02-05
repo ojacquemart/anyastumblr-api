@@ -4,7 +4,6 @@ import play.api.mvc._
 import play.api.Logger
 
 import hfr._
-import play.api.libs.json._
 
 object Application extends Controller {
 
@@ -18,12 +17,12 @@ object Application extends Controller {
     Ok(TopicRepository.getTopicsAsJson()).as("application/json")
   }
 
-  def topicGifs(id: String) = Action {
-    Ok(ContentFinder(id).getContentAsJson()).as("application/json")
+  def topicGifs(topicId: String) = Action {
+    Ok(JsonContentFinder.getContentFromFirstPageAsJson(topicId)).as("application/json")
   }
 
-  def topicChangePage(id: String, page: Int) = Action {
-    Ok(ContentFinder(id, page).getContentAsJson()).as("application/json")
+  def topicChangePage(topicId: String, pageNumber: Int) = Action {
+    Ok(JsonContentFinder.getContentFromPageNumberAsJson(topicId, pageNumber)).as("application/json")
   }
 
 }

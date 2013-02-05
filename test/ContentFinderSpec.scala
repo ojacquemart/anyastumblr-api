@@ -8,21 +8,29 @@ class ContentFinderSpec extends Specification {
 
   "The ContentFinder class" should {
 
-    "match indexes with no pageNumber defined" in {
-      val topic: Topic = TopicRepository.getTopics().head
-      val url = topic.url
-      val contentFinder = new ContentFinder(topic, None)
-      val currentPage: Int = contentFinder.getCurrentPage(url)
-      val nbPages = contentFinder.getNbPages(url)
-      currentPage must be equalTo (nbPages)
+    "resolve urlAndPageNumber from firstPage without pageNumber" in {
+      val topicUrl: String = TopicRepository.getFirstTopicUrl()
+      val resolver = new TopicUrlAndPageNumberResolver(topicUrl, None)
+      val urlAndPageNumber = resolver.resolve
+      val url = urlAndPageNumber._1
+      val pageNumber = urlAndPageNumber._2
 
-      val pageIndexes = contentFinder.getPageIndexes(url)
-      pageIndexes._1 must equalTo(currentPage)
-      pageIndexes._2 must equalTo(currentPage - 1)
-      pageIndexes._3 must equalTo(-1)
+      url must not be equalTo(topicUrl)
+      pageNumber must be>(1)
     }
 
-    "parition avatars and images" in {
+    "resolve urlAndPageNumber from firstPage with pageNumber" in {
+      val topicUrl: String = TopicRepository.getFirstTopicUrl()
+      val resolver = new TopicUrlAndPageNumberResolver(topicUrl, Some(1000))
+      val urlAndPageNumber = resolver.resolve
+      val url = urlAndPageNumber._1
+      val pageNumber = urlAndPageNumber._2
+
+      url must not be equalTo(topicUrl)
+      pageNumber must be equalTo(1000)
+    }
+
+    "partition avatars and images" in {
       val imgs = List(
         "http://forum-images.hardware.fr/themes/dark/shit.gif",
         "http://forum-images.hardware.fr/images/perso/cerveau ouch.gif",
@@ -46,8 +54,8 @@ class ContentFinderSpec extends Specification {
         "http://forum-images.hardware.fr/images/perso/2/ixam.gif",
         "http://forum-images.hardware.fr/images/perso/2/ixam.gif"
       )
-      val contentFinder: ContentFinder = new ContentFinder(TopicRepository.getTopics().head, None)
-      val rearrangeImgs = contentFinder.rearrangeImages(imgs)
+      val imagesFinder: TopicPageImagesFinder = new TopicPageImagesFinder(TopicRepository.getFirstTopicUrl)
+      val rearrangeImgs = imagesFinder.rearrangeImages(imgs)
 
       val expected = List(
         "http://forum-images.hardware.fr/images/perso/cerveau ouch.gif",

@@ -31,30 +31,23 @@ angular.module('SharedServices', [])
         };
     })
 
-// TODO: improve scroll...
 angular.module('hfrGifs', ['SharedServices']).directive('hoverable', function () {
     return {
         restrict: 'A',
         require: 'ngModel',
         link: function (scope, elm, attrs, ctrl) {
-// view -> model
-            elm.bind('hover', function () {
+            elm.bind('mouseover', function () {
                 scope.$apply(function () {
-                    scope.test = elm.html();
-                    console.log(ctrl);
-                    console.log(elm.attr("src"));
-                    ctrl.$setViewValue(elm.html());
+                    var imageSrc = elm.attr("src");
+                    // Id to glue is the image...
+                    var clip = new ZeroClipboard.Client();
+                    clip.glue(imageSrc);
+                    clip.setText(imageSrc);
+                    clip.addEventListener('complete', function (client, text) {
+                    });
                 });
 
             });
-
-// model -> view
-            ctrl.$render = function (value) {
-                elm.html(value);
-            };
-
-// load init value from DOM
-            ctrl.$setViewValue(elm.html());
         }
     };
 });

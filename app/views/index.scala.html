@@ -7,13 +7,14 @@
     <link href="@routes.Assets.at("css/font-awesome.min.css")" rel="stylesheet">
     <link href="@routes.Assets.at("css/main.css")" rel="stylesheet">
 
-    <script src="@routes.Assets.at("js/lib/jquery-1.7.1.min.js")"></script>
     <script src="@routes.Assets.at("js/lib/angular-1.0.4.min.js")"></script>
+    <script src="@routes.Assets.at("js/lib/jquery-1.7.1.min.js")"></script>
+    <script src="@routes.Assets.at("js/lib/ZeroClipboard.js")"></script>
     <script src="@routes.Assets.at("js/app.js")"></script>
     <script src="@routes.Assets.at("js/controllers.js")"></script>
-    <script src="@routes.Assets.at("js/lib/ZeroClipboard.js")"></script>
+
     <script type="text/javascript">
-        ZeroClipboard.setDefaults({ moviePath: "@routes.Assets.at("js/lib/ZeroClipboard.swf")"});
+        ZeroClipboard.setMoviePath("@routes.Assets.at("js/lib/ZeroClipboard11.swf")");
     </script>
 </head>
 <body ng-controller="hfrGifsController">
@@ -28,6 +29,7 @@
                 <p class="brand">@Messages("project.title")</p>
 
                 <div class="nav-collapse collapse">
+                    <!-- Topics list -->
                     <select
                     ng-model="topicId"
                     ng-options="topic.id as topic.name for topic in topics"
@@ -36,9 +38,6 @@
                     <p class="navbar-text pull-right">
                         <a href="@Messages("project.github.url")" target="_blank">@Messages("project.about")</a>
                     </p>
-
-                    <input class="input-large" id="clipboard-image-src" ng-model="imageSrcFocus" type="text">
-                    <i id="button-paste-image-src" class="add-on icon-large icon-paste" data-clipboard-target="clipboard-image-src"></i>
                 </div>
             </div>
         </div>
@@ -62,22 +61,32 @@
         <div ng:repeat="page in pages">
             <h3 class="lead">{{page.title}}</h3>
             <hr>
+
+            <!-- Icons -->
             <ul class="nav nav-pills">
                 <li ng-repeat="icon in page.icons">
                 <img class="img-polaroid" ng-src="{{icon}}"/>
                 </li>
             </ul>
             <hr>
+
+            <!-- Images -->
             <ul class="nav nav-pills">
                 <li ng-model="image" ng-repeat="image in page.images">
-                <img ng-click="updateClipboardInput(image);" class="img-polaroid" ng-src="{{image}}"/>
+                    <div class="paste-clipboard">
+                        <i class="paste-clipbard-img add-on icon-large icon-paste"
+                        id="{{image}}">
+                        </i>
+                    <img hoverable="true" ng-model="image" class="img-polaroid" ng-src="{{image}}"/>
+                    </div>
                 </li>
             </ul>
             <hr>
         </div>
 
-        <p ng-show="pages" class="next-page">
-            <button type="button" class="btn" ng-click="loadPreviousPage();">@Messages("page.moregifs")</button>
+        <!-- More images -->
+        <p ng-show="pages" class="more-images">
+            <button type="button" class="btn" ng-click="loadMoreImages();">@Messages("page.moregifs")</button>
         </p>
     </div>
     </section>

@@ -16,7 +16,7 @@ class ContentFinderSpec extends Specification {
       val pageNumber = urlAndPageNumber._2
 
       url must not be equalTo(topicUrl)
-      pageNumber must be>(1)
+      pageNumber must be > (1)
     }
 
     "resolve urlAndPageNumber from firstPage with pageNumber" in {
@@ -27,7 +27,7 @@ class ContentFinderSpec extends Specification {
       val pageNumber = urlAndPageNumber._2
 
       url must not be equalTo(topicUrl)
-      pageNumber must be equalTo(1000)
+      pageNumber must be equalTo (1000)
     }
 
     "partition avatars and images" in {
@@ -56,6 +56,7 @@ class ContentFinderSpec extends Specification {
       )
       val imagesFinder: TopicPageImagesFinder = new TopicPageImagesFinder(TopicRepository.getFirstTopicUrl)
       val rearrangeImgs = imagesFinder.rearrangeImages(imgs)
+      val concatImgs = rearrangeImgs._1 ++ rearrangeImgs._2
 
       val expected = List(
         "http://forum-images.hardware.fr/images/perso/cerveau ouch.gif",
@@ -68,8 +69,8 @@ class ContentFinderSpec extends Specification {
         "http://i.imgur.com/XbuN4JK.gif?1",
         "http://hfr-rehost.net/http://cdn.uproxx.com/wp-content/uploads/2013/02/many-bill-murray.gif",
         "http://hfr-rehost.net/gif/46c39e78876acadea512dd8399bf4db47eb6")
-      rearrangeImgs.size must be equalTo (expected.size)
-      rearrangeImgs must be equalTo (expected)
+      concatImgs.size must be equalTo (expected.size)
+      concatImgs must be equalTo (expected)
     }
 
     "change pageNumber from url" in {

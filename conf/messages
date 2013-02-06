@@ -2,6 +2,7 @@ project.title=hfr.asTumblr()
 project.about=Coded in Play! Scala / AngularJS
 project.github.url=https://github.com/ojacquemart/hfrAsTumblr
 
+page.label=Page
 page.loading=Chargement...
 page.moregifs=Plus d'images...
 

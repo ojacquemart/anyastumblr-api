@@ -1,4 +1,4 @@
-package hfr
+package jsoup
 
 import collection.mutable.ListBuffer
 

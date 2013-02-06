@@ -6,24 +6,28 @@ function hfrGifsController($scope, $http) {
     var clip = new ZeroClipboard($("#button-paste-image-src"));
 
     $scope.imageSrcFocus = "";
-    $scope.images = [];
+    $scope.currentPageNumber = 0;
+    $scope.pages = [];
 
-    $scope.concatImages = function (data) {
-        $scope.images = $scope.images.concat(data.images)
-        $scope.gifs = data;
-        $scope.gifs.images = $scope.images;
+    $scope.concatPages = function (data) {
+        var page = data[0];
+        $scope.currentPageNumber = page.pageNumber;
+        $scope.pages = $scope.pages.concat(data);
     }
 
     $scope.loadImages = function () {
-        $scope.images = [];
-//        var data =  {"rootUrl":"http://forum.hardware.fr",
-//                        "currentPage":7703,"previousPage":7702,"nextPage":-1,
-//            "images":["http://localhost:9000/assets/img/angularjs-logo.png"]};
-//        $scope.concatImages(data);
+//        var data = [{"page" : "Page 123", "images" : ["http://localhost:9000/assets/img/angularjs-logo.png","http://localhost:9000/assets/img/angularjs-logo.png","http://localhost:9000/assets/img/angularjs-logo.png"]}];
+//        var data2 = [{"page" : "Page 456", "images" : ["http://localhost:9000/assets/img/play-logo.png","http://localhost:9000/assets/img/play-logo.png","http://localhost:9000/assets/img/play-logo.png"]}];
+//        var data3 = [{"page" : "Page 789", "images" : ["http://localhost:9000/assets/img/scala-logo.png"]}];
+
+//        $scope.pages = $scope.pages.concat(data);
+//        $scope.pages = $scope.pages.concat(data2);
+//        $scope.pages = $scope.pages.concat(data3);
+//        console.log($scope.pages);
         $http.get("topics/" + $scope.topicId + "/gifs")
             .success(function (data) {
-                $scope.images = [];
-                $scope.concatImages(data);
+                $scope.pages = [];
+                $scope.concatPages(data);
             });
     };
 
@@ -36,11 +40,11 @@ function hfrGifsController($scope, $http) {
     });
 
     $scope.loadPreviousPage = function () {
-        var pageNumber = $scope.gifs.pageNumber - 1;
+        var pageNumber = $scope.currentPageNumber - 1;
         if (pageNumber !== 1) {
             $http.get("topics/" + $scope.topicId + "/page/" + pageNumber)
                 .success(function (data) {
-                    $scope.concatImages(data);
+                    $scope.concatPages(data);
                 });
         }
     }

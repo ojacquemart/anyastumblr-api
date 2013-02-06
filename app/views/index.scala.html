@@ -3,9 +3,9 @@
 <head>
     <title>@Messages("project.title")</title>
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-    <link href="@routes.Assets.at("css/main.css")" rel="stylesheet">
     <link href="@routes.Assets.at("css/bootstrap.min.css")" rel="stylesheet">
     <link href="@routes.Assets.at("css/font-awesome.min.css")" rel="stylesheet">
+    <link href="@routes.Assets.at("css/main.css")" rel="stylesheet">
 
     <script src="@routes.Assets.at("js/lib/jquery-1.7.1.min.js")"></script>
     <script src="@routes.Assets.at("js/lib/angular-1.0.4.min.js")"></script>
@@ -45,25 +45,41 @@
     </header>
 
     <section id="content">
-        <div id="loading" class="header-message pagination-centered">
-            <span><i class="icon-spinner icon-spin"></i>@Messages("page.loading")</span>
-        </div>
-        <div id="error" class="header-message pagination-centered">
-            <span class="alert alert-error">@Messages("page.error")
-                <i class="add-on icon-large icon-refresh" ng-click="loadImages();"></i>
-            </span>
-        </div>
-        <div class="container">
+    <!-- Loading -->
+    <div id="loading" class="header-message pagination-centered">
+        <span><i class="icon-spinner icon-spin"></i> @Messages("page.loading")</span>
+    </div>
+
+    <!-- Error -->
+    <div id="error" class="header-message pagination-centered">
+        <span class="alert alert-error">
+            @Messages ("page.error")
+        <i class="add-on icon-large icon-refresh" ng-click="loadImages();"></i>
+        </span>
+    </div>
+    <!-- Topic content -->
+    <div class="container">
+        <div ng:repeat="page in pages">
+            <h3 class="lead">{{page.title}}</h3>
+            <hr>
             <ul class="nav nav-pills">
-                <li ng-model="image" ng-repeat="image in gifs.images">
+                <li ng-repeat="icon in page.icons">
+                <img class="img-polaroid" ng-src="{{icon}}"/>
+                </li>
+            </ul>
+            <hr>
+            <ul class="nav nav-pills">
+                <li ng-model="image" ng-repeat="image in page.images">
                 <img ng-click="updateClipboardInput(image);" class="img-polaroid" ng-src="{{image}}"/>
                 </li>
             </ul>
-
-            <p ng-show="gifs.images" class="next-page">
-                <button type="button" class="btn" ng-click="loadPreviousPage();">@Messages("page.moregifs")</button>
-            </p>
+            <hr>
         </div>
+
+        <p ng-show="pages" class="next-page">
+            <button type="button" class="btn" ng-click="loadPreviousPage();">@Messages("page.moregifs")</button>
+        </p>
+    </div>
     </section>
 
     <footer>

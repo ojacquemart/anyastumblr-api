@@ -21,11 +21,6 @@
     <header>
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
-                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </a>
                 <p class="brand">@Messages("project.title")</p>
 
                 <div class="nav-collapse collapse">
@@ -39,25 +34,32 @@
                         <a href="@Messages("project.github.url")" target="_blank">@Messages("project.about")</a>
                     </p>
                 </div>
+
             </div>
         </div>
     </header>
 
     <section id="content">
-    <!-- Loading -->
-    <div id="loading" class="header-message pagination-centered">
-        <span><i class="icon-spinner icon-spin"></i>@Messages("page.loading")</span>
-    </div>
+        <div id="message-box">
+            <!-- Error -->
+            <div id="error" class="message-information">
+                <span class="alert alert-error">
+                    @Messages("page.error")
+                <i class="add-on icon-large icon-refresh" ng-click="loadImages();"></i>
+                </span>
+            </div>
 
-    <!-- Error -->
-    <div id="error" class="header-message pagination-centered">
-        <span class="alert alert-error">
-            @Messages("page.error")
-        <i class="add-on icon-large icon-refresh" ng-click="loadImages();"></i>
-        </span>
-    </div>
-    <!-- Topic content -->
-    <div class="container">
+        <!-- Loading -->
+            <div id="loading" class="message-information">
+            <span class="alert alert-information">
+                    @Messages("page.loading")
+                <i class="icon-spinner icon-spin"></i>
+                </span>
+            </div>
+        </div>
+
+        <!-- Topic content -->
+        <div class="container">
         <div ng:repeat="page in pages">
             <h3 class="lead">{{page.title}}</h3>
             <hr>

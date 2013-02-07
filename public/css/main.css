@@ -30,19 +30,22 @@ header {
     box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
 }
 
-.header-message {
-    position: fixed;
-    top: 4em;
-    left: 45%;
+#loading .alert-information {
+    background: gold;
+}
+
+#loading .alert {
+    color: #9E8043;
+}
+
+#message-box div {
+    padding: .5em;
+}
+
+.message-information {
     padding: 0.3em;
     font-weight: bold;
     display: none;
-    text-align: center;
-}
-
-#loading {
-    background: gold;
-    color: #000 !important;
 }
 
 header p {
@@ -94,6 +97,10 @@ li.image {
 }
 
 section#content .more-images {
+    text-align: center;
+}
+
+#message-box {
     text-align: center;
 }
 

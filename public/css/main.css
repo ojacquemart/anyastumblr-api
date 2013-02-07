@@ -88,6 +88,11 @@ section#content img {
     padding: 1px;
 }
 
+li.image {
+    min-height: 50px;
+    min-width: 50px;
+}
+
 section#content .more-images {
     text-align: center;
 }

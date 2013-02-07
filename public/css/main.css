@@ -38,6 +38,13 @@ header {
     color: #9E8043;
 }
 
+#message-box {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 1000;
+}
 #message-box div {
     padding: .5em;
 }

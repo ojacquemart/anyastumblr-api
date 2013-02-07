@@ -16,10 +16,11 @@ case class TopicPageImagesFinder(url: String) {
   }
 
   def rearrangeImages(images: List[String]): (List[String], List[String]) = {
-    images
+    val rearrange = images
       .distinct
       .filterNot(_.startsWith(HfrThemes))
       .partition(i => HfrFilters.exists(i.startsWith))
+    (rearrange._1, rearrange._2.reverse)
   }
 
 }

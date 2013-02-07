@@ -65,10 +65,11 @@ class ContentFinderSpec extends Specification {
         "http://forum-images.hardware.fr/images/perso/4/ticento.gif",
         "http://forum-images.hardware.fr/images/perso/ripthejacker.gif",
         "http://forum-images.hardware.fr/images/perso/2/ixam.gif",
-        "http://i.minus.com/iKmav6Fr2vvBk.gif",
-        "http://i.imgur.com/XbuN4JK.gif?1",
+        "http://hfr-rehost.net/gif/46c39e78876acadea512dd8399bf4db47eb6",
         "http://hfr-rehost.net/http://cdn.uproxx.com/wp-content/uploads/2013/02/many-bill-murray.gif",
-        "http://hfr-rehost.net/gif/46c39e78876acadea512dd8399bf4db47eb6")
+        "http://i.imgur.com/XbuN4JK.gif?1",
+        "http://i.minus.com/iKmav6Fr2vvBk.gif"
+      )
       concatImgs.size must be equalTo (expected.size)
       concatImgs must be equalTo (expected)
     }

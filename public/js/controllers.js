@@ -3,20 +3,21 @@
  */
 function hfrGifsController($scope, $http) {
 
-    $scope.currentPageNumber = 0; // To load previous page... currentPageNumber -1.
+    $scope.initialPageNumber = -1;
+    $scope.page = null;
     $scope.pages = []; // To concat each page and its images.
 
-    $scope.concatPages = function (data) {
-        var page = data[0];
-        $scope.currentPageNumber = page.pageNumber;
-        $scope.pages = $scope.pages.concat(data);
+    $scope.storeImages = function (data) {
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+        $scope.page = data[0];
+        $scope.pages = data;
     }
 
     $scope.loadImages = function () {
         $http.get("topics/" + $scope.topicId + "/gifs")
             .success(function (data) {
-                $scope.pages = [];
-                $scope.concatPages(data);
+                $scope.storeImages(data);
+                $scope.initialPageNumber = $scope.page.pageNumber;
             });
     };
 //        var data = [{"page" : "Page 123", "images" : ["http://localhost:9000/assets/img/angularjs-logo.png","http://localhost:9000/assets/img/angularjs-logo.png","http://localhost:9000/assets/img/angularjs-logo.png"]}];
@@ -27,13 +28,22 @@ function hfrGifsController($scope, $http) {
 //        $scope.pages = $scope.pages.concat(data3);
 //        console.log($scope.pages);
 
-    $scope.loadMoreImages = function () {
-        var pageNumber = $scope.currentPageNumber - 1;
+    $scope.loadMore = function(pageNumber) {
+        $http.get("topics/" + $scope.topicId + "/page/" + pageNumber)
+            .success(function (data) {
+                $scope.storeImages(data);
+            });
+    }
+    $scope.loadPageUp = function () {
+        var pageNumber = $scope.page.pageNumber + 1;
+        if (pageNumber <= $scope.initialPageNumber) {
+            $scope.loadMore(pageNumber);
+        }
+    }
+    $scope.loadPageDown = function () {
+        var pageNumber = $scope.page.pageNumber - 1;
         if (pageNumber !== 1) {
-            $http.get("topics/" + $scope.topicId + "/page/" + pageNumber)
-                .success(function (data) {
-                    $scope.concatPages(data);
-                });
+            $scope.loadMore(pageNumber);
         }
     }
 

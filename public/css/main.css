@@ -115,22 +115,6 @@ section#content .more-images {
     padding: 1px;
 }
 
-footer {
-    background: white;
-    width: 100%;
-    padding: 5px;
-    position: fixed;
-    bottom: 0;
-}
-
-footer .input-append, .input-prepend {
-    margin-bottom: 0;
-}
-
-footer .container-image-focus {
-    text-align: center;
-}
-
 .paste-clipboard {
     position: relative;
 }
@@ -147,4 +131,19 @@ footer .container-image-focus {
     border-top-left-radius:  5px;
     border-bottom: 1px solid #000;
     border-bottom-left-radius:  5px;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 5px 0;
+    background: white;
+    border-top: 1px solid #CCCCCC;
+}
+
+
+footer p {
+    text-align: center;
+    margin: 0;
 }

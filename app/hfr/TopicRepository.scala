@@ -20,9 +20,9 @@ object TopicFormats {
 
   implicit object TopicFormat extends Format[Topic] {
 
-    def reads(json: JsValue): Topic = {
+    def reads(json: JsValue): JsResult[Topic] = {
       val id = (json \ "id").as[String]
-      TopicRepository.findTopic(id)
+      JsSuccess(TopicRepository.findTopic(id))
     }
 
     def writes(topic: Topic): JsValue = {

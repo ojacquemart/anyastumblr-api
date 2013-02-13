@@ -9,19 +9,17 @@ case class TopicPage(title: String, pageNumber: Int, icons: List[String], images
 object ContentFormats {
 
   implicit object ContentFormat extends Format[TopicPage] {
-    def reads(json: JsValue) = {
-      new TopicPage((json \ "title").as[String], (json \ "pageNumber").as[Int],
-        (json \ "icons").as[List[String]] ,(json \ "images").as[List[String]])
-    }
 
-    def writes(content: TopicPage): JsValue = {
-      JsArray(List(
-          JsObject(List("title" -> JsString(content.title),
-            "pageNumber" -> JsNumber(content.pageNumber),
-            "icons" -> Json.toJson(content.icons),
-            "images" -> Json.toJson(content.images))))
-      )
-    }
+    def reads(json: JsValue): JsResult[TopicPage] = JsSuccess(
+      new TopicPage(
+        (json \ "title").as[String], (json \ "pageNumber").as[Int],
+        (json \ "icons").as[List[String]], (json \ "images").as[List[String]])
+    )
+
+    def writes(content: TopicPage): JsValue = JsObject(List("title" -> JsString(content.title),
+      "pageNumber" -> JsNumber(content.pageNumber),
+      "icons" -> Json.toJson(content.icons),
+      "images" -> Json.toJson(content.images)))
   }
 
 }

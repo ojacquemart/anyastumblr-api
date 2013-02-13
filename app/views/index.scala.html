@@ -60,7 +60,6 @@
 
         <!-- Topic content -->
         <div id="topic-content" class="container">
-        <div ng:repeat="page in pages">
             <h3 class="lead">{{page.title}}</h3>
             <hr>
 
@@ -85,11 +84,9 @@
             </ul>
             <hr>
         </div>
-
-    </div>
     </section>
 
-    <footer ng-show="pages">
+    <footer ng-show="page">
     <!-- Previous/Next pages-->
     <p class="more-images">
         <i class="btn icon-arrow-up icon-large" ng-click="loadPageUp();"></i>

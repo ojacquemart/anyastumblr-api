@@ -31,27 +31,8 @@ angular.module('SharedServices', [])
         };
     })
 
-angular.module('hfrGifs', ['SharedServices']).directive('hoverable', function () {
-    return {
-        restrict: 'A',
-        require: 'ngModel',
-        link: function (scope, elm, attrs, ctrl) {
-            elm.bind('mouseover', function () {
-                scope.$apply(function () {
-                    var imageSrc = elm.attr("src");
-                    // Id to glue is the image...
-                    var clip = new ZeroClipboard.Client();
-                    clip.glue(imageSrc);
-                    clip.setText(imageSrc);
-                    clip.addEventListener('complete', function (client, text) {
-                    });
-                });
-
-            });
-        }
-    };
-});
-//angular.module('hfrGifs', ['SharedServices']).directive('whenScrolled', function () {
+angular.module('hfrGifs', ['SharedServices']);
+///angular.module('hfrGifs', ['SharedServices']).directive('whenScrolled', function () {
 //    return function (scope, elm, attr) {
 //        var raw = elm[0];
 //        elm.bind('scroll', function () {

@@ -115,24 +115,6 @@ section#content .more-images {
     padding: 1px;
 }
 
-.paste-clipboard {
-    position: relative;
-}
-
-.paste-clipboard i {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    padding: 5px;
-    background: #fff;
-    color: #000;
-    opacity: 0.5;
-    border-left: 1px solid #000;
-    border-top-left-radius:  5px;
-    border-bottom: 1px solid #000;
-    border-bottom-left-radius:  5px;
-}
-
 footer {
     position: fixed;
     bottom: 0;

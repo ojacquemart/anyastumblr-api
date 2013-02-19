@@ -7,15 +7,10 @@
     <link href="@routes.Assets.at("css/font-awesome.min.css")" rel="stylesheet">
     <link href="@routes.Assets.at("css/main.css")" rel="stylesheet">
 
-    <script src="@routes.Assets.at("js/lib/angular-1.0.4.min.js")"></script>
-    <script src="@routes.Assets.at("js/lib/jquery-1.7.1.min.js")"></script>
-    <script src="@routes.Assets.at("js/lib/ZeroClipboard.js")"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script src="@routes.Assets.at("js/app.js")"></script>
     <script src="@routes.Assets.at("js/controllers.js")"></script>
-
-    <script type="text/javascript">
-        ZeroClipboard.setMoviePath("@routes.Assets.at("js/lib/ZeroClipboard11.swf")");
-    </script>
 </head>
 <body ng-controller="hfrGifsController">
     <header>
@@ -74,12 +69,7 @@
             <!-- Images -->
             <ul class="nav nav-pills">
                 <li class="image" ng-model="image" ng-repeat="image in page.images">
-                    <div class="paste-clipboard">
-                        <i class="paste-clipbard-img add-on icon-large icon-paste"
-                        id="{{image}}">
-                        </i>
                     <img hoverable="true" ng-model="image" class="img-polaroid" ng-src="{{image}}"/>
-                    </div>
                 </li>
             </ul>
             <hr>

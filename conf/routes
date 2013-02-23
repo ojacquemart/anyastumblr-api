@@ -8,7 +8,6 @@ GET     /                                       controllers.Application.index
 GET     /topics                                 controllers.Application.topics()
 GET     /topics/:topicId/gifs                   controllers.Application.topicGifs(topicId: String)
 GET     /topics/:topicId/page/:pageNumber       controllers.Application.topicChangePage(topicId: String, pageNumber: Int)
-GET     /findAll                                controllers.Application.findAll
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

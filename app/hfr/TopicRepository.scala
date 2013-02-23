@@ -1,7 +1,7 @@
 package hfr
 
-import play.api.libs.json._
 import play.api.Logger
+import play.api.libs.json._
 
 case class Topic(id: String, name: String, url: String)
 
@@ -27,9 +27,9 @@ object TopicFormats {
 
     def writes(topic: Topic): JsValue = {
       JsObject(
-        List("id" -> JsString(topic.id),
-          "name" -> JsString(topic.name)
-        ))
+      List("id" -> JsString(topic.id),
+      "name" -> JsString(topic.name)
+      ))
     }
 
   }
@@ -38,12 +38,13 @@ object TopicFormats {
 
 object TopicRepository {
 
-  import TopicFormats._
+  import TopicFormats.TopicFormat
 
   def getTopics() = {
-    List(
-      Topic("Images étonnantes", "http://forum.hardware.fr/hfr/Discussions/Loisirs/images-etonnantes-cons-sujet_78667_1.htm"),
-      Topic("Gifs: Femmes, Caca, Chutes&Co", "http://forum.hardware.fr/hfr/Discussions/Loisirs/chutes-warning-moderation-sujet_27848_1.htm"))
+    val topics = List(
+        Topic("Images étonnantes", "http://forum.hardware.fr/hfr/Discussions/Loisirs/images-etonnantes-cons-sujet_78667_1.htm"),
+        Topic("Gifs: Femmes, Caca, Chutes&Co", "http://forum.hardware.fr/hfr/Discussions/Loisirs/chutes-warning-moderation-sujet_27848_1.htm"))
+    topics
   }
 
   def getFirstTopicUrl() = getTopics().head.url

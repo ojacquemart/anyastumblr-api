@@ -19,24 +19,36 @@ function hfrGifsController($scope, $http) {
             });
     };
 
-    $scope.loadMore = function(pageNumber) {
+    $scope.loadPage = function(pageNumber) {
         $http.get("topics/" + $scope.topicId + "/page/" + pageNumber)
             .success(function (data) {
                 $scope.storeImages(data);
             });
     }
-    $scope.loadPageUp = function () {
+    $scope.loadNextPage = function () {
         var pageNumber = $scope.page.pageNumber + 1;
         if (pageNumber <= $scope.initialPageNumber) {
-            $scope.loadMore(pageNumber);
+            $scope.loadPage(pageNumber);
         }
     }
-    $scope.loadPageDown = function () {
+    $scope.loadPreviousPage = function () {
         var pageNumber = $scope.page.pageNumber - 1;
         if (pageNumber !== 1) {
-            $scope.loadMore(pageNumber);
+            $scope.loadPage(pageNumber);
         }
     }
+
+    $scope.handleKeypress = function(key) {
+        // left = 37, right = 39
+        switch (key) {
+            case 37: // Previous page = left
+                $scope.loadPreviousPage();
+                break;
+            case 39: // Next page = right
+                $scope.loadNextPage();
+                break;
+        }
+    };
 
     //-------------------
     // on controller load.

@@ -12,7 +12,7 @@
     <script src="@routes.Assets.at("js/app.js")"></script>
     <script src="@routes.Assets.at("js/controllers.js")"></script>
 </head>
-<body ng-controller="hfrGifsController">
+<body ng-controller="hfrGifsController" on-keyup-fn="handleKeypress">
     <header>
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
@@ -79,8 +79,8 @@
     <footer ng-show="page">
     <!-- Previous/Next pages-->
     <p class="more-images">
-        <i class="btn icon-arrow-up icon-large" ng-click="loadPageUp();"></i>
-        <i class="btn icon-arrow-down icon-large" ng-click="loadPageDown();"></i>
+        <i class="btn icon-arrow-left icon-large" ng-click="loadPreviousPage();"></i>
+        <i class="btn icon-arrow-right icon-large" ng-click="loadNextPage();"></i>
     </p>
     </footer>
 </body>

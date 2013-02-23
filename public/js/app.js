@@ -30,21 +30,18 @@ angular.module('SharedServices', [])
             });
         };
     })
-
-angular.module('hfrGifs', ['SharedServices']);
-///angular.module('hfrGifs', ['SharedServices']).directive('whenScrolled', function () {
-//    return function (scope, elm, attr) {
-//        var raw = elm[0];
-//        elm.bind('scroll', function () {
-//            // Need to scroll... call funciton in directive..
-//            console.log("jquery way " + raw.scrollTop + "+" + raw.offsetHeight + ">=" + $(window).height());
-//            console.log("angular way " + raw.scrollTop + "+" + raw.offsetHeight + ">=" + raw.scrollHeight);
-//            if (raw.scrollTop + raw.offsetHeight >= $(window).height()) {
-//            if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight) {
-//                scope.$apply(attr.whenScrolled);
-//            }
-//        });
-//
-//    };
-//
-//});
+angular.module('hfrGifs', ['SharedServices']).directive('onKeyupFn', function() {
+    return function(scope, elm, attrs) {
+        //Evaluate the variable that was passed
+        //In this case we're just passing a variable that points
+        //to a function we'll call each keyup
+        var keyupFn = scope.$eval(attrs.onKeyupFn);
+        elm.bind('keyup', function(evt) {
+            //$apply makes sure that angular knows
+            //we're changing something
+            scope.$apply(function() {
+                keyupFn.call(scope, evt.which);
+            });
+        });
+    };
+});

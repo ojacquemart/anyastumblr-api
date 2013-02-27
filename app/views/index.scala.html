@@ -59,20 +59,24 @@
             <hr>
 
             <!-- Icons -->
-            <ul class="nav nav-pills">
-                <li ng-repeat="icon in page.icons">
-                <img class="img-polaroid" ng-src="{{icon}}"/>
-                </li>
-            </ul>
-            <hr>
+            <div class="page-icons" ng-show="page.icons">
+                <ul class="nav nav-pills">
+                    <li ng-repeat="icon in page.icons">
+                    <img class="img-polaroid" ng-src="{{icon}}"/>
+                    </li>
+                </ul>
+                <hr>
+            </div>
 
             <!-- Images -->
-            <ul class="nav nav-pills">
-                <li class="image" ng-model="image" ng-repeat="image in page.images">
-                    <img hoverable="true" ng-model="image" class="img-polaroid" ng-src="{{image}}"/>
-                </li>
-            </ul>
-            <hr>
+            <div class="page-images" ng-show="page.images">
+                <ul class="nav nav-pills">
+                    <li class="image" ng-model="image" ng-repeat="image in page.images">
+                        <img hoverable="true" ng-model="image" class="img-polaroid" ng-src="{{image}}"/>
+                    </li>
+                </ul>
+                <hr>
+            </div>
         </div>
     </section>
 

@@ -2,7 +2,7 @@ package hfr
 
 import jsoup.DocumentWrapper
 
-case class TopicPageImagesFinder(url: String) {
+case class PageImagesFinder(url: String) {
 
   val HfrImagesCssSelector = "tr.message td.messCase2 img"
   val ImgSrcAttribute = "src"

@@ -54,7 +54,7 @@ class ContentFinderSpec extends Specification {
         "http://forum-images.hardware.fr/images/perso/2/ixam.gif",
         "http://forum-images.hardware.fr/images/perso/2/ixam.gif"
       )
-      val imagesFinder: TopicPageImagesFinder = new TopicPageImagesFinder(TopicRepository.getFirstTopicUrl)
+      val imagesFinder: PageImagesFinder = new PageImagesFinder(TopicRepository.getFirstTopicUrl)
       val rearrangeImgs = imagesFinder.rearrangeImages(imgs)
       val concatImgs = rearrangeImgs._1 ++ rearrangeImgs._2
 

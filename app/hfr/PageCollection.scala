@@ -19,7 +19,7 @@ import ExecutionContext.Implicits.global
 object PageCollection {
 
   val db = ReactiveMongoPlugin.db
-  lazy val collection = db("test")
+  lazy val collection = db("pages")
 
   def saveOrUpdate(page: Page) {
     val futurePage = findHead(page)

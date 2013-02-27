@@ -5,7 +5,7 @@ import play.api.Logger
 
 object TopicRepository {
 
-  import TopicFormats._
+  import TopicJSON._
 
   def getTopics() = {
     List(

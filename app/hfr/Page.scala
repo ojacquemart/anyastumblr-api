@@ -35,7 +35,7 @@ case class Page(id: Option[BSONObjectID],
 
 object PageJSON {
 
-  implicit object PageFormat extends Format[Page] {
+  implicit object PageJsonHandlers extends Format[Page] {
 
     def reads(json: JsValue): JsResult[Page] = JsSuccess(
       new Page(

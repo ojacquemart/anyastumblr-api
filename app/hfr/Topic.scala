@@ -17,9 +17,9 @@ object Topic {
   }
 }
 
-object TopicFormats {
+object TopicJSON {
 
-  implicit object TopicFormat extends Format[Topic] {
+  implicit object TopicJSONHandlers extends Format[Topic] {
 
     def reads(json: JsValue): JsResult[Topic] = {
       val id = (json \ "id").as[String]

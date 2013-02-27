@@ -39,6 +39,10 @@ header .navbar .brand {
     margin-left: 0;
 }
 
+header span.page-title {
+    padding: 5px;
+}
+
 #loading .alert-information {
     background: gold;
 }

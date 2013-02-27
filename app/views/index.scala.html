@@ -25,6 +25,7 @@
                     ng-options="topic.id as topic.name for topic in topics"
                     ng-change="loadImages();">
                     </select>
+                    <span ng-show="page" class="alert alert-info page-title"><strong>{{page.title}}</strong></span>
                     <p class="navbar-text pull-right">
                         <a href="@Messages("project.github.url")" target="_blank">@Messages("project.about")</a>
                     </p>
@@ -45,7 +46,7 @@
             </div>
 
         <!-- Loading -->
-            <div id="loading" class="message-information">
+        <div id="loading" class="message-information">
             <span class="alert alert-information">
                     @Messages("page.loading")
                 <i class="icon-spinner icon-spin"></i>
@@ -55,9 +56,6 @@
 
         <!-- Topic content -->
         <div id="topic-content" class="container">
-            <h3 class="lead">{{page.title}}</h3>
-            <hr>
-
             <!-- Icons -->
             <div class="page-icons" ng-show="page.icons">
                 <ul class="nav nav-pills">

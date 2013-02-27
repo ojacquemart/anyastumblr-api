@@ -30,6 +30,15 @@ header {
     box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
 }
 
+header .container-fluid {
+    padding-left: 0;
+}
+
+header .navbar .brand {
+    padding: 10px 5px;
+    margin-left: 0;
+}
+
 #loading .alert-information {
     background: gold;
 }

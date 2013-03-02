@@ -14,7 +14,7 @@
 </head>
 <body ng-controller="hfrGifsController" on-keyup-fn="handleKeypress">
     <header>
-        <div class="navbar navbar-inverse navbar-fixed-top">
+        <div id="app-bar" class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <p class="brand">@Messages("project.title")</p>
 
@@ -26,7 +26,7 @@
                     ng-options="topic.id as topic.name for topic in topics"
                     ng-change="loadImages();">
                     </select>
-                    <span ng-show="page" class="alert alert-info page-title"><strong>{{page.title}}</strong></span>
+                    <span ng-show="page" class="page-title">{{page.title}}</span>
                     <p class="navbar-text pull-right">
                         <a href="@Messages("project.github.url")" target="_blank">@Messages("project.about")</a>
                     </p>
@@ -34,25 +34,37 @@
 
             </div>
         </div>
+
+        <!-- Loading -->
+        <div id="center-messages">
+            <div id="loading" class="message-information">
+                <p>
+                <i class="icon-large icon-spinner icon-spin"></i>
+                </p>
+            </div>
+            <div id="error" class="message-information">
+                <p class="alert alert-error">
+                    @Messages("page.error")
+                    <i class="add-on icon-large icon-refresh alert-error" ng-click="refreshPage();"></i>
+                </p>
+            </div>
+        </div>
     </header>
+
+    <section id="navigation" ng-show="page">
+    <!-- Previous/Next pages-->
+    <p class="more-images">
+        <i class="btn icon-arrow-left icon-large" ng-click="loadPreviousPage();"></i>
+        <i class="btn icon-arrow-right icon-large" ng-click="loadNextPage();"></i>
+    </p>
+    </section>
 
     <section id="content">
         <div id="message-box">
             <!-- Error -->
-            <div id="error" class="message-information">
-                <span class="alert alert-error">
-                    @Messages("page.error")
-                <i class="add-on icon-large icon-refresh" ng-click="loadImages();"></i>
-                </span>
-            </div>
 
-        <!-- Loading -->
-        <div id="loading" class="message-information">
-            <span class="alert alert-information">
-                    @Messages("page.loading")
-                <i class="icon-spinner icon-spin"></i>
-                </span>
-            </div>
+
+
         </div>
 
         <!-- Topic content -->
@@ -78,13 +90,5 @@
             </div>
         </div>
     </section>
-
-    <footer ng-show="page">
-    <!-- Previous/Next pages-->
-    <p class="more-images">
-        <i class="btn icon-arrow-left icon-large" ng-click="loadPreviousPage();"></i>
-        <i class="btn icon-arrow-right icon-large" ng-click="loadNextPage();"></i>
-    </p>
-    </footer>
 </body>
 </html>

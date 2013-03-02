@@ -18,6 +18,10 @@ i {
     margin: 0 auto -60px;
 }
 
+/**
+ * Header
+ */
+
 header {
     position: fixed;
     top: 0;
@@ -39,36 +43,7 @@ header .navbar .brand {
     margin-left: 0;
 }
 
-header span.page-title {
-    padding: 5px;
-}
-
-#loading .alert-information {
-    background: gold;
-}
-
-#loading .alert {
-    color: #9E8043;
-}
-
-#message-box {
-    position: fixed;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    z-index: 1000;
-}
-#message-box div {
-    padding: .5em;
-}
-
-.message-information {
-    padding: 0.3em;
-    font-weight: bold;
-    display: none;
-}
-
-header p {
+header #app-bar p, #app-bar span.page-title {
     color: #A0C5DE !important;
 }
 
@@ -85,9 +60,62 @@ header i {
     color: #fff;
 }
 
+header #center-messages {
+    position: absolute;
+    left: 44%;
+    top: 10px;
+    text-align: center;
+}
+
+header #loading .alert-information {
+    background: gold;
+}
+
+header #loading .alert {
+    color: #9E8043;
+}
+
+header #loading {
+    margin-left: 105px;
+}
+
+header #error {
+    margin-top: 5px;
+}
+
+header #error i {
+    cursor: hand;
+}
+
+header #error p {
+    padding: 5px;
+}
+
+/**
+ * Navigation
+ */
+
+section#navigation {
+    position: fixed;
+    top: 41px;
+    width: 100%;
+    padding: 10px 0 7px 0;
+    background: #fff;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+section#navigation p {
+    text-align: center;
+    margin: 0;
+}
+
+/**
+ * Content
+ */
+
 section#content {
     width: auto;
-    margin-top: 48px;
+    margin-top: 85px;
     padding: 0 1em;
 }
 
@@ -120,25 +148,6 @@ section#content .more-images {
     text-align: center;
 }
 
-#message-box {
-    text-align: center;
-}
-
 .nav-pills li, .thumbnail {
     padding: 1px;
-}
-
-footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    padding: 5px 0;
-    background: white;
-    border-top: 1px solid #CCCCCC;
-}
-
-
-footer p {
-    text-align: center;
-    margin: 0;
 }

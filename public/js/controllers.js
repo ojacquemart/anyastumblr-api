@@ -21,12 +21,18 @@ function hfrGifsController($scope, $http) {
 
     };
 
+    $scope.refreshPage = function() {
+        $scope.loadImages();
+        $("#error").hide();
+    };
+
     $scope.loadPage = function(pageNumber) {
         $http.get("topics/" + $scope.topicId + "/page/" + pageNumber)
             .success(function (data) {
                 $scope.storeImages(data);
             });
-    }
+    };
+
     $scope.loadNextPage = function () {
         var pageNumber = $scope.page.pageNumber + 1;
         if (pageNumber <= $scope.initialPageNumber) {
@@ -38,7 +44,7 @@ function hfrGifsController($scope, $http) {
         if (pageNumber !== 1) {
             $scope.loadPage(pageNumber);
         }
-    }
+    };
 
     $scope.handleKeypress = function(key) {
         // left = 37, right = 39

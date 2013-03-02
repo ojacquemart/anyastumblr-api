@@ -14,9 +14,11 @@ function hfrGifsController($scope, $http) {
     $scope.loadImages = function () {
         $http.get("topics/" + $scope.topicId + "/gifs")
             .success(function (data) {
+                $("#topics-select").blur();
                 $scope.storeImages(data);
                 $scope.initialPageNumber = $scope.page.pageNumber;
-            });
+        });
+
     };
 
     $scope.loadPage = function(pageNumber) {

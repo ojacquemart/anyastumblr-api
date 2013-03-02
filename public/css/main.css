@@ -65,6 +65,7 @@ header #center-messages {
     left: 44%;
     top: 10px;
     text-align: center;
+    z-index: 10000;
 }
 
 header #loading .alert-information {
@@ -80,11 +81,11 @@ header #loading {
 }
 
 header #error {
-    margin-top: 5px;
+    margin-top: -5px;
 }
 
 header #error i {
-    cursor: hand;
+    cursor: pointer;
 }
 
 header #error p {

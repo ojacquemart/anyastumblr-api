@@ -40,11 +40,12 @@ object PageCollection {
 
     val selector = BSONDocument("topicId" -> BSONString(page.topicId), "pageNumber" -> BSONInteger(page.pageNumber))
     val modifier = BSONDocument(
-    "$set" -> BSONDocument(
-      "updatedAt" -> BSONDateTime(new DateTime().getMillis),
-      "icons" -> BSONArray(page.icons.map { s => BSONString(s) }: _*),
-      "images" -> BSONArray(page.images.map { s => BSONString(s) }: _*)
-      )
+      "$set" -> BSONDocument(
+        "updatedAt" -> BSONDateTime(new DateTime().getMillis),
+        "icons" -> BSONArray(page.icons.map { s => BSONString(s) }: _*),
+        "images" -> BSONArray(page.images.map { s => BSONString(s) }: _*)
+      ),
+      "$inc" -> BSONDocument("nbViews" -> BSONInteger(1))
     )
     collection.update(selector, modifier)
   }

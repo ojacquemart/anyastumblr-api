@@ -18,6 +18,18 @@ case class PageContentFinder(topic: Topic, pageNumber: Option[Int])  {
 
   def getContentFromHfr(): Future[Option[Page]] = {
     Logger.info("getContentFromHfr")
+
+    val page = getPageFromHfr()
+
+    val futureOptionPage: Future[Option[Page]] = future {
+      PageCollection.saveOrUpdate(page)
+      Some(page)
+    }
+    futureOptionPage
+  }
+
+  def getPageFromHfr(): Page = {
+    Logger.debug("getPageFromHfr")
     val urlAndPageNumber: (String, Int) = new TopicUrlAndPageNumberResolver(topic.url, pageNumber).resolve()
     val currentUrl = urlAndPageNumber._1
     val currentPageNumber = urlAndPageNumber._2
@@ -27,12 +39,7 @@ case class PageContentFinder(topic: Topic, pageNumber: Option[Int])  {
     Logger.debug(s"Content Topic => [pageNumber=$currentPageNumber,images=$allImages]")
 
     val page = new Page(topic.id, "%s %d".format(Messages("page.label"), currentPageNumber), currentPageNumber, allImages._1, allImages._2)
-
-    val futureOptionPage: Future[Option[Page]] = future {
-      PageCollection.saveOrUpdate(page)
-      Some(page)
-    }
-    futureOptionPage
+    page
   }
 
   def getContentFromMongo(): Future[Option[Page]] = {
@@ -43,14 +50,19 @@ case class PageContentFinder(topic: Topic, pageNumber: Option[Int])  {
   }
 
   def checkMongo(optionPage: Option[Page]): Future[Option[Page]] = {
-    Logger.info("checkMongo object...")
+    Logger.debug("checkMongo object... retrieve it from hfr or update existing one.")
     // Page doesn't exist in mongo, retrieve it from hfr else return the future optionPage.
     optionPage match {
       case None => getContentFromHfr()
-      case _    => future { optionPage }
+      case _    => future {
+        future {
+          val existingPage = getPageFromHfr()
+          PageCollection.update(existingPage)
+        }
+        optionPage
+      }
     }
   }
-
 }
 
 object PageContentFinder {

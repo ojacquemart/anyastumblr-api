@@ -24,8 +24,8 @@ case class DocumentWrapper(url: String) {
   def listElements(cssSelector: String, attributeName: String): List[String] = {
     var buffer: ListBuffer[String] = ListBuffer()
 
-    val elments: Elements = document.select(cssSelector)
-    val it = elments.iterator()
+    val elements: Elements = document.select(cssSelector)
+    val it = elements.iterator()
     while (it.hasNext) {
       val img: Element = it.next()
       buffer += img.attr(attributeName)

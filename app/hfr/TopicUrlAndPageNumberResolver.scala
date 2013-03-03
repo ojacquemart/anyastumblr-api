@@ -4,7 +4,7 @@ import jsoup.DocumentWrapper
 
 case class TopicUrlAndPageNumberResolver(url: String, pageNumber: Option[Int]) {
 
-  val CssLinksSelector = "tr.cBackHeader.fondForum2PagesHaut div.left a"
+  val CssLinksSelector = "tr.cBackHeader.fondForum2PagesHaut div.left a:last-child"
   val LinkHrefAttribute = "href"
 
   val RegexPageNumber = """([0-9]+)\.htm""".r
@@ -22,8 +22,7 @@ case class TopicUrlAndPageNumberResolver(url: String, pageNumber: Option[Int]) {
 
   def getNbPagesFromFirstTopicPage(url: String): Int = {
     val links: List[String] = new DocumentWrapper(url).listElements(CssLinksSelector, LinkHrefAttribute)
-    // TODO: try to use css select :last-child added in jsoup 1.7.2
-    extractNumberPage(links.reverse.head)
+    extractNumberPage(links(0))
   }
 
   private def extractNumberPage(value: String) = {

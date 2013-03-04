@@ -1,5 +1,5 @@
 project.title=hfr.asTumblr()
-project.about=Powered by Play! Scala/AngularJS/MongoDB
+project.about=Powered by
 project.github.url=https://github.com/ojacquemart/hfrAsTumblr
 
 page.label=Page

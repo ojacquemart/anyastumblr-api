@@ -93,6 +93,56 @@ header #error p {
 }
 
 /**
+ * Stack
+ */
+#stack-box p {
+    margin: 0 0 0 8px;
+}
+
+ul#stack li {
+    float: left;
+    margin-right: 2px
+}
+ul#stack li a {
+    display: block; height: 16px;
+    width: 16px;
+    text-indent:-9999px;
+}
+.scala, .angular, .mongodb, .github, .play {
+    background: url(../img/stack.png) no-repeat;
+}
+
+.scala {
+    background-position: -66px -19px;
+    width: 16px;
+    height: 16px;
+}
+
+.angular {
+    background-position: -117px -20px;
+    width: 16px;
+    height: 16px;
+}
+
+.mongodb {
+    background-position: -164px -19px;
+    width: 16px;
+    height: 16px;
+}
+
+.github {
+    background-position: -219px -19px;
+    width: 16px;
+    height: 16px;
+}
+
+.play {
+    background-position: -20px -20px;
+    width: 16px;
+    height: 16px;
+}
+
+/**
  * Navigation
  */
 

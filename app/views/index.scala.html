@@ -27,9 +27,26 @@
                     ng-change="loadImages();">
                     </select>
                     <span ng-show="page" class="page-title">{{page.title}}</span>
-                    <p class="navbar-text pull-right">
-                        <a href="@Messages("project.github.url")" target="_blank">@Messages("project.about")</a>
-                    </p>
+                    <div id="stack-box" class="pull-right">
+                        <p>Powered by</p>
+                        <ul id="stack" class="unstyled">
+                            <li>
+                                <a href="http://playframework.com" title="Play Framework" class="play" target="_blank">Play Framework</a>
+                            </li>
+                            <li>
+                                <a href="http://scala-lang.org" title="Scala" class="scala" target="_blank">Scala</a>
+                            </li>
+                            <li >
+                                <a href="http://angularjs.org" title="AngularJS" class="angular" target="_blank">Angular</a>
+                            </li>
+                            <li class="mongodb">
+                                <a href="http://mongodb.org" title="MongoDB" class="mongodb" target="_blank">Mongodb</a>
+                            </li>
+                            <li class="github">
+                                <a href="http://github.com/ojacquemart" title="Github" class="github" target="_blank">Mongodb</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
             </div>

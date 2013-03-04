@@ -22,7 +22,8 @@ case class TopicUrlAndPageNumberResolver(url: String, pageNumber: Option[Int]) {
 
   def getNbPagesFromFirstTopicPage(url: String): Int = {
     val links: List[String] = new DocumentWrapper(url).listElements(CssLinksSelector, LinkHrefAttribute)
-    extractNumberPage(links(0))
+    if (links.isEmpty) 1
+    else extractNumberPage(links(0))
   }
 
   private def extractNumberPage(value: String) = {

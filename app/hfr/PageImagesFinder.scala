@@ -5,6 +5,7 @@ import jsoup.DocumentWrapper
 case class PageImagesFinder(url: String) {
 
   val HfrImagesCssSelector = "tr.message td.messCase2 img"
+//  val HfrImagesCssSelector = ".c1 img" // Css rule for joiesducode
   val ImgSrcAttribute = "src"
 
   val HfrFilters = List("http://forum-images.hardware.fr/images/perso", "http://forum-images.hardware.fr/icones")

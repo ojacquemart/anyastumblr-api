@@ -12,7 +12,7 @@ object Topic {
     // Id in sha1...
     // TODO: use mongodb on another nosql database to store topics and maybe more... like every images loaded...
     val md = java.security.MessageDigest.getInstance("SHA-1")
-    val id = new sun.misc.BASE64Encoder().encode(md.digest((url + name).getBytes))
+    val id = new sun.misc.BASE64Encoder().encode(md.digest((url + name).getBytes)).replace("/", "")
     new Topic(id, name, url)
   }
 }

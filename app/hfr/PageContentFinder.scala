@@ -35,8 +35,9 @@ case class PageContentFinder(topic: Topic, pageNumber: Option[Int])  {
     val currentPageNumber = urlAndPageNumber._2
 
     val allImages = new PageImagesFinder(currentUrl).find()
+    val allImagesSize = allImages._1.size + allImages._2.size
     Logger.info(s"Load from url $currentUrl")
-    Logger.debug(s"Content Topic => [pageNumber=$currentPageNumber,images=$allImages]")
+    Logger.debug(s"Content Topic => [pageNumber=$currentPageNumber,imagesSize=$allImagesSize]")
 
     val page = new Page(topic.id, "%s %d".format(Messages("page.label"), currentPageNumber), currentPageNumber, allImages._1, allImages._2)
     page

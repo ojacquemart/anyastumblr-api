@@ -29,10 +29,16 @@ case class Page(id: Option[BSONObjectID],
     this(Some(BSONObjectID.generate), topicId, title, pageNumber, nbViews, icons, images, createdAt, updatedAt)
 
   def this(topicId: String, title:String,
-           nbViews: Int,
+           pageNumber: Int,
            icons: List[String],
            images: List[String]) =
-    this(Some(BSONObjectID.generate), topicId, title, nbViews, 1, icons, images, Some(DateTime.now()), None)
+    this(Some(BSONObjectID.generate), topicId, title, pageNumber, 1, icons, images, Some(DateTime.now()), None)
+
+  override def toString = {
+    val iconsSize = icons.size
+    val imagesSize = images.size
+    s"Page=[$id,topicId=$topicId,number=$pageNumber,nbViews=$nbViews,iconsSize=$iconsSize,imagesSize=$imagesSize,createdAt=$createdAt]"
+  }
 
 }
 
@@ -44,7 +50,7 @@ object PageJSON {
       new Page(
         (json \"topicId").as[String],
         (json \ "title").as[String], (json \ "pageNumber").as[Int],
-        (json \ "nbViews").as[Int],
+        (json \ "pageNumber").as[Int],
         (json \ "icons").as[List[String]], (json \ "images").as[List[String]],
         (json \ "createdAt").as[Option[DateTime]], (json \ "updatedAt").as[Option[DateTime]])
     )

@@ -66,7 +66,7 @@ object PageJSON {
 }
 
 object PageBSON {
-  implicit object TopicPageBSONReader extends BSONReader[Page] {
+  implicit object Reader extends BSONReader[Page] {
     def fromBSON(document: BSONDocument): Page = {
       val doc = document.toTraversable
       val nbViews = doc.getAs[BSONInteger]("nbViews")
@@ -87,7 +87,7 @@ object PageBSON {
       page
     }
   }
-  implicit object TopicPageBSONWriter extends BSONWriter[Page] {
+  implicit object Writer extends BSONWriter[Page] {
     def toBSON(page: Page) = {
       BSONDocument(
         "_id" -> page.id.getOrElse(BSONObjectID.generate),

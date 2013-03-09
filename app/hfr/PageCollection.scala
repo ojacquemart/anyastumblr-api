@@ -15,8 +15,8 @@ import ExecutionContext.Implicits.global
 
 object PageCollection {
 
-  val db = ReactiveMongoPlugin.db
-  lazy val collection = db("pages")
+  def db = ReactiveMongoPlugin.db
+  def collection = db("pages")
 
   def saveOrUpdate(page: Page) {
     val futurePage = findHead(page)
@@ -29,13 +29,13 @@ object PageCollection {
     }
   }
 
-  def save(page: Page) {
+  def save(page: Page): scala.concurrent.Future[reactivemongo.core.commands.LastError] = {
     Logger.debug("save page " + page)
-    implicit val writer = PageBSON.TopicPageBSONWriter
+    implicit val writer = PageBSON.Writer
     collection.insert(page)
   }
 
-  def update(page: Page) {
+  def update(page: Page): scala.concurrent.Future[reactivemongo.core.commands.LastError] = {
     Logger.debug("update page " + page)
 
     val selector = BSONDocument("topicId" -> BSONString(page.topicId), "pageNumber" -> BSONInteger(page.pageNumber))
@@ -47,6 +47,7 @@ object PageCollection {
       ),
       "$inc" -> BSONDocument("nbViews" -> BSONInteger(1))
     )
+
     collection.update(selector, modifier)
   }
 
@@ -57,8 +58,9 @@ object PageCollection {
 
   def findHeadByTopicIdAndPageNumber(topicId: String, pageNumber: Int): Future[Option[Page]] = {
     Logger.debug(s"find head for $topicId and $pageNumber")
-    implicit val reader = PageBSON.TopicPageBSONReader
+    implicit val reader = PageBSON.Reader
     val query = BSONDocument("topicId" -> BSONString(topicId), "pageNumber" -> BSONInteger(pageNumber))
+
     val cursor = collection.find(query)
     cursor.headOption
   }

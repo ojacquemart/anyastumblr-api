@@ -108,36 +108,36 @@ ul#stack li a {
     width: 16px;
     text-indent:-9999px;
 }
-.scala, .angular, .mongodb, .github, .play {
+.scala, .mongodb, .play, .angular, .github{
     background: url(../img/stack.png) no-repeat;
 }
 
-.scala {
-    background-position: -66px -19px;
+.scala{
+    background-position: -52px -3px ;
     width: 16px;
     height: 16px;
 }
 
-.angular {
-    background-position: -117px -20px;
+.mongodb{
+    background-position: -151.00000762939453px -4px ;
     width: 16px;
     height: 16px;
 }
 
-.mongodb {
-    background-position: -164px -19px;
+.play{
+    background-position: -1px -3px ;
     width: 16px;
     height: 16px;
 }
 
-.github {
-    background-position: -219px -19px;
+.angular{
+    background-position: -101.00000762939453px -3px ;
     width: 16px;
     height: 16px;
 }
 
-.play {
-    background-position: -20px -20px;
+.github{
+    background-position: -203.00000762939453px -3px ;
     width: 16px;
     height: 16px;
 }

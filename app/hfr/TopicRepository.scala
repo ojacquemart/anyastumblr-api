@@ -8,12 +8,15 @@ object TopicRepository {
   import TopicJSON._
 
   def getTopics() = {
+    val hfrConfiguration: Configuration = HfrConfiguration.get()
     List(
-      Topic("Images étonnantes", "http://forum.hardware.fr/hfr/Discussions/Loisirs/images-etonnantes-cons-sujet_78667_1.htm"),
-      Topic("Gifs: Femmes, Caca, Chutes&Co", "http://forum.hardware.fr/hfr/Discussions/Loisirs/chutes-warning-moderation-sujet_27848_1.htm"))
+      Topic("Images étonnantes", "http://forum.hardware.fr/hfr/Discussions/Loisirs/images-etonnantes-cons-sujet_78667_1.htm",
+        hfrConfiguration),
+      Topic("Gifs: Femmes, Caca, Chutes&Co", "http://forum.hardware.fr/hfr/Discussions/Loisirs/chutes-warning-moderation-sujet_27848_1.htm",
+        hfrConfiguration))
   }
 
-  def getFirstTopicUrl() = getTopics().head.url
+  def getFirstTopic() = getTopics().head
 
   def getTopicsAsJson() = Json.toJson(getTopics())
 

@@ -2,7 +2,7 @@ package hfr
 
 import jsoup.DocumentWrapper
 
-case class TopicUrlAndPageNumberResolver(url: String, pageNumber: Option[Int]) {
+case class TopicUrlAndPageNumberResolver(topic: Topic, pageNumber: Option[Int]) {
 
   val CssLinksSelector = "tr.cBackHeader.fondForum2PagesHaut div.left a:last-child"
   val LinkHrefAttribute = "href"
@@ -12,11 +12,11 @@ case class TopicUrlAndPageNumberResolver(url: String, pageNumber: Option[Int]) {
 
   def resolve(): (String, Int) = {
     val pageIndex = pageNumber match {
-      case None => getNbPagesFromFirstTopicPage(url)
+      case None => getNbPagesFromFirstTopicPage(topic.url)
       case Some(pageNumber: Int) => pageNumber
     }
 
-    val pageUrl = RegexReplaceLastPage.replaceFirstIn(url, "_%d.".format(pageIndex))
+    val pageUrl = RegexReplaceLastPage.replaceFirstIn(topic.url, "_%d.".format(pageIndex))
     (pageUrl, pageIndex)
   }
 

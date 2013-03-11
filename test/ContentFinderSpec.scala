@@ -9,29 +9,29 @@ class ContentFinderSpec extends Specification {
   "The ContentFinder class" should {
 
     "resolve urlAndPageNumber from firstPage without pageNumber" in {
-      val topicUrl: String = TopicRepository.getFirstTopicUrl()
-      val resolver = new TopicUrlAndPageNumberResolver(topicUrl, None)
+      val topic = TopicRepository.getFirstTopic()
+      val resolver = new TopicUrlAndPageNumberResolver(topic, None)
       val urlAndPageNumber = resolver.resolve
       val url = urlAndPageNumber._1
       val pageNumber = urlAndPageNumber._2
 
-      url must not be equalTo(topicUrl)
+      url must not be equalTo(topic.url)
       pageNumber must be > (1)
     }
 
     "resolve urlAndPageNumber from firstPage with pageNumber" in {
-      val topicUrl: String = TopicRepository.getFirstTopicUrl()
-      val resolver = new TopicUrlAndPageNumberResolver(topicUrl, Some(1000))
+      val topic = TopicRepository.getFirstTopic()
+      val resolver = new TopicUrlAndPageNumberResolver(topic, Some(1000))
       val urlAndPageNumber = resolver.resolve
       val url = urlAndPageNumber._1
       val pageNumber = urlAndPageNumber._2
 
-      url must not be equalTo(topicUrl)
+      url must not be equalTo(topic.url)
       pageNumber must be equalTo (1000)
     }
 
     "partition avatars and images" in {
-      val imgs = List(
+      val images = List(
         "http://forum-images.hardware.fr/themes/dark/shit.gif",
         "http://forum-images.hardware.fr/images/perso/cerveau ouch.gif",
         "http://forum-images.hardware.fr/images/perso/cerveau ouch.gif",
@@ -54,8 +54,9 @@ class ContentFinderSpec extends Specification {
         "http://forum-images.hardware.fr/images/perso/2/ixam.gif",
         "http://forum-images.hardware.fr/images/perso/2/ixam.gif"
       )
-      val imagesFinder: PageImagesFinder = new PageImagesFinder(TopicRepository.getFirstTopicUrl)
-      val rearrangeImgs = imagesFinder.rearrangeImages(imgs)
+      val topic = TopicRepository.getFirstTopic
+      val imagesFinder: PageImagesFinder = new PageImagesFinder(topic.url, topic.configuration)
+      val rearrangeImgs = imagesFinder.rearrangeImages(images)
       val concatImgs = rearrangeImgs._1 ++ rearrangeImgs._2
 
       val expected = List(

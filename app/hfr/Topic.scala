@@ -4,16 +4,19 @@ import play.api.libs.json._
 import reactivemongo.bson.BSONObjectID
 import org.joda.time.DateTime
 
-case class Topic(id: String, name: String, url: String)
+case class CssSelectors(imagesSelector: String, textSelector: Option[String])
+case class ImageRule(exclude: String, firstsStartsWith: List[String])
+case class Configuration(navOrder: NavigationOrder, imageRule: Option[ImageRule], cssSelectors: CssSelectors)
+case class Topic(id: String, name: String, url: String, configuration: Configuration)
 
 object Topic {
 
-  def apply(name: String, url: String) = {
+  def apply(name: String, url: String, configuration: Configuration) = {
     // Id in sha1...
-    // TODO: use mongodb on another nosql database to store topics and maybe more... like every images loaded...
+    // TODO: use mongodb on another nosql collection to store topics and maybe more... like every images loaded...
     val md = java.security.MessageDigest.getInstance("SHA-1")
     val id = new sun.misc.BASE64Encoder().encode(md.digest((url + name).getBytes)).replace("/", "")
-    new Topic(id, name, url)
+    new Topic(id, name, url, configuration)
   }
 }
 

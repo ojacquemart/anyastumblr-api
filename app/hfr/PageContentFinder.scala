@@ -30,11 +30,11 @@ case class PageContentFinder(topic: Topic, pageNumber: Option[Int])  {
 
   def getPageFromHfr(): Page = {
     Logger.debug("getPageFromHfr")
-    val urlAndPageNumber: (String, Int) = new TopicUrlAndPageNumberResolver(topic.url, pageNumber).resolve()
+    val urlAndPageNumber: (String, Int) = new TopicUrlAndPageNumberResolver(topic, pageNumber).resolve()
     val currentUrl = urlAndPageNumber._1
     val currentPageNumber = urlAndPageNumber._2
 
-    val allImages = new PageImagesFinder(currentUrl).find()
+    val allImages = new PageImagesFinder(currentUrl, topic.configuration).find()
     val allImagesSize = allImages._1.size + allImages._2.size
     Logger.info(s"Load from url $currentUrl")
     Logger.debug(s"Content Topic => [pageNumber=$currentPageNumber,imagesSize=$allImagesSize]")

@@ -10,10 +10,11 @@ object TopicRepository {
   def getTopics() = {
     val hfrConfiguration: Configuration = HfrConfiguration.get()
     List(
-      Topic("Images étonnantes", "http://forum.hardware.fr/hfr/Discussions/Loisirs/images-etonnantes-cons-sujet_78667_1.htm",
-        hfrConfiguration),
-      Topic("Gifs: Femmes, Caca, Chutes&Co", "http://forum.hardware.fr/hfr/Discussions/Loisirs/chutes-warning-moderation-sujet_27848_1.htm",
-        hfrConfiguration))
+      Topic("Images étonnantes", "http://forum.hardware.fr/hfr/Discussions/Loisirs/images-etonnantes-cons-sujet_78667_1.htm", hfrConfiguration),
+      Topic("Gifs: Femmes, Caca, Chutes&Co", "http://forum.hardware.fr/hfr/Discussions/Loisirs/chutes-warning-moderation-sujet_27848_1.htm", hfrConfiguration),
+      Topic("Joiesducode", "http://lesjoiesducode.tumblr.com/page/1", JoiesDuCodeConfiguration.get),
+      Topic("Joiesdusysadmin", "http://lesjoiesdusysadmin.tumblr.com/page/1", JoiesDuCodeConfiguration.get)
+    )
   }
 
   def getFirstTopic() = getTopics().head

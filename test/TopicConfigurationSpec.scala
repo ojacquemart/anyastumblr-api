@@ -9,7 +9,7 @@ class TopicConfigurationSpec extends Specification {
 
     "build hfr configuration" in {
       val config = HfrConfiguration.get()
-      config.navOrder must be equalTo (NavigationOrder.Descending)
+      config.navigationOrder must be equalTo (NavigationOrder.Descending)
 
       config.cssSelectors.imagesSelector must be equalTo ("tr.message td.messCase2 img")
       config.cssSelectors.textSelector must be equalTo (None)
@@ -22,9 +22,9 @@ class TopicConfigurationSpec extends Specification {
 
     "build joiesducode configuration" in {
       val config = JoiesDuCodeConfiguration.get()
-      config.navOrder must be equalTo (NavigationOrder.Ascending)
+      config.navigationOrder must be equalTo (NavigationOrder.Ascending)
 
-      config.cssSelectors.imagesSelector must be equalTo (".post .c1 img")
+      config.cssSelectors.imagesSelector must be equalTo (".post p img")
       val textSelector: Option[String] = config.cssSelectors.textSelector
       textSelector must not be equalTo (None)
       textSelector.get must be equalTo(".post h3")

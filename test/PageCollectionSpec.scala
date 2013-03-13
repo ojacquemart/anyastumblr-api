@@ -27,28 +27,28 @@ class PageCollectionSpec extends Specification {
   "The ContentFinder class" should {
 
     "save new page and retrieve it" in new FakeApp {
-      val newPage = new Page("foo", "Page 1", 1, List("a", "b", "c"), List("d", "e", "f"))
+      val newPage = new Page("foo", 1, List("a", "b", "c"), List("d", "e", "f"))
       PageCollection.save(newPage)
 
-      val futureOptionPage = PageCollection.findHeadByTopicIdAndPageNumber("foo", 1)
+      val futureOptionPage = PageCollection.findHeadByTopicIdAndPageOffset("foo", 1)
       Await.ready(futureOptionPage, Duration(5, TimeUnit.SECONDS))
 
       val optionPage = option(futureOptionPage)
       val page = optionPage.get
       page.topicId must be equalTo ("foo")
       page.title must be equalTo ("Page 1")
-      page.pageNumber must be equalTo (1)
+      page.offset must be equalTo (1)
       page.icons must be equalTo (List("a", "b", "c"))
       page.images must be equalTo (List("d", "e", "f"))
     }
 
     "save and then update existing page" in new FakeApp {
-      val newPage = new Page("foo2", "Page 1", 2, List("a"), List("b"))
+      val newPage = new Page("foo2", 2, List("a"), List("b"))
       PageCollection.save(newPage)
 
       // check save
 
-      val futureOptionPage = PageCollection.findHeadByTopicIdAndPageNumber("foo2", 2)
+      val futureOptionPage = PageCollection.findHeadByTopicIdAndPageOffset("foo2", 2)
       Await.ready(futureOptionPage, Duration(60, TimeUnit.SECONDS))
 
       val optionPage = option(futureOptionPage)
@@ -60,13 +60,13 @@ class PageCollectionSpec extends Specification {
 
       // update
 
-      val pageToUpdate = new Page("foo2", "Page 1", 2, List("a", "b", "c"), List("d", "e", "g"))
+      val pageToUpdate = new Page("foo2", 2, List("a", "b", "c"), List("d", "e", "g"))
       val futureUpdate = PageCollection.update(pageToUpdate)
       Await.ready(futureUpdate, Duration(60, TimeUnit.SECONDS))
 
       // check update
 
-      val futureOptionPageUpdated = PageCollection.findHeadByTopicIdAndPageNumber("foo2", 2)
+      val futureOptionPageUpdated = PageCollection.findHeadByTopicIdAndPageOffset("foo2", 2)
       Await.ready(futureOptionPageUpdated, Duration(60, TimeUnit.SECONDS))
 
       val optionPageUpdated = option(futureOptionPageUpdated)

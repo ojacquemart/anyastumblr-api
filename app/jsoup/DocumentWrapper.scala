@@ -11,10 +11,9 @@ import play.api.Logger
 case class DocumentWrapper(url: String) {
 
   val document: Document = {
-    Logger.debug("getDocument(%s)".format(url))
+    Logger.debug(s"getDocument($url)")
 
     Jsoup.connect(url)
-      .data("query", "Java")
       .userAgent("Mozilla")
       .cookie("auth", "token")
       .timeout(3000)
@@ -22,6 +21,7 @@ case class DocumentWrapper(url: String) {
   }
 
   def listElements(cssSelector: String, attributeName: String): List[String] = {
+    Logger.debug(s"""CSS Selector '$cssSelector' for attribute '$attributeName'""")
     var buffer: ListBuffer[String] = ListBuffer()
 
     val elements: Elements = document.select(cssSelector)

@@ -38,10 +38,9 @@ object PageCollection {
   def update(page: Page): scala.concurrent.Future[reactivemongo.core.commands.LastError] = {
     Logger.debug("update page " + page)
 
-    val selector = BSONDocument("topicId" -> BSONString(page.topicId), "pageNumber" -> BSONInteger(page.pageNumber))
+    val selector = BSONDocument("topicId" -> BSONString(page.topicId), "offset" -> BSONInteger(page.offset))
     val modifier = BSONDocument(
       "$set" -> BSONDocument(
-        "updatedAt" -> BSONDateTime(new DateTime().getMillis),
         "icons" -> BSONArray(page.icons.map { s => BSONString(s) }: _*),
         "images" -> BSONArray(page.images.map { s => BSONString(s) }: _*)
       ),
@@ -53,13 +52,13 @@ object PageCollection {
 
 
   def findHead(page: Page): Future[Option[Page]] = {
-    findHeadByTopicIdAndPageNumber(page.topicId, page.pageNumber)
+    findHeadByTopicIdAndPageOffset(page.topicId, page.offset)
   }
 
-  def findHeadByTopicIdAndPageNumber(topicId: String, pageNumber: Int): Future[Option[Page]] = {
-    Logger.debug(s"find head for $topicId and $pageNumber")
+  def findHeadByTopicIdAndPageOffset(topicId: String, offset: Int): Future[Option[Page]] = {
+    Logger.debug(s"find head for $topicId and $offset")
     implicit val reader = PageBSON.Reader
-    val query = BSONDocument("topicId" -> BSONString(topicId), "pageNumber" -> BSONInteger(pageNumber))
+    val query = BSONDocument("topicId" -> BSONString(topicId), "offset" -> BSONInteger(offset))
 
     val cursor = collection.find(query)
     cursor.headOption

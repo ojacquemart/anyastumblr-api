@@ -16,7 +16,7 @@ function hfrGifsController($scope, $http) {
             .success(function (data) {
                 $("#topics-select").blur();
                 $scope.storeImages(data);
-                $scope.initialPageNumber = $scope.page.pageNumber;
+                $scope.initialPageNumber = $scope.page.offset;
         });
 
     };
@@ -34,13 +34,10 @@ function hfrGifsController($scope, $http) {
     };
 
     $scope.loadNextPage = function () {
-        var pageNumber = $scope.page.pageNumber + 1;
-        if (pageNumber <= $scope.initialPageNumber) {
-            $scope.loadPage(pageNumber);
-        }
+        $scope.loadPage($scope.page.offset + 1);
     }
     $scope.loadPreviousPage = function () {
-        var pageNumber = $scope.page.pageNumber - 1;
+        var pageNumber = $scope.page.offset - 1;
         if (pageNumber !== 1) {
             $scope.loadPage(pageNumber);
         }

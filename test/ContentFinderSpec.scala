@@ -10,7 +10,7 @@ class ContentFinderSpec extends Specification {
 
     "resolve urlAndPageNumber from firstPage without pageNumber" in {
       val topic = TopicRepository.getFirstTopic()
-      val resolver = new TopicUrlAndPageNumberResolver(topic, None)
+      val resolver = new PageNumberResolver(topic, None)
       val urlAndPageNumber = resolver.resolve
       val url = urlAndPageNumber._1
       val pageNumber = urlAndPageNumber._2
@@ -21,7 +21,7 @@ class ContentFinderSpec extends Specification {
 
     "resolve urlAndPageNumber from firstPage with pageNumber" in {
       val topic = TopicRepository.getFirstTopic()
-      val resolver = new TopicUrlAndPageNumberResolver(topic, Some(1000))
+      val resolver = new PageNumberResolver(topic, Some(1000))
       val urlAndPageNumber = resolver.resolve
       val url = urlAndPageNumber._1
       val pageNumber = urlAndPageNumber._2

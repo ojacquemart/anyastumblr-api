@@ -60,16 +60,16 @@ class ContentFinderSpec extends Specification {
       val concatImgs = rearrangeImgs._1 ++ rearrangeImgs._2
 
       val expected = List(
-        "http://forum-images.hardware.fr/images/perso/cerveau ouch.gif",
-        "http://forum-images.hardware.fr/icones/redface.gif",
-        "http://forum-images.hardware.fr/images/perso/mlc.gif",
-        "http://forum-images.hardware.fr/images/perso/4/ticento.gif",
-        "http://forum-images.hardware.fr/images/perso/ripthejacker.gif",
-        "http://forum-images.hardware.fr/images/perso/2/ixam.gif",
-        "http://hfr-rehost.net/gif/46c39e78876acadea512dd8399bf4db47eb6",
-        "http://hfr-rehost.net/http://cdn.uproxx.com/wp-content/uploads/2013/02/many-bill-murray.gif",
-        "http://i.imgur.com/XbuN4JK.gif?1",
-        "http://i.minus.com/iKmav6Fr2vvBk.gif"
+        Image("http://forum-images.hardware.fr/images/perso/cerveau ouch.gif"),
+        Image("http://forum-images.hardware.fr/icones/redface.gif"),
+        Image("http://forum-images.hardware.fr/images/perso/mlc.gif"),
+        Image("http://forum-images.hardware.fr/images/perso/4/ticento.gif"),
+        Image("http://forum-images.hardware.fr/images/perso/ripthejacker.gif"),
+        Image("http://forum-images.hardware.fr/images/perso/2/ixam.gif"),
+        Image("http://hfr-rehost.net/gif/46c39e78876acadea512dd8399bf4db47eb6"),
+        Image("http://hfr-rehost.net/http://cdn.uproxx.com/wp-content/uploads/2013/02/many-bill-murray.gif"),
+        Image("http://i.imgur.com/XbuN4JK.gif?1"),
+        Image("http://i.minus.com/iKmav6Fr2vvBk.gif")
       )
       concatImgs.size must be equalTo (expected.size)
       concatImgs must be equalTo (expected)

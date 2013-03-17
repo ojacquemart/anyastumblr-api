@@ -9,91 +9,82 @@ import org.joda.time.DateTime
 import reactivemongo.bson._
 import reactivemongo.bson.handlers._
 import play.api.i18n.Messages
-
-
-case class Image()
+import mongo.bson.{BSONWriterHelper, BSONReaderHelper}
 
 case class Page(id: Option[BSONObjectID],
                      topicId: String,
                      offset: Int,
                      nbViews: Int,
-                     icons: List[String],
-                     images: List[String],
+                     images_1: List[Image],
+                     images_2: List[Image],
                      createdAt: Option[DateTime]) {
   def this(topicId: String,
            offset: Int,
            nbViews: Int,
-           icons: List[String],
-           images: List[String]) =
+           icons: List[Image],
+           images: List[Image]) =
     this(Some(BSONObjectID.generate), topicId, offset, nbViews, icons, images, Some(DateTime.now()))
 
   def this(topicId: String,
            offset: Int,
-           icons: List[String],
-           images: List[String]) =
+           icons: List[Image],
+           images: List[Image]) =
     this(topicId, offset, 1, icons, images)
 
   lazy val title = "%s %d".format(Messages("page.label"), offset)
 
   override def toString = {
-    val iconsSize = icons.size
-    val imagesSize = images.size
-    s"Page=[$id,topicId=$topicId,offset=$offset,nbViews=$nbViews,iconsSize=$iconsSize,imagesSize=$imagesSize,createdAt=$createdAt]"
+    val images_1Size = images_1.size
+    val images_2Size = images_2.size
+    s"Page=[$id,topicId=$topicId,offset=$offset,nbViews=$nbViews,iconsSize=$images_1Size,imagesSize=$images_2Size,createdAt=$createdAt]"
   }
 
 }
 
 object PageJSON {
 
-  implicit object PageJsonHandlers extends Format[Page] {
+  implicit object PageJsonHandlers extends Writes[Page] {
 
-    def reads(json: JsValue): JsResult[Page] = JsSuccess(
-      new Page(
-        (json \"topicId").as[String],
-        (json \ "offset").as[Int],
-        (json \ "nbViews").as[Int],
-        (json \ "icons").as[List[String]],
-        (json \ "images").as[List[String]])
-    )
+    import ImageJSON.Writes
 
     def writes(content: Page): JsValue = JsObject(
       List("title" -> JsString(content.title),
         "offset" -> JsNumber(content.offset),
         "nbViews" -> JsNumber(content.nbViews),
-        "icons" -> Json.toJson(content.icons),
-        "images" -> Json.toJson(content.images)))
+        "images_1" -> Json.toJson(content.images_1),
+        "images_2" -> Json.toJson(content.images_2)
+      )
+    )
   }
 
 }
 
 object PageBSON {
-  implicit object Reader extends BSONReader[Page] {
+  implicit object Reader extends BSONReader[Page] with BSONReaderHelper {
     def fromBSON(document: BSONDocument): Page = {
-      val doc = document.toTraversable
+      implicit val imageWriter = ImageBSON.Reader
+      implicit val doc = document.toTraversable
       val page = new Page(
         doc.getAs[BSONObjectID]("_id"),
         doc.getAs[BSONString]("topicId").get.value,
         doc.getAs[BSONInteger]("offset").get.value,
         doc.getAs[BSONInteger]("nbViews").get.value,
-        doc.getAs[BSONArray]("icons").get.toTraversable.toList.map { bsonString =>
-          bsonString.asInstanceOf[BSONString].value
-        },
-        doc.getAs[BSONArray]("images").get.toTraversable.toList.map { bsonString =>
-          bsonString.asInstanceOf[BSONString].value
-        },
+        listDocument[Image]("images_1"),
+        listDocument[Image]("images_2"),
         doc.getAs[BSONDateTime]("createdAt").map(dt => new DateTime(dt.value)))
       page
     }
   }
-  implicit object Writer extends BSONWriter[Page] {
+  implicit object Writer extends BSONWriter[Page] with BSONWriterHelper {
     def toBSON(page: Page) = {
+      implicit val imageWriter = ImageBSON.Writer
       BSONDocument(
         "_id" -> page.id.getOrElse(BSONObjectID.generate),
         "topicId" -> BSONString(page.topicId),
         "offset" -> BSONInteger(page.offset),
         "nbViews" -> BSONInteger(page.nbViews),
-        "icons" -> BSONArray(page.icons.map { s => BSONString(s) }: _*),
-        "images" -> BSONArray(page.images.map { s => BSONString(s) }: _*),
+        "images_1" -> listDocument(page.images_1),
+        "images_2" -> listDocument(page.images_2),
         "createdAt" ->  page.createdAt.map(date => BSONDateTime(date.getMillis))
       )
     }

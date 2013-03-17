@@ -12,20 +12,22 @@ case class PageImagesFinder(url: String, configuration: Configuration) {
     rearrangeImages(images)
   }
 
-  def rearrangeImages(images: List[String]): (List[String], List[String]) = {
+  def rearrangeImages(images: List[String]): (List[Image], List[Image]) = {
     val distinct = images.distinct
 
     val imageRule = configuration.imageRule
     imageRule match {
-      case None => (List(), distinct)
+      case None => (List(), map(distinct))
       case Some(rule: ImageRule) => {
         val rearrange = distinct
           .filterNot(_.startsWith(rule.exclude))
           .partition(i => rule.firstsStartsWith.exists(i.startsWith))
 
-        (rearrange._1, rearrange._2.reverse)
+        (map(rearrange._1), map(rearrange._2.reverse))
       }
     }
   }
+
+  def map(strings: List[String]) = strings.map(s => new Image(s, ""))
 
 }

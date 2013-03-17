@@ -7,6 +7,7 @@ import play.modules.reactivemongo.ReactiveMongoPlugin
 import org.joda.time.DateTime
 
 import reactivemongo.bson._
+import reactivemongo.bson.handlers.BSONWriter
 import reactivemongo.bson.handlers.DefaultBSONHandlers.DefaultBSONDocumentWriter
 import reactivemongo.bson.handlers.DefaultBSONHandlers.DefaultBSONReaderHandler
 
@@ -38,11 +39,17 @@ object PageCollection {
   def update(page: Page): scala.concurrent.Future[reactivemongo.core.commands.LastError] = {
     Logger.debug("update page " + page)
 
+    val writer = ImageBSON.Writer
+
     val selector = BSONDocument("topicId" -> BSONString(page.topicId), "offset" -> BSONInteger(page.offset))
     val modifier = BSONDocument(
       "$set" -> BSONDocument(
-        "icons" -> BSONArray(page.icons.map { s => BSONString(s) }: _*),
-        "images" -> BSONArray(page.images.map { s => BSONString(s) }: _*)
+        "images_1" -> BSONArray(page.images_1.map {
+          t => writer.toBSON(t)
+        }: _*),
+        "images_2" -> BSONArray(page.images_2.map {
+          t => writer.toBSON(t)
+        }: _*)
       ),
       "$inc" -> BSONDocument("nbViews" -> BSONInteger(1))
     )

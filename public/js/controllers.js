@@ -38,7 +38,7 @@ function hfrGifsController($scope, $http) {
     }
     $scope.loadPreviousPage = function () {
         var pageNumber = $scope.page.offset - 1;
-        if (pageNumber !== 1) {
+        if (pageNumber !== 0) {
             $scope.loadPage(pageNumber);
         }
     };

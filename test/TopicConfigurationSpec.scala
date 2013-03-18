@@ -11,8 +11,8 @@ class TopicConfigurationSpec extends Specification {
       val config = HfrConfiguration.get()
       config.navigationOrder must be equalTo (NavigationOrder.Descending)
 
-      config.cssSelectors.imagesSelector must be equalTo ("tr.message td.messCase2 img")
-      config.cssSelectors.textSelector must be equalTo (None)
+      config.cssSelectors.images must be equalTo ("tr.message td.messCase2 img")
+      config.cssSelectors.text must be equalTo (None)
 
       config.imageRule must not be equalTo(None)
       val imageRule: ImageRule = config.imageRule.get
@@ -24,8 +24,8 @@ class TopicConfigurationSpec extends Specification {
       val config = JoiesDuCodeConfiguration.get()
       config.navigationOrder must be equalTo (NavigationOrder.Ascending)
 
-      config.cssSelectors.imagesSelector must be equalTo (".post p img")
-      val textSelector: Option[String] = config.cssSelectors.textSelector
+      config.cssSelectors.images must be equalTo (".post p img")
+      val textSelector: Option[String] = config.cssSelectors.text
       textSelector must not be equalTo (None)
       textSelector.get must be equalTo(".post h3")
 

@@ -75,7 +75,7 @@ class ContentFinderSpec extends Specification {
       concatImgs must be equalTo (expected)
     }
 
-    "change pageNumber from url" in {
+    "change pageNumber from src" in {
       val pageNumber = "100"
       val url = """_[0-9]+\.""".r.replaceAllIn("http://forum.hardware.fr/hfr/Discussions/Loisirs/chutes-warning-moderation-sujet_27848_2244.htm", "_" + pageNumber + ".")
       url must equalTo("http://forum.hardware.fr/hfr/Discussions/Loisirs/chutes-warning-moderation-sujet_27848_100.htm")

@@ -84,7 +84,7 @@
             <div class="page-icons" ng-show="page.images_1">
                 <ul class="nav nav-pills">
                     <li ng-repeat="icon in page.images_1">
-                    <img class="img-polaroid" ng-src="{{icon.url}}"/>
+                    <img class="img-polaroid" ng-src="{{icon.src}}"/>
                     </li>
                 </ul>
                 <hr>
@@ -94,7 +94,8 @@
             <div class="page-images" ng-show="page.images_2">
                 <ul class="nav nav-pills">
                     <li class="image" ng-model="image" ng-repeat="image in page.images_2">
-                        <img hoverable="true" ng-model="image" class="img-polaroid" ng-src="{{image.url}}"/>
+                        <img hoverable="true" ng-model="image" class="img-polaroid" ng-src="{{image.src}}"/>
+                        {{image.text}}
                     </li>
                 </ul>
                 <hr>

@@ -20,17 +20,27 @@ case class DocumentWrapper(url: String) {
       .get()
   }
 
-  def listElements(cssSelector: String, attributeName: String): List[String] = {
-    Logger.debug(s"""CSS Selector '$cssSelector' for attribute '$attributeName'""")
-    var buffer: ListBuffer[String] = ListBuffer()
+  def listText(cssQuery: String): List[String] = {
+    Logger.debug(s"""CSS query text '$cssQuery'""")
+    list(cssQuery).map(_.text())
+  }
 
-    val elements: Elements = document.select(cssSelector)
+  def listAttribute(cssQuery: String, attributeName: String): List[String] = {
+    Logger.debug(s"""CSS query '$cssQuery' for attribute '$attributeName'""")
+    list(cssQuery).map(_.attr(attributeName))
+  }
+
+  def list(cssQuery: String): List[Element] = {
+    var buffer: ListBuffer[Element] = ListBuffer()
+
+    val elements: Elements = document.select(cssQuery)
     val it = elements.iterator()
     while (it.hasNext) {
-      val img: Element = it.next()
-      buffer += img.attr(attributeName)
+      buffer += it.next()
     }
 
     buffer.toList
   }
+
 }
+

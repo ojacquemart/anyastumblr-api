@@ -1,33 +1,58 @@
 package hfr
 
 import jsoup.DocumentWrapper
+import collection.mutable.ListBuffer
 
 case class PageImagesFinder(url: String, configuration: Configuration) {
 
-  val ImgSrcAttribute = "src"
+  val wrapper: DocumentWrapper = new DocumentWrapper(url)
+  val cssSelectors = configuration.cssSelectors
 
   def find() = {
-    val imagesSelector = configuration.cssSelectors.imagesSelector
-    val images: List[String] = new DocumentWrapper(url).listElements(imagesSelector, ImgSrcAttribute)
+    val images = zipImagesAndTexts()
     rearrangeImages(images)
   }
 
-  def rearrangeImages(images: List[String]): (List[Image], List[Image]) = {
+  def zipImagesAndTexts() = {
+    var buffer: ListBuffer[Image] = ListBuffer()
+
+    val combinaison = listImages().zipAll(listTexts(), "", "")
+    combinaison.foreach(comb => {
+      buffer += new Image(comb._1, comb._2)
+    })
+
+    buffer.toList
+  }
+
+  def listImages() = {
+    wrapper.listAttribute(cssSelectors.images.cssQuery, cssSelectors.images.htmlAttribute)
+  }
+
+  def listTexts() = {
+    val texts: List[String] = cssSelectors.text match {
+      case None => List()
+      case Some(cssSelector: CssSelector) => {
+        wrapper.listText(cssSelector.cssQuery)
+      }
+    }
+    texts
+  }
+
+  def rearrangeImages(images: List[Image]): (List[Image], List[Image]) = {
     val distinct = images.distinct
 
     val imageRule = configuration.imageRule
     imageRule match {
-      case None => (List(), map(distinct))
+      case None => (List(), distinct)
       case Some(rule: ImageRule) => {
         val rearrange = distinct
-          .filterNot(_.startsWith(rule.exclude))
-          .partition(i => rule.firstsStartsWith.exists(i.startsWith))
+          .filterNot(_.src.startsWith(rule.exclude))
+          .partition(i => rule.firstsStartsWith.exists(i.src.startsWith))
 
-        (map(rearrange._1), map(rearrange._2.reverse))
+        (rearrange._1, rearrange._2.reverse)
       }
     }
   }
 
-  def map(strings: List[String]) = strings.map(s => new Image(s, ""))
 
 }

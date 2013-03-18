@@ -22,7 +22,7 @@ case class PageNumberResolver(topic: Topic, pageNumber: Option[Int]) {
     optionPageNumberInfos match {
       case None => 1
       case Some(pageNumberInfos) => {
-        val links: List[String] = new DocumentWrapper(url).listElements(pageNumberInfos.cssSelector, LinkHrefAttribute)
+        val links: List[String] = new DocumentWrapper(url).listAttribute(pageNumberInfos.cssSelector, LinkHrefAttribute)
         if (links.isEmpty) 1
         else {
           val url = links(0)

@@ -31,11 +31,11 @@ case class PageContentFinder(topic: Topic, pageNumber: Option[Int])  {
     val urlAndPageNumber: (String, Int) = new PageNumberResolver(topic, pageNumber).resolve()
     val currentUrl = urlAndPageNumber._1
     val currentPageNumber = urlAndPageNumber._2
-    Logger.debug(s"Current url $currentUrl with page $currentPageNumber")
+    Logger.debug(s"Current src $currentUrl with page $currentPageNumber")
 
     val allImages = new PageImagesFinder(currentUrl, topic.configuration).find()
     val allImagesSize = allImages._1.size + allImages._2.size
-    Logger.info(s"Load from url $currentUrl")
+    Logger.info(s"Load from src $currentUrl")
     Logger.debug(s"Content Topic => [pageNumber=$currentPageNumber,imagesSize=$allImagesSize]")
 
     val page = new Page(topic.id, currentPageNumber, allImages._1, allImages._2)

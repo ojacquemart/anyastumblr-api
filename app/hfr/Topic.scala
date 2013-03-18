@@ -6,11 +6,15 @@ import org.joda.time.DateTime
 import play.api.Logger
 import scala.util.matching.Regex
 
-case class CssSelectors(imagesSelector: String, textSelector: Option[String])
+case class CssSelector(cssQuery: String, htmlAttribute: String)
+case class CssSelectors(images: CssSelector, text: Option[CssSelector])
+
 case class ImageRule(exclude: String, firstsStartsWith: List[String])
 case class ChangeUrlPageInfos(regex: String, replacement: String)
 case class ForumPageNumberInfos(cssSelector: String, regex: String)
+
 case class PageResolverInfos(forumPageNumberInfos: Option[ForumPageNumberInfos], changeUrlPageInfos: ChangeUrlPageInfos)
+
 case class Configuration(cssSelectors: CssSelectors, navigationOrder: NavigationOrder, pageResolverInfos: PageResolverInfos, imageRule: Option[ImageRule])
 case class Topic(id: String, name: String, url: String, configuration: Configuration)
 

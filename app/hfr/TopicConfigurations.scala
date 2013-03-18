@@ -1,18 +1,15 @@
 package hfr
 
 trait ConfigurationBuilder {
-
   def getCssSelectors(): CssSelectors
   def getNavigationOrder(): NavigationOrder
   def getPageResolverInfos(): PageResolverInfos
   def getImageRule(): Option[ImageRule]
 
   def get() = new Configuration(getCssSelectors(), getNavigationOrder(), getPageResolverInfos(), getImageRule())
-
 }
 
 object HfrConfiguration extends ConfigurationBuilder {
-
   def getNavigationOrder() = NavigationOrder.Descending
 
   def getPageResolverInfos() ={
@@ -24,18 +21,15 @@ object HfrConfiguration extends ConfigurationBuilder {
   def getImageRule() = {
     Some(new ImageRule("http://forum-images.hardware.fr/themes", List("http://forum-images.hardware.fr/images/perso", "http://forum-images.hardware.fr/icones")))
   }
-  def getCssSelectors() = new CssSelectors("tr.message td.messCase2 img", None)
-
+  def getCssSelectors() = new CssSelectors(new CssSelector("tr.message td.messCase2 img", "src"), None)
 }
 
 object JoiesDuCodeConfiguration extends ConfigurationBuilder {
-
   def getNavigationOrder(): NavigationOrder = NavigationOrder.Ascending
   def getPageResolverInfos() ={
     val changeUrlPageInfos = new ChangeUrlPageInfos("""\/page\/[0-9]+""", "/page/%d")
     new PageResolverInfos(None, changeUrlPageInfos)
   }
   def getImageRule() = None
-  def getCssSelectors() = new CssSelectors(".post p img", Some(".post h3"))
-
+  def getCssSelectors() = new CssSelectors( new CssSelector(".post .bodytype img", "src"), Some(new CssSelector(".post h3 a", "href")))
 }

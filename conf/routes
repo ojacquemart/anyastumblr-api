@@ -5,9 +5,9 @@
 # Home page
 GET     /                                       controllers.Application.index
 
-GET     /topics                                 controllers.Application.topics()
-GET     /topics/:topicId/gifs                   controllers.Application.getLastPageFromTopic(topicId: String)
-GET     /topics/:topicId/page/:pageNumber       controllers.Application.getPageFromTopicAndPageNumber(topicId: String, pageNumber: Int)
+GET     /sites                                 controllers.Application.sites()
+GET     /sites/:siteId/gifs                    controllers.Application.getLastSitePage(siteId: String)
+GET     /sites/:siteId/page/:pageNumber        controllers.Application.getSitePageByPageNumber(siteId: String, pageNumber: Int)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

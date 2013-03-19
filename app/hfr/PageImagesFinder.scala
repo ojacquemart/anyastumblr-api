@@ -47,7 +47,7 @@ case class PageImagesFinder(url: String, configuration: Configuration) {
       case Some(rule: ImageRule) => {
         val rearrange = distinct
           .filterNot(_.src.startsWith(rule.exclude))
-          .partition(i => rule.firstsStartsWith.exists(i.src.startsWith))
+          .partition(i => rule.startsWith.exists(i.src.startsWith))
 
         (rearrange._1, rearrange._2.reverse)
       }

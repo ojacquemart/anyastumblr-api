@@ -12,8 +12,8 @@ import play.api.i18n.Messages
 import mongo.bson.{BSONWriterHelper, BSONReaderHelper}
 
 case class Page(id: Option[BSONObjectID],
-                     topicId: String,
-                     offset: Int,
+                     siteId: String,
+                     pageNumber: Int,
                      nbViews: Int,
                      images_1: List[Image],
                      images_2: List[Image],
@@ -31,12 +31,12 @@ case class Page(id: Option[BSONObjectID],
            images: List[Image]) =
     this(topicId, offset, 1, icons, images)
 
-  lazy val title = "%s %d".format(Messages("page.label"), offset)
+  lazy val title = "%s %d".format(Messages("page.label"), pageNumber)
 
   override def toString = {
     val images_1Size = images_1.size
     val images_2Size = images_2.size
-    s"Page=[$id,topicId=$topicId,offset=$offset,nbViews=$nbViews,iconsSize=$images_1Size,imagesSize=$images_2Size,createdAt=$createdAt]"
+    s"Page=[$id,siteId=$siteId,pageNumber=$pageNumber,nbViews=$nbViews,iconsSize=$images_1Size,imagesSize=$images_2Size,createdAt=$createdAt]"
   }
 
 }
@@ -49,7 +49,7 @@ object PageJSON {
 
     def writes(content: Page): JsValue = JsObject(
       List("title" -> JsString(content.title),
-        "offset" -> JsNumber(content.offset),
+        "pageNumber" -> JsNumber(content.pageNumber),
         "nbViews" -> JsNumber(content.nbViews),
         "images_1" -> Json.toJson(content.images_1),
         "images_2" -> Json.toJson(content.images_2)
@@ -66,8 +66,8 @@ object PageBSON {
       implicit val doc = document.toTraversable
       val page = new Page(
         doc.getAs[BSONObjectID]("_id"),
-        doc.getAs[BSONString]("topicId").get.value,
-        doc.getAs[BSONInteger]("offset").get.value,
+        doc.getAs[BSONString]("siteId").get.value,
+        doc.getAs[BSONInteger]("pageNumber").get.value,
         doc.getAs[BSONInteger]("nbViews").get.value,
         listDocument[Image]("images_1"),
         listDocument[Image]("images_2"),
@@ -80,8 +80,8 @@ object PageBSON {
       implicit val imageWriter = ImageBSON.Writer
       BSONDocument(
         "_id" -> page.id.getOrElse(BSONObjectID.generate),
-        "topicId" -> BSONString(page.topicId),
-        "offset" -> BSONInteger(page.offset),
+        "siteId" -> BSONString(page.siteId),
+        "pageNumber" -> BSONInteger(page.pageNumber),
         "nbViews" -> BSONInteger(page.nbViews),
         "images_1" -> listDocument(page.images_1),
         "images_2" -> listDocument(page.images_2),

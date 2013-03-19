@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="hfrGifs" xmlns="http://www.w3.org/1999/html">
+<html ng-app="siteGifs" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>@Messages("project.title")</title>
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
@@ -12,41 +12,41 @@
     <script src="@routes.Assets.at("js/app.js")"></script>
     <script src="@routes.Assets.at("js/controllers.js")"></script>
 </head>
-<body ng-controller="hfrGifsController" on-keyup-fn="handleKeypress">
+<body ng-controller="siteGifsController" on-keyup-fn="handleKeypress">
     <header>
         <div id="app-bar" class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <p class="brand">@Messages("project.title")</p>
 
                 <div class="nav-collapse collapse">
-                    <!-- Topics list -->
-                    <select
-                    id="topics-select"
-                    ng-model="topicId"
-                    ng-options="topic.id as topic.name for topic in topics"
-                    ng-change="loadImages();">
-                    </select>
-                    <span ng-show="page" class="page-title">{{page.title}}</span>
-                    <div id="stack-box" class="pull-right">
-                        <p>Powered by</p>
-                        <ul id="stack" class="unstyled">
-                            <li>
-                                <a href="http://playframework.com" title="Play Framework" class="play" target="_blank">Play Framework</a>
-                            </li>
-                            <li>
-                                <a href="http://scala-lang.org" title="Scala" class="scala" target="_blank">Scala</a>
-                            </li>
-                            <li >
-                                <a href="http://angularjs.org" title="AngularJS" class="angular" target="_blank">Angular</a>
-                            </li>
-                            <li class="mongodb">
-                                <a href="http://mongodb.org" title="MongoDB" class="mongodb" target="_blank">Mongodb</a>
-                            </li>
-                            <li class="github">
-                                <a href="http://github.com/ojacquemart" title="Github" class="github" target="_blank">Mongodb</a>
-                            </li>
-                        </ul>
-                    </div>
+                <!-- Topics list -->
+                <select
+                id="topics-select"
+                ng-model="siteId"
+                ng-options="site.id as site.name for site in sites"
+                ng-change="loadImages();">
+                </select>
+                <span ng-show="page" class="page-title">{{page.title}}</span>
+                <div id="stack-box" class="pull-right">
+                    <p>Powered by</p>
+                    <ul id="stack" class="unstyled">
+                        <li>
+                            <a href="http://playframework.com" title="Play Framework" class="play" target="_blank">Play Framework</a>
+                        </li>
+                        <li>
+                            <a href="http://scala-lang.org" title="Scala" class="scala" target="_blank">Scala</a>
+                        </li>
+                        <li >
+                            <a href="http://angularjs.org" title="AngularJS" class="angular" target="_blank">Angular</a>
+                        </li>
+                        <li class="mongodb">
+                            <a href="http://mongodb.org" title="MongoDB" class="mongodb" target="_blank">Mongodb</a>
+                        </li>
+                        <li class="github">
+                            <a href="http://github.com/ojacquemart" title="Github" class="github" target="_blank">Mongodb</a>
+                        </li>
+                    </ul>
+                </div>
                 </div>
 
             </div>
@@ -56,13 +56,13 @@
         <div id="center-messages">
             <div id="loading" class="message-information">
                 <p>
-                <i class="icon-large icon-spinner icon-spin"></i>
+                    <i class="icon-large icon-spinner icon-spin"></i>
                 </p>
             </div>
             <div id="error" class="message-information">
                 <p class="alert alert-error">
                     @Messages("page.error")
-                    <i class="add-on icon-large icon-refresh alert-error" ng-click="refreshPage();"></i>
+                <i class="add-on icon-large icon-refresh alert-error" ng-click="refreshPage();"></i>
                 </p>
             </div>
         </div>
@@ -78,29 +78,29 @@
     </section>
 
     <section id="content">
-        <!-- Topic content -->
-        <div id="topic-content" class="container">
-            <!-- Icons -->
-            <div class="page-icons" ng-show="page.images_1">
-                <ul class="nav nav-pills">
-                    <li ng-repeat="icon in page.images_1">
-                    <img class="img-polaroid" ng-src="{{icon.src}}"/>
-                    </li>
-                </ul>
-                <hr>
-            </div>
+    <!-- Topic content -->
+    <div id="topic-content" class="container">
+    <!-- Icons -->
+    <div class="page-icons" ng-show="page.images_1">
+        <ul class="nav nav-pills">
+            <li ng-repeat="icon in page.images_1">
+            <img class="img-polaroid" ng-src="{{icon.src}}"/>
+            </li>
+        </ul>
+        <hr>
+    </div>
 
-            <!-- Images -->
-            <div class="page-images" ng-show="page.images_2">
-                <ul class="nav nav-pills">
-                    <li class="image" ng-model="image" ng-repeat="image in page.images_2">
-                        <img hoverable="true" ng-model="image" class="img-polaroid" ng-src="{{image.src}}"/>
-                        {{image.text}}
-                    </li>
-                </ul>
-                <hr>
-            </div>
-        </div>
+    <!-- Images -->
+    <div class="page-images" ng-show="page.images_2">
+        <ul class="nav nav-pills">
+            <li class="image" ng-model="image" ng-repeat="image in page.images_2">
+            <img hoverable="true" ng-model="image" class="img-polaroid" ng-src="{{image.src}}"/>
+                {{image.text}}
+            </li>
+        </ul>
+        <hr>
+    </div>
+    </div>
     </section>
 </body>
 </html>

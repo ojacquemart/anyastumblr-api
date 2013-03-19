@@ -37,9 +37,9 @@ class PageCollectionSpec extends Specification {
 
       val optionPage = option(futureOptionPage)
       val page = optionPage.get
-      page.topicId must be equalTo ("foo")
+      page.siteId must be equalTo ("foo")
       page.title must be equalTo ("Page 1")
-      page.offset must be equalTo (1)
+      page.pageNumber must be equalTo (1)
       page.images_1 must be equalTo images_1
       page.images_2 must be equalTo images_2
     }

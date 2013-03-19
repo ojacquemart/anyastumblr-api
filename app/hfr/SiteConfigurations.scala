@@ -3,19 +3,19 @@ package hfr
 trait ConfigurationBuilder {
   def getCssSelectors(): CssSelectors
   def getNavigationOrder(): NavigationOrder
-  def getPageResolverInfos(): PageResolverInfos
+  def getPageResolver(): PageResolver
   def getImageRule(): Option[ImageRule]
 
-  def get() = new Configuration(getCssSelectors(), getNavigationOrder(), getPageResolverInfos(), getImageRule())
+  def get() = new Configuration(getCssSelectors(), getNavigationOrder(), getPageResolver(), getImageRule())
 }
 
 object HfrConfiguration extends ConfigurationBuilder {
   def getNavigationOrder() = NavigationOrder.Descending
 
-  def getPageResolverInfos() ={
-    val pageNumberInfos = new ForumPageNumberInfos("tr.cBackHeader.fondForum2PagesHaut div.left a:last-child", """([0-9]+)\.htm""")
-    val changeUrlPageInfos = new ChangeUrlPageInfos("""_[0-9]+\.""", "_%d.")
-    new PageResolverInfos(Some(pageNumberInfos), changeUrlPageInfos)
+  def getPageResolver() ={
+    val pageNumberDescriptor = new PageNumberDescriptor("tr.cBackHeader.fondForum2PagesHaut div.left a:last-child", """([0-9]+)\.htm""")
+    val changePageDescriptor = new ChangePageDescriptor("""_[0-9]+\.""", "_%d.")
+    new PageResolver(Some(pageNumberDescriptor), changePageDescriptor)
   }
 
   def getImageRule() = {
@@ -26,9 +26,9 @@ object HfrConfiguration extends ConfigurationBuilder {
 
 object JoiesDuCodeConfiguration extends ConfigurationBuilder {
   def getNavigationOrder(): NavigationOrder = NavigationOrder.Ascending
-  def getPageResolverInfos() ={
-    val changeUrlPageInfos = new ChangeUrlPageInfos("""\/page\/[0-9]+""", "/page/%d")
-    new PageResolverInfos(None, changeUrlPageInfos)
+  def getPageResolver() ={
+    val changeUrlPageInfos = new ChangePageDescriptor("""\/page\/[0-9]+""", "/page/%d")
+    new PageResolver(None, changeUrlPageInfos)
   }
   def getImageRule() = None
   def getCssSelectors() = new CssSelectors( new CssSelector(".post .bodytype img", "src"), Some(new CssSelector(".post h3 a", "href")))

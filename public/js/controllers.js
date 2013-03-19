@@ -1,9 +1,8 @@
 /**
  * AngularJS - Gifs controller.
  */
-function hfrGifsController($scope, $http) {
+function siteGifsController($scope, $http) {
 
-    $scope.initialPageNumber = -1;
     $scope.page = null;
 
     $scope.storeImages = function (data) {
@@ -12,12 +11,11 @@ function hfrGifsController($scope, $http) {
     }
 
     $scope.loadImages = function () {
-        $http.get("topics/" + $scope.topicId + "/gifs")
+        $http.get("sites/" + $scope.siteId + "/gifs")
             .success(function (data) {
                 $("#topics-select").blur();
                 $scope.storeImages(data);
-                $scope.initialPageNumber = $scope.page.offset;
-        });
+            });
 
     };
 
@@ -27,17 +25,17 @@ function hfrGifsController($scope, $http) {
     };
 
     $scope.loadPage = function(pageNumber) {
-        $http.get("topics/" + $scope.topicId + "/page/" + pageNumber)
+        $http.get("sites/" + $scope.siteId + "/page/" + pageNumber)
             .success(function (data) {
                 $scope.storeImages(data);
             });
     };
 
     $scope.loadNextPage = function () {
-        $scope.loadPage($scope.page.offset + 1);
+        $scope.loadPage($scope.page.pageNumber + 1);
     }
     $scope.loadPreviousPage = function () {
-        var pageNumber = $scope.page.offset - 1;
+        var pageNumber = $scope.page.pageNumber - 1;
         if (pageNumber !== 0) {
             $scope.loadPage(pageNumber);
         }
@@ -58,9 +56,9 @@ function hfrGifsController($scope, $http) {
     //-------------------
     // on controller load.
     //-------------------
-    $http.get('topics').success(function (data) {
-        $scope.topics = data;
-        $scope.topicId = data[0].id; // to initialize default topic in select.
+    $http.get('sites').success(function (data) {
+        $scope.sites = data;
+        $scope.siteId = data[0].id; // to initialize default topic in select.
 
         $scope.loadImages();
     });

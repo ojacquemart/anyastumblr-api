@@ -16,14 +16,14 @@ object Application extends Controller with MongoController {
       Ok(views.html.index())
   }
 
-  def topics = Action {
-    Logger.info("Topics...")
-    Ok(TopicRepository.getTopicsAsJson()).as("application/json")
+  def sites = Action {
+    Logger.info("Getting sites...")
+    Ok(SiteRepository.getSitesAsJson()).as("application/json")
   }
 
-  def getLastPageFromTopic(topicId: String) = Action {
+  def getLastSitePage(siteId: String) = Action {
     Async {
-      val futurePage = PageContentFinder(topicId, None).getContent()
+      val futurePage = PageContentFinder(siteId, None).getContent()
       futurePage map {
         case page => {
           Ok(Json.toJson(page.get)).as("application/json")
@@ -32,8 +32,8 @@ object Application extends Controller with MongoController {
     }
   }
 
-  def getPageFromTopicAndPageNumber(topicId: String, pageNumber: Int) = Action {
-    val result = PageContentFinder(topicId, Some(pageNumber)).getContent()
+  def getSitePageByPageNumber(siteId: String, pageNumber: Int) = Action {
+    val result = PageContentFinder(siteId, Some(pageNumber)).getContent()
     Async {
       result match {
         case futurePage =>

@@ -30,7 +30,7 @@ angular.module('SharedServices', [])
             });
         };
     })
-angular.module('hfrGifs', ['SharedServices']).directive('onKeyupFn', function() {
+angular.module('siteGifs', ['SharedServices']).directive('onKeyupFn', function() {
     return function(scope, elm, attrs) {
         //Evaluate the variable that was passed
         //In this case we're just passing a variable that points

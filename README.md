@@ -1,5 +1,9 @@
 hfrAsTumblr
 ===========
 
-Play! Scala / AngularJS to tumblerize some forum.hardware.fr topics.
+Play Framework Scala / AngularJS / MongoDB to tumblerize some sites with funny things.
 http://hfrastumblr.herokuapp.com/
+
+
+
+

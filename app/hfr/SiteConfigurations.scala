@@ -19,7 +19,7 @@ object HfrConfiguration extends ConfigurationBuilder {
   }
 
   def getImageRule() = {
-    Some(new ImageRule("http://forum-images.hardware.fr/themes", List("http://forum-images.hardware.fr/images/perso", "http://forum-images.hardware.fr/icones")))
+    Some(new ImageRule(exclude = "http://forum-images.hardware.fr/themes", startsWith = List("http://forum-images.hardware.fr/images/perso", "http://forum-images.hardware.fr/icones")))
   }
   def getCssSelectors() = new CssSelectors(new CssSelector("tr.message td.messCase2 img", "src"), None)
 }

@@ -27,8 +27,8 @@ class PageCollectionSpec extends Specification {
   "The ContentFinder class" should {
 
     "save new page and retrieve it" in new FakeApp {
-      val images_1 = List(new Image("a"), new Image("b"), new Image("c"))
-      val images_2 = List(new Image("d"), new Image("e"), new Image("f"))
+      val images_1 = List(Image("a"), Image("b"), Image("c"))
+      val images_2 = List(Image("d"), Image("e"), Image("f"))
       val newPage = new Page("foo", 1, images_1, images_2)
       PageCollection.save(newPage)
 
@@ -45,8 +45,8 @@ class PageCollectionSpec extends Specification {
     }
 
     "save and then update existing page" in new FakeApp {
-      val images_1 = List(new Image("a"))
-      val images_2 = List(new Image("d"))
+      val images_1 = List(Image("a"))
+      val images_2 = List(Image("d"))
       val newPage = new Page("foo2", 2, images_1, images_2)
       PageCollection.save(newPage)
 
@@ -64,8 +64,8 @@ class PageCollectionSpec extends Specification {
 
       // update
 
-      val images_1ToUpdate = List(new Image("a"), new Image("b"), new Image("c"))
-      val images_2ToUpdate = List(new Image("d"), new Image("e"), new Image("g"))
+      val images_1ToUpdate = List(Image("a"), Image("b"), Image("c"))
+      val images_2ToUpdate = List(Image("d"), Image("e"), Image("g"))
       val pageToUpdate = new Page("foo2", 2, images_1ToUpdate, images_2ToUpdate)
       val futureUpdate = PageCollection.update(pageToUpdate)
       Await.ready(futureUpdate, Duration(60, TimeUnit.SECONDS))

@@ -7,10 +7,19 @@ import reactivemongo.bson.handlers._
 import reactivemongo.bson.BSONInteger
 import reactivemongo.bson.BSONString
 
-case class Image(src: String, text: String = "", likes: Int = 0, hates: Int = 0)
+case class Image(id: Option[BSONObjectID], src: String, text: String, likes: Int = 0, hates: Int = 0) {
+
+  override def equals(other: Any) = other match {
+    case otherImage: Image => src == otherImage.src
+    case _ => false
+  }
+
+  override def hashCode(): Int = src.hashCode
+}
 
 object Image {
-  def apply(url: String) = new Image(url)
+  def apply(url: String, text: String) = new Image(Some(BSONObjectID.generate), url, text)
+  def apply(url: String) = new Image(Some(BSONObjectID.generate), url, "")
 }
 
 object ImageJSON {
@@ -31,6 +40,7 @@ object ImageBSON {
     def fromBSON(document: BSONDocument): Image = {
       val doc = document.toTraversable
       new Image(
+        doc.getAs[BSONObjectID]("_id"),
         doc.getAs[BSONString]("src").get.value,
         doc.getAs[BSONString]("text").get.value,
         doc.getAs[BSONInteger]("likes").get.value,
@@ -39,12 +49,13 @@ object ImageBSON {
     }
   }
   implicit object Writer extends BSONWriter[Image] {
-    def toBSON(page: Image) = {
+    def toBSON(image: Image) = {
       BSONDocument(
-        "src" -> BSONString(page.src),
-        "text" -> BSONString(page.text),
-        "likes" -> BSONInteger(page.likes),
-        "hates" -> BSONInteger(page.hates)
+        "_id" -> image.id.getOrElse(BSONObjectID.generate),
+        "src" -> BSONString(image.src),
+        "text" -> BSONString(image.text),
+        "likes" -> BSONInteger(image.likes),
+        "hates" -> BSONInteger(image.hates)
       )
     }
   }

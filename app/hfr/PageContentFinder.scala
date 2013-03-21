@@ -31,7 +31,7 @@ case class PageContentFinder(site: Site, pageNumber: Option[Int])  {
     val urlAndPageNumber: (String, Int) = new PageNumberResolver(site, pageNumber).resolve()
     val currentUrl = urlAndPageNumber._1
     val currentPageNumber = urlAndPageNumber._2
-    Logger.debug(s"Current src $currentUrl with page $currentPageNumber")
+    Logger.debug(s"Current src $currentUrl with image $currentPageNumber")
 
     val allImages = new PageImagesFinder(currentUrl, site.configuration).find()
     val allImagesSize = allImages._1.size + allImages._2.size

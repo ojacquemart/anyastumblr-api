@@ -49,6 +49,8 @@ class ContentFinderSpec extends Specification {
         Image("http://i.imgur.com/XbuN4JK.gif?1"),
         Image("http://i.minus.com/iKmav6Fr2vvBk.gif")
       )
+
+      concatImgs.foreach(println)
       concatImgs.size must be equalTo (expected.size)
       concatImgs must be equalTo (expected)
     }

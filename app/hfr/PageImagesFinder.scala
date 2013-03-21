@@ -3,7 +3,7 @@ package hfr
 import jsoup.DocumentWrapper
 import collection.mutable.ListBuffer
 
-case class PageImagesFinder(url: String, configuration: Configuration) {
+case class  PageImagesFinder(url: String, configuration: Configuration) {
 
   val wrapper: DocumentWrapper = new DocumentWrapper(url)
   val cssSelectors = configuration.cssSelectors
@@ -18,7 +18,7 @@ case class PageImagesFinder(url: String, configuration: Configuration) {
 
     val combinaison = listImages().zipAll(listTexts(), "", "")
     combinaison.foreach(comb => {
-      buffer += new Image(comb._1, comb._2)
+      buffer += Image(comb._1, comb._2)
     })
 
     buffer.toList

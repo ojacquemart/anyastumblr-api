@@ -190,7 +190,21 @@ section#content img {
     padding: 1px;
 }
 
-li.image {
+section#content .page-images {
+    text-align: center;
+}
+
+/** Images with text below*/
+section#content li.image-text {
+    float: none !important;
+    padding-bottom: 15px;
+    margin-bottom: 5px;
+    display: block;
+    clear: both;
+    border-bottom: 1px solid #DDD;
+}
+
+section#content li.image {
     min-height: 50px;
     min-width: 50px;
 }

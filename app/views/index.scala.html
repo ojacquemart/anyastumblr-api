@@ -69,38 +69,42 @@
     </header>
 
     <section id="navigation" ng-show="page">
-    <!-- Previous/Next pages-->
-    <p class="more-images">
-        <i class="btn icon-arrow-left icon-large" ng-click="loadPreviousPage();"></i>
-        <i class="btn icon-arrow-right icon-large" ng-click="loadNextPage();"></i>
-        <i class="btn icon-refresh icon-large" ng-click="refreshPage();"></i>
-    </p>
+        <!-- Previous/Next pages-->
+        <p class="more-images">
+            <i class="btn icon-arrow-left icon-large" ng-click="loadPreviousPage();"></i>
+            <i class="btn icon-arrow-right icon-large" ng-click="loadNextPage();"></i>
+            <i class="btn icon-refresh icon-large" ng-click="refreshPage();"></i>
+        </p>
     </section>
 
     <section id="content">
-    <!-- Topic content -->
-    <div id="topic-content" class="container">
-    <!-- Icons -->
-    <div class="page-icons" ng-show="page.images_1">
-        <ul class="nav nav-pills">
-            <li ng-repeat="icon in page.images_1">
-            <img class="img-polaroid" ng-src="{{icon.src}}"/>
-            </li>
-        </ul>
-        <hr>
-    </div>
+        <!-- Site content -->
+        <div id="topic-content" class="container">
+            <!-- Icons -->
+            <div class="page-icons" ng-show="page.images_1" >
+                <ul class="nav nav-pills">
+                    <li ng-repeat="icon in page.images_1">
+                    <img class="img-polaroid" ng-src="{{icon.src}}"/>
+                    </li>
+                </ul>
+                <hr>
+            </div>
 
-    <!-- Images -->
-    <div class="page-images" ng-show="page.images_2">
-        <ul class="nav nav-pills">
-            <li class="image" ng-model="image" ng-repeat="image in page.images_2">
-            <img hoverable="true" ng-model="image" class="img-polaroid" ng-src="{{image.src}}"/>
-                {{image.text}}
-            </li>
-        </ul>
-        <hr>
-    </div>
-    </div>
+            <!-- Images -->
+
+            <div  class="page-images" ng-show="page.images_2 ">
+                <ul class="nav nav-pills">
+                    <li class="image-text" ng-model="image" ng-show="image.text != ''" ng-repeat="image in page.images_2">
+                        <p>{{image.text}}</p>
+                        <img hoverable="true" ng-model="image" class="img-polaroid" ng-src="{{image.src}}"/>
+                    </li>
+                    <li class="image" ng-model="image" ng-show="image.text == ''" ng-repeat="image in page.images_2">
+                        <img hoverable="true" ng-model="image" class="img-polaroid" ng-src="{{image.src}}"/>
+                    </li>
+                </ul>
+                <hr>
+            </div>
+        </div>
     </section>
 </body>
 </html>

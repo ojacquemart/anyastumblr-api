@@ -1,17 +1,23 @@
-package hfr
+package dao
 
 import play.api.libs.json._
 import play.api.Logger
 
-object SiteRepository {
+import model._
+import model.Configuration
+
+/**
+ * TODO: use mongodb to store sites and configurations.
+ */
+object SiteDao {
 
   import SiteJSON._
 
   def getSites() = {
     val hfrConfiguration: Configuration = HfrConfiguration.get()
     List(
-      Site("Images étonnantes", "http://forum.hardware.fr/hfr/Discussions/Loisirs/images-etonnantes-cons-sujet_78667_1.htm", hfrConfiguration),
-      Site("Gifs: Femmes, Caca, Chutes&Co", "http://forum.hardware.fr/hfr/Discussions/Loisirs/chutes-warning-moderation-sujet_27848_1.htm", hfrConfiguration),
+      Site("Images étonnantes", "http://forum.hardware.fr/tumblr/Discussions/Loisirs/images-etonnantes-cons-sujet_78667_1.htm", hfrConfiguration),
+      Site("Gifs: Femmes, Caca, Chutes&Co", "http://forum.hardware.fr/tumblr/Discussions/Loisirs/chutes-warning-moderation-sujet_27848_1.htm", hfrConfiguration),
       Site("Joiesducode", "http://lesjoiesducode.tumblr.com/page/1", JoiesDuCodeConfiguration.get),
       Site("Joiesdusysadmin", "http://lesjoiesdusysadmin.tumblr.com/page/1", JoiesDuCodeConfiguration.get),
       Site("Joiesdutest", "http://lesjoiesdutest.tumblr.com/page/1", JoiesDuTestConfiguration.get),

@@ -1,13 +1,12 @@
+import org.specs2.mutable._
+import org.specs2.execute._
+
 import java.util.concurrent.TimeUnit
 
 import concurrent.duration.Duration
 import concurrent.{Await, ExecutionContext, Future}
 import ExecutionContext.Implicits.global
-
 import util.Try
-
-import org.specs2.mutable._
-import org.specs2.execute._
 
 import play.api.Play.current
 import play.api.Logger
@@ -18,21 +17,23 @@ import play.modules.reactivemongo.ReactiveMongoPlugin
 import reactivemongo.bson._
 import reactivemongo.bson.handlers.DefaultBSONHandlers.DefaultBSONDocumentWriter
 
+import dao._
+import model._
+import tumblr._
+
 import TestHelpers._
 
-import hfr._
+class PageDaoSpec extends Specification {
 
-class PageCollectionSpec extends Specification {
-
-  "The ContentFinder class" should {
+  "The PageDao class" should {
 
     "save new page and retrieve it" in new FakeApp {
       val images_1 = List(Image("a"), Image("b"), Image("c"))
       val images_2 = List(Image("d"), Image("e"), Image("f"))
       val newPage = new Page("foo", 1, images_1, images_2)
-      PageCollection.save(newPage)
+      PageDao.save(newPage)
 
-      val futureOptionPage = PageCollection.findHeadByTopicIdAndPageOffset("foo", 1)
+      val futureOptionPage = PageDao.findHeadByTopicIdAndPageOffset("foo", 1)
       Await.ready(futureOptionPage, Duration(5, TimeUnit.SECONDS))
 
       val optionPage = option(futureOptionPage)
@@ -48,11 +49,11 @@ class PageCollectionSpec extends Specification {
       val images_1 = List(Image("a"))
       val images_2 = List(Image("d"))
       val newPage = new Page("foo2", 2, images_1, images_2)
-      PageCollection.save(newPage)
+      PageDao.save(newPage)
 
       // check save
 
-      val futureOptionPage = PageCollection.findHeadByTopicIdAndPageOffset("foo2", 2)
+      val futureOptionPage = PageDao.findHeadByTopicIdAndPageOffset("foo2", 2)
       Await.ready(futureOptionPage, Duration(60, TimeUnit.SECONDS))
 
       val optionPage = option(futureOptionPage)
@@ -67,12 +68,12 @@ class PageCollectionSpec extends Specification {
       val images_1ToUpdate = List(Image("a"), Image("b"), Image("c"))
       val images_2ToUpdate = List(Image("d"), Image("e"), Image("g"))
       val pageToUpdate = new Page("foo2", 2, images_1ToUpdate, images_2ToUpdate)
-      val futureUpdate = PageCollection.update(pageToUpdate)
+      val futureUpdate = PageDao.update(pageToUpdate)
       Await.ready(futureUpdate, Duration(60, TimeUnit.SECONDS))
 
       // check update
 
-      val futureOptionPageUpdated = PageCollection.findHeadByTopicIdAndPageOffset("foo2", 2)
+      val futureOptionPageUpdated = PageDao.findHeadByTopicIdAndPageOffset("foo2", 2)
       Await.ready(futureOptionPageUpdated, Duration(60, TimeUnit.SECONDS))
 
       val optionPageUpdated = option(futureOptionPageUpdated)

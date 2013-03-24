@@ -1,13 +1,16 @@
 package controllers
 
+import scala.concurrent.{ExecutionContext, Future}
+
 import play.api._
 import play.api.libs.json._
 import play.api.mvc._
 import play.modules.reactivemongo._
-import scala.concurrent.{ExecutionContext, Future}
 
-import hfr._
-import hfr.PageJSON._
+import model._
+import model.PageJSON._
+import tumblr._
+import dao.SiteDao
 
 object Application extends Controller with MongoController {
 
@@ -18,7 +21,7 @@ object Application extends Controller with MongoController {
 
   def sites = Action {
     Logger.info("Getting sites...")
-    Ok(SiteRepository.getSitesAsJson()).as("application/json")
+    Ok(SiteDao.getSitesAsJson()).as("application/json")
   }
 
   def getLastSitePage(siteId: String) = Action {

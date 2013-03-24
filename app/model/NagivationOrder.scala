@@ -1,4 +1,4 @@
-package hfr
+package model
 
 sealed trait NavigationOrder {}
 

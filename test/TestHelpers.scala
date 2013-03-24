@@ -1,6 +1,4 @@
-import concurrent.duration.Duration
-import concurrent.{Await, Future}
-import java.util.concurrent.TimeUnit
+import concurrent.Future
 
 object TestHelpers {
 

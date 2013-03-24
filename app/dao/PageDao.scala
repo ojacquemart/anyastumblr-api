@@ -1,20 +1,19 @@
-package hfr
+package dao
 
 import play.api.Logger
 import play.api.Play.current
 import play.modules.reactivemongo.ReactiveMongoPlugin
 
-import org.joda.time.DateTime
-
 import reactivemongo.bson._
-import reactivemongo.bson.handlers.BSONWriter
 import reactivemongo.bson.handlers.DefaultBSONHandlers.DefaultBSONDocumentWriter
 import reactivemongo.bson.handlers.DefaultBSONHandlers.DefaultBSONReaderHandler
 
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 
-object PageCollection {
+import model._
+
+object PageDao {
 
   def db = ReactiveMongoPlugin.db
   def collection = db("pages")

@@ -1,4 +1,4 @@
-package hfr
+package model
 
 import play.api.i18n.Messages
 import play.api.libs.json._

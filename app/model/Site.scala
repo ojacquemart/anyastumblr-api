@@ -1,7 +1,8 @@
-package hfr
+package model
 
 import play.api.libs.json._
 import play.api.Logger
+import dao.SiteDao
 
 case class CssSelector(cssQuery: String, htmlAttribute: String)
 case class CssSelectors(images: CssSelector, text: Option[CssSelector])
@@ -34,7 +35,7 @@ object SiteJSON {
 
     def reads(json: JsValue): JsResult[Site] = {
       val id = (json \ "id").as[String]
-      JsSuccess(SiteRepository.findSite(id))
+      JsSuccess(SiteDao.findSite(id))
     }
 
     def writes(site: Site): JsValue = {

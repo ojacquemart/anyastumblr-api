@@ -1,9 +1,12 @@
-package hfr
+package tumblr
 
-import jsoup.DocumentWrapper
 import collection.mutable.ListBuffer
 
-case class  PageImagesFinder(url: String, configuration: Configuration) {
+import model._
+
+import jsoup.DocumentWrapper
+
+case class PageImagesFinder(url: String, configuration: Configuration) {
 
   val wrapper: DocumentWrapper = new DocumentWrapper(url)
   val cssSelectors = configuration.cssSelectors

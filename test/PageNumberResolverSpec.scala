@@ -1,15 +1,16 @@
 import org.specs2.mutable._
 
-
-import hfr._
 import scala.Some
+
+import dao._
+import tumblr._
 
 class PageNumberResolverSpec extends Specification {
 
   "The PageNumberResolver class" should {
 
     "resolve urlAndPageNumber from firstPage without pageNumber" in {
-      val site = SiteRepository.getFirstSite()
+      val site = SiteDao.getFirstSite()
       val resolver = new PageNumberResolver(site, None)
       val urlAndPageNumber = resolver.resolve
       val url = urlAndPageNumber._1
@@ -20,7 +21,7 @@ class PageNumberResolverSpec extends Specification {
     }
 
     "resolve urlAndPageNumber from firstPage with pageNumber" in {
-      val site = SiteRepository.getFirstSite()
+      val site = SiteDao.getFirstSite()
       val resolver = new PageNumberResolver(site, Some(1000))
       val urlAndPageNumber = resolver.resolve
       val url = urlAndPageNumber._1

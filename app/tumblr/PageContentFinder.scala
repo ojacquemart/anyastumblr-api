@@ -1,10 +1,14 @@
-package hfr
-
-import play.api._
+package tumblr
 
 import scala.concurrent.future
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
+
+import play.api._
+
+import model._
+
+import dao.{SiteDao, PageDao}
 
 case class PageContentFinder(site: Site, pageNumber: Option[Int])  {
 
@@ -20,7 +24,7 @@ case class PageContentFinder(site: Site, pageNumber: Option[Int])  {
 
     val page = getPageFromSite()
     val futureOptionPage: Future[Option[Page]] = future {
-      PageCollection.saveOrUpdate(page)
+      PageDao.saveOrUpdate(page)
       Some(page)
     }
     futureOptionPage
@@ -44,7 +48,7 @@ case class PageContentFinder(site: Site, pageNumber: Option[Int])  {
 
   def getContentFromMongo(): Future[Option[Page]] = {
     Logger.info("getContentFromMongo")
-    val futureOptionPage = PageCollection.findHeadByTopicIdAndPageOffset(site.id, pageNumber.get)
+    val futureOptionPage = PageDao.findHeadByTopicIdAndPageOffset(site.id, pageNumber.get)
     // TODO: see to avoid the flatMap and use a map instead.
     futureOptionPage.flatMap(checkMongoContent(_))
   }
@@ -57,7 +61,7 @@ case class PageContentFinder(site: Site, pageNumber: Option[Int])  {
       case _    => future {
         future {
           val existingPage = getPageFromSite()
-          PageCollection.update(existingPage)
+          PageDao.update(existingPage)
         }
         optionPage
       }
@@ -69,7 +73,7 @@ object PageContentFinder {
 
   def apply(site: String, pageNumber: Option[Int]) = {
     Logger.info(s"Site siteId=$site")
-    val topic = SiteRepository.findSite(site)
+    val topic = SiteDao.findSite(site)
     new PageContentFinder(topic, pageNumber)
   }
 

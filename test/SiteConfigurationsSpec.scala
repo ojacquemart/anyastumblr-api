@@ -1,12 +1,13 @@
 import org.specs2.mutable._
 
-import hfr._
+import model._
+import tumblr._
 
 class SiteConfigurationsSpec extends Specification {
 
   "The SiteConfigurations class" should {
 
-    "build hfr configuration" in {
+    "build tumblr configuration" in {
       val config = HfrConfiguration.get()
       config.navigationOrder must be equalTo (NavigationOrder.Descending)
 

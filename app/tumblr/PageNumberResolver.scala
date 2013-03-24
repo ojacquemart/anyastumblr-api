@@ -1,4 +1,6 @@
-package hfr
+package tumblr
+
+import model._
 
 import jsoup.DocumentWrapper
 

@@ -1,14 +1,12 @@
 package hfr
 
+import play.api.i18n.Messages
 import play.api.libs.json._
-import play.api.libs.json.JsObject
-import play.api.libs.json.JsString
 
 import org.joda.time.DateTime
 
 import reactivemongo.bson._
 import reactivemongo.bson.handlers._
-import play.api.i18n.Messages
 import mongo.bson.{BSONWriterHelper, BSONReaderHelper}
 
 case class Page(id: Option[BSONObjectID],
@@ -47,14 +45,14 @@ object PageJSON {
 
     import ImageJSON.Writes
 
-    def writes(content: Page): JsValue = JsObject(
-      List("title" -> JsString(content.title),
+    def writes(content: Page): JsValue =
+      Json.obj(
+        "title" -> JsString(content.title),
         "pageNumber" -> JsNumber(content.pageNumber),
         "nbViews" -> JsNumber(content.nbViews),
         "images_1" -> Json.toJson(content.images_1),
         "images_2" -> Json.toJson(content.images_2)
       )
-    )
   }
 
 }

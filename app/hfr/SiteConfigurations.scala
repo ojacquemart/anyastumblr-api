@@ -24,12 +24,21 @@ object HfrConfiguration extends ConfigurationBuilder {
   def getCssSelectors() = new CssSelectors(new CssSelector("tr.message td.messCase2 img", "src"), None)
 }
 
-object JoiesDuCodeConfiguration extends ConfigurationBuilder {
+trait TumblrConfiguraiton extends ConfigurationBuilder {
   def getNavigationOrder(): NavigationOrder = NavigationOrder.Ascending
   def getPageResolver() ={
     val changeUrlPageInfos = new ChangePageDescriptor("""\/page\/[0-9]+""", "/page/%d")
     new PageResolver(None, changeUrlPageInfos)
   }
   def getImageRule() = None
+}
+
+object JoiesDuCodeConfiguration extends TumblrConfiguraiton {
   def getCssSelectors() = new CssSelectors( new CssSelector(".post .bodytype img", "src"), Some(new CssSelector(".post h3 a", "href")))
+}
+object JoiesDuScrumConfiguration extends TumblrConfiguraiton {
+  def getCssSelectors() = new CssSelectors( new CssSelector(".post p img", "src"), Some(new CssSelector(".post a h3", "href")))
+}
+object JoiesDuTestConfiguration extends TumblrConfiguraiton {
+  def getCssSelectors() = new CssSelectors( new CssSelector(".post p img", "src"), Some(new CssSelector(".post h3 a", "href")))
 }

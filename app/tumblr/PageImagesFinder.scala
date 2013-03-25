@@ -19,8 +19,8 @@ case class PageImagesFinder(url: String, configuration: Configuration) {
   def zipImagesAndTexts() = {
     var buffer: ListBuffer[Image] = ListBuffer()
 
-    val combinaison = listImages().zipAll(listTexts(), "", "")
-    combinaison.foreach(comb => {
+    val combination = listImages().zipAll(listTexts(), "", "")
+    combination.foreach(comb => {
       buffer += Image(comb._1, comb._2)
     })
 

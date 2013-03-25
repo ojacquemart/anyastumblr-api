@@ -7,10 +7,10 @@ import play.api.libs.json._
 import play.api.mvc._
 import play.modules.reactivemongo._
 
+import dao._
 import model._
 import model.PageJSON._
 import tumblr._
-import dao.SiteDao
 
 object Application extends Controller with MongoController {
 

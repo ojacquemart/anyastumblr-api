@@ -11,6 +11,8 @@ import reactivemongo.bson.handlers.DefaultBSONHandlers.DefaultBSONReaderHandler
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 
+import mongo.Implicits._
+
 import model._
 
 object PageDao {
@@ -37,17 +39,13 @@ object PageDao {
 
   def update(page: Page): scala.concurrent.Future[reactivemongo.core.commands.LastError] = {
     Logger.debug("update page " + page)
-    val writer = ImageBSON.Writer
+    implicit val writer = ImageBSON.Writer
 
     val selector = BSONDocument("siteId" -> BSONString(page.siteId), "pageNumber" -> BSONInteger(page.pageNumber))
     val modifier = BSONDocument(
       "$set" -> BSONDocument(
-        "images_1" -> BSONArray(page.images_1.map {
-          t => writer.toBSON(t)
-        }: _*),
-        "images_2" -> BSONArray(page.images_2.map {
-          t => writer.toBSON(t)
-        }: _*)
+        "images_1" -> listToBSONArray(page.images_1),
+        "images_2" -> listToBSONArray(page.images_2)
       ),
       "$inc" -> BSONDocument("nbViews" -> BSONInteger(1))
     )

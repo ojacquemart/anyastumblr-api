@@ -20,6 +20,13 @@ case class DocumentWrapper(url: String) {
       .get()
   }
 
+  def list(cssQuery: String, optionAttributeName: Option[String]): List[String] = {
+    optionAttributeName match {
+      case None => listText(cssQuery)
+      case Some(attributeName: String) => listAttribute(cssQuery, attributeName)
+    }
+  }
+
   def listText(cssQuery: String): List[String] = {
     Logger.debug(s"""CSS query text '$cssQuery'""")
     list(cssQuery).map(_.text())

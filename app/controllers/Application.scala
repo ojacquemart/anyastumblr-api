@@ -1,15 +1,17 @@
 package controllers
 
 import scala.concurrent.{ExecutionContext, Future}
+import scala.Some
 
+import play.api.Play.current
 import play.api._
 import play.api.libs.json._
 import play.api.mvc._
 import play.modules.reactivemongo._
+import cache.Cached
 
+import model.PageJSON.Writer
 import dao._
-import model._
-import model.PageJSON._
 import tumblr._
 
 object Application extends Controller with MongoController {
@@ -19,34 +21,28 @@ object Application extends Controller with MongoController {
       Ok(views.html.index())
   }
 
-  def sites = Action {
-    Logger.info("Getting sites...")
-    Ok(SiteDao.getSitesAsJson()).as("application/json")
+  def sites = Cached("app.sites") {
+    Action {
+      Logger.info("Getting sites...")
+      Ok(SiteDao.getSitesAsJson()).as("application/json")
+    }
   }
 
-  def getLastSitePage(siteId: String) = Action {
+  def getSiteTotalPages(siteId: String) = Action {
+    Ok(SiteLastPageInfos.getAsJson(siteId))
+  }
+
+  def getSiteFirstPage(siteId: String) = getSitePage(siteId)
+
+  def getSitePageByPageNumber(siteId: String, pageNumber: Int) = getSitePage(siteId, Some(pageNumber))
+
+  def getSitePage(siteId: String, pageNumber: Option[Int] = None) = Action {
     Async {
-      val futurePage = PageContentFinder(siteId, None).getContent()
+      val futurePage = PageContentFinder(siteId,pageNumber).getContent()
       futurePage map {
-        case page => {
-          Ok(Json.toJson(page.get)).as("application/json")
-        }
+        optionPage => Ok(Json.toJson(optionPage.get)).as("application/json")
       }
     }
   }
-
-  def getSitePageByPageNumber(siteId: String, pageNumber: Int) = Action {
-    val result = PageContentFinder(siteId, Some(pageNumber)).getContent()
-    Async {
-      result match {
-        case futurePage =>
-          futurePage.map {
-            optionPage =>
-              Ok(Json.toJson(optionPage.get)).as("application/json")
-          }
-      }
-    }
-  }
-
 
 }

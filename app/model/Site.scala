@@ -4,12 +4,12 @@ import play.api.libs.json._
 import play.api.Logger
 import dao.SiteDao
 
-case class CssSelector(cssQuery: String, htmlAttribute: String)
+case class CssSelector(cssQuery: String, htmlAttribute: Option[String] = None)
 case class CssSelectors(images: CssSelector, text: Option[CssSelector])
 
 case class ImageRule(exclude: String, startsWith: List[String])
 case class ChangePageDescriptor(regex: String, replacement: String)
-case class PageNumberDescriptor(cssSelector: String, regex: String)
+case class PageNumberDescriptor(cssSelector: CssSelector, regex: String)
 
 case class PageResolver(pageNumberDescriptor: Option[PageNumberDescriptor], changePageDescriptor: ChangePageDescriptor)
 

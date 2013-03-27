@@ -8,7 +8,7 @@ class ContentFinderSpec extends Specification {
 
   "The ContentFinder class" should {
 
-    "partition avatars and images" in {
+    "partition avatars and images" in new FakeApp {
       val images = List(
         Image("http://forum-images.hardware.fr/themes/dark/shit.gif"),
         Image("http://forum-images.hardware.fr/images/perso/cerveau ouch.gif"),
@@ -33,7 +33,7 @@ class ContentFinderSpec extends Specification {
         Image("http://forum-images.hardware.fr/images/perso/2/ixam.gif")
       )
       val site = SiteDao.getFirstSite
-      val imagesFinder: PageImagesFinder = new PageImagesFinder(site.url, site.configuration)
+      val imagesFinder: ImagesFinder = new ImagesFinder(site.url, site.configuration)
       val rearrangeImgs = imagesFinder.rearrangeImages(images)
       val concatImgs = rearrangeImgs._1 ++ rearrangeImgs._2
 

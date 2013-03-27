@@ -15,7 +15,8 @@ case class Page(id: Option[BSONObjectID],
                      nbViews: Int,
                      images_1: List[Image],
                      images_2: List[Image],
-                     createdAt: Option[DateTime]) {
+                     createdAt: Option[DateTime],
+                     var link: Option[Link] = None) {
   def this(topicId: String,
            offset: Int,
            nbViews: Int,
@@ -24,12 +25,10 @@ case class Page(id: Option[BSONObjectID],
     this(Some(BSONObjectID.generate), topicId, offset, nbViews, icons, images, Some(DateTime.now()))
 
   def this(topicId: String,
-           offset: Int,
+           pageNumber: Int,
            icons: List[Image],
            images: List[Image]) =
-    this(topicId, offset, 1, icons, images)
-
-  lazy val title = "%s %d".format(Messages("page.label"), pageNumber)
+    this(topicId, pageNumber, 1, icons, images)
 
   override def toString = {
     val images_1Size = images_1.size
@@ -41,24 +40,28 @@ case class Page(id: Option[BSONObjectID],
 
 object PageJSON {
 
-  implicit object PageJsonHandlers extends Writes[Page] {
+  implicit object Writer extends Writes[Page] {
 
-    import ImageJSON.Writes
+    def writes(content: Page): JsValue = {
+      implicit val pageLinkJSONWriter = LinkJSON.Writer
+      implicit val imageJSONWriter = ImageJSON.Writer
 
-    def writes(content: Page): JsValue =
       Json.obj(
-        "title" -> JsString(content.title),
+        "link" -> Json.toJson(content.link),
         "pageNumber" -> JsNumber(content.pageNumber),
         "nbViews" -> JsNumber(content.nbViews),
         "images_1" -> Json.toJson(content.images_1),
         "images_2" -> Json.toJson(content.images_2)
       )
+    }
   }
 
 }
 
 object PageBSON {
+
   implicit object Reader extends BSONReader[Page] with BSONReaderHelper {
+
     def fromBSON(document: BSONDocument): Page = {
       implicit val imageWriter = ImageBSON.Reader
       implicit val doc = document.toTraversable
@@ -73,7 +76,9 @@ object PageBSON {
       page
     }
   }
+
   implicit object Writer extends BSONWriter[Page] with BSONWriterHelper {
+
     def toBSON(page: Page) = {
       implicit val imageWriter = ImageBSON.Writer
       BSONDocument(

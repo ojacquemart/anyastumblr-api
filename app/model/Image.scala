@@ -23,7 +23,7 @@ object Image {
 }
 
 object ImageJSON {
-  implicit object Writes extends Writes[Image] {
+  implicit object Writer extends Writes[Image] {
     def writes(content: Image): JsValue =
       Json.obj(
         "src" -> JsString(content.src),

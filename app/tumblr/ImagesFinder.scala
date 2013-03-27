@@ -6,7 +6,7 @@ import model._
 
 import jsoup.DocumentWrapper
 
-case class PageImagesFinder(url: String, configuration: Configuration) {
+case class ImagesFinder(url: String, configuration: Configuration) {
 
   val wrapper: DocumentWrapper = new DocumentWrapper(url)
   val cssSelectors = configuration.cssSelectors
@@ -28,7 +28,7 @@ case class PageImagesFinder(url: String, configuration: Configuration) {
   }
 
   def listImages() = {
-    wrapper.listAttribute(cssSelectors.images.cssQuery, cssSelectors.images.htmlAttribute)
+    wrapper.list(cssSelectors.images.cssQuery, cssSelectors.images.htmlAttribute)
   }
 
   def listTexts() = {

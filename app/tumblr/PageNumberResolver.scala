@@ -4,32 +4,49 @@ import model._
 
 import jsoup.DocumentWrapper
 
-case class PageNumberResolver(site: Site, pageNumber: Option[Int]) {
+case class PageNumberResolver(site: Site, pageNumber: Option[Int] = None) {
 
   val LinkHrefAttribute = "href"
 
   def resolve(): (String, Int) = {
     val pageIndex = pageNumber match {
-      case None => getPageNumber(site.url)
+      case None => getPageNumber()
       case Some(pageNumber: Int) => pageNumber
     }
 
-    val resolver: PageResolver = site.configuration.pageResolver
-    val changeUrlPageDescriptor: ChangePageDescriptor = resolver.changePageDescriptor
-    val pageUrl = changeUrlPageDescriptor.regex.r.replaceFirstIn(site.url, changeUrlPageDescriptor.replacement.format(pageIndex))
+    val pageUrl = getPageUrl(pageIndex)
     (pageUrl, pageIndex)
   }
 
-  def getPageNumber(url: String): Int = {
+  def getPageUrl(pageNumber: Int) = {
+    val resolver: PageResolver = site.configuration.pageResolver
+    val changeUrlPageDescriptor: ChangePageDescriptor = resolver.changePageDescriptor
+    val pageUrl = changeUrlPageDescriptor.regex.r.replaceFirstIn(site.url, changeUrlPageDescriptor.replacement.format(pageNumber))
+
+    pageUrl
+  }
+
+  def getPageNumber(): Int = {
+    if(site.configuration.navigationOrder == NavigationOrder.Ascending) {
+      1
+    } else {
+      getLastPageNumber()
+    }
+  }
+
+  def getLastPageNumber(): Int = {
     val optionPageNumberDescriptor: Option[PageNumberDescriptor] = site.configuration.pageResolver.pageNumberDescriptor
     optionPageNumberDescriptor match {
       case None => 1
-      case Some(pageNumberInfos) => {
-        val links: List[String] = new DocumentWrapper(url).listAttribute(pageNumberInfos.cssSelector, LinkHrefAttribute)
-        if (links.isEmpty) 1
+      case Some(pageNumberDesc) => {
+        val wrapper: DocumentWrapper = new DocumentWrapper(site.url)
+        val selector: CssSelector = pageNumberDesc.cssSelector
+
+        val elements = wrapper.list(selector.cssQuery, selector.htmlAttribute)
+        if (elements.isEmpty) 1
         else {
-          val url = links(0)
-          val result = pageNumberInfos.regex.r.findFirstMatchIn(url).get
+          val url = elements(0)
+          val result = pageNumberDesc.regex.r.findFirstMatchIn(url).get
           result.group(1).toInt
         }
       }

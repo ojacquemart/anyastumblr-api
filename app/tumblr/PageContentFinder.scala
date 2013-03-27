@@ -6,6 +6,7 @@ import ExecutionContext.Implicits.global
 
 import play.api._
 
+import i18n.Messages
 import model._
 
 import dao.{SiteDao, PageDao}
@@ -35,14 +36,15 @@ case class PageContentFinder(site: Site, pageNumber: Option[Int])  {
     val urlAndPageNumber: (String, Int) = new PageNumberResolver(site, pageNumber).resolve()
     val currentUrl = urlAndPageNumber._1
     val currentPageNumber = urlAndPageNumber._2
-    Logger.debug(s"Current src $currentUrl with image $currentPageNumber")
+    Logger.debug(s"Current url $currentUrl with image $currentPageNumber")
 
-    val allImages = new PageImagesFinder(currentUrl, site.configuration).find()
+    val allImages = new ImagesFinder(currentUrl, site.configuration).find()
     val allImagesSize = allImages._1.size + allImages._2.size
     Logger.info(s"Load from src $currentUrl")
     Logger.debug(s"Content Site => [pageNumber=$currentPageNumber,imagesSize=$allImagesSize]")
 
     val page = new Page(site.id, currentPageNumber, allImages._1, allImages._2)
+    page.link = Some(Link(currentUrl, site.name, currentPageNumber))
     page
   }
 
@@ -58,12 +60,18 @@ case class PageContentFinder(site: Site, pageNumber: Option[Int])  {
     // Page doesn't exist in mongo, retrieve it from hfr else return the future optionPage.
     optionPage match {
       case None => getContentFromSite()
-      case _    => future {
+      case Some(page: Page) => {
+        val site = SiteDao.findSite(page.siteId)
+        val currentUrl = new PageNumberResolver(site, Some(page.pageNumber)).resolve()._1
+        page.link = Some(Link(currentUrl, site.name, page.pageNumber))
+
         future {
-          val existingPage = getPageFromSite()
-          PageDao.update(existingPage)
+          future {
+            val existingPage = getPageFromSite()
+            PageDao.update(existingPage)
+          }
+          optionPage
         }
-        optionPage
       }
     }
   }

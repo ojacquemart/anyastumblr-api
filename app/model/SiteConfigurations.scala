@@ -61,3 +61,16 @@ object DontForgetCondomConfiguration extends TumblrConfiguraiton {
 
   def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector(".pagination .count"), """([0-9]+)$"""))
 }
+
+object FailBlogFrConfiguration extends ConfigurationBuilder {
+
+  def getNavigationOrder(): NavigationOrder = NavigationOrder.Ascending
+
+  def getImageRule() = None
+
+  def getChangePageDescriptor() = new ChangePageDescriptor("""/page-[0-9]+.html""", "/page-%d.html")
+
+  override def getCssSelectors() = new CssSelectors(new CssSelector(".contenu a img", Some("src")), Some(new CssSelector(".contenu h1 a", None)))
+
+  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector(".page p > a:last-child"), """([0-9]+)$"""))
+}

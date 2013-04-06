@@ -27,7 +27,8 @@ object SiteDao {
         Site("Joiesducode", "http://lesjoiesducode.tumblr.com/page/1", JoiesDuCodeConfiguration.get),
         Site("Joiesdusysadmin", "http://lesjoiesdusysadmin.tumblr.com/page/1", JoiesDuSysadminConfiguration.get),
         Site("Joiesdutest", "http://lesjoiesdutest.tumblr.com/page/1", JoiesDuTestConfiguration.get),
-        Site("Joiesduscrum", "http://lesjoiesduscrum.tumblr.com/page/1", JoiesDuScrumConfiguration  .get)
+        Site("Joiesduscrum", "http://lesjoiesduscrum.tumblr.com/page/1", JoiesDuScrumConfiguration.get),
+        Site("N'oubliez jamais la capote", "http://noubliezjamaislacapote.tumblr.com/page/1", DontForgetCondomConfiguration.get)
       )
     }
   }

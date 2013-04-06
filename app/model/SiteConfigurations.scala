@@ -55,3 +55,9 @@ object JoiesDuTestConfiguration extends TumblrConfiguraiton {
 
   def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector(".page-number"), """([0-9]+)$"""))
 }
+
+object DontForgetCondomConfiguration extends TumblrConfiguraiton {
+  override def getCssSelectors() = new CssSelectors(new CssSelector(".post img", Some("src")), None)
+
+  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector(".pagination .count"), """([0-9]+)$"""))
+}

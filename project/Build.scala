@@ -4,7 +4,7 @@ import Keys._
 object ApplicationBuild extends Build {
 
   val appName = "hfrtumlbr"
-  val appVersion = "1.0-SNAPSHOT"
+  val appVersion = "1.0.0"
 
   val appDependencies = Seq(
     "org.jsoup" % "jsoup" % "1.7.2",

@@ -9,6 +9,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="@routes.Assets.at("js/lib/bootstrap.min.js")"></script>
     <script src="@routes.Assets.at("js/app.js")"></script>
     <script src="@routes.Assets.at("js/controllers.js")"></script>
 </head>
@@ -26,12 +27,14 @@
                     ng-options="site.id as site.name group by site.type for site in sites"
                     ng-change="loadImages();">
                 </select>
+                <!-- Current page / Total pages -->
                 <span ng-show="page" class="page-title">
                     <a href="{{page.link.url}}" title="{{page.link.title}}" target="_blank">{{page.link.label}}</a>
                     <span id="last-page-infos" ng-show="lastPageInfos">
                        / <a href="{{lastPageInfos.url}}" title="{{lastPageInfos.title}}" target="_blank">{{lastPageInfos.label}}</a>
                     </span>
                 </span>
+                <!-- Stack -->
                 <div id="stack-box" class="pull-right">
                     <p>Powered by</p>
                     <ul id="stack" class="unstyled">
@@ -67,20 +70,36 @@
             <div id="error" class="message-information hide">
                 <p class="alert alert-error">
                     @Messages("page.error")
-                <i class="add-on icon-large icon-refresh alert-error" ng-click="refreshPage();"></i>
+                    <i class="add-on icon-large icon-refresh alert-error" ng-click="refreshPage();"></i>
                 </p>
             </div>
         </div>
     </header>
 
     <section id="navigation" ng-show="page">
-        <!-- Previous/Next pages-->
         <p class="more-images">
             <i class="btn icon-arrow-left icon-large" ng-click="loadPreviousPage();"></i>
             <i class="btn icon-arrow-right icon-large" ng-click="loadNextPage();"></i>
             <i class="btn icon-refresh icon-large" ng-click="refreshPage();"></i>
+            <i class="icon-keyboard icon-large icon-keyboard-top-right" ng-click="showModalShortcuts();"></i>
         </p>
     </section>
+
+    <!-- Modal keyboard shortcuts -->
+    <div id="modal-shortcuts" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3>@Messages("navigation.shortcuts")</h3>
+        </div>
+        <div class="modal-body">
+            <h4>Navigation</h4>
+            <p><span class="label label-inverse">z</span> @Messages("navigation.previousSite")</p>
+            <p><span class="label label-inverse">s</span> @Messages("navigation.nextSite")</p>
+            <p><span class="label label-inverse">q</span>, <span class="label label-inverse"><i class="icon-arrow-left"></i></span> @Messages("navigation.previousPage")</p>
+            <p><span class="label label-inverse">d</span>, <span class="label label-inverse"><i class="icon-arrow-right"></i></span> @Messages("navigation.nextPage")</p>
+            <p><span class="label label-inverse">r</span> @Messages("navigation.refresh")</p>
+        </div>
+    </div>
 
     <section id="content">
         <!-- Site content -->

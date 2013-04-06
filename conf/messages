@@ -3,7 +3,13 @@ project.about=Powered by
 project.github.url=https://github.com/ojacquemart/hfrAsTumblr
 
 page.label=Page
-page.loading=Chargement...
-page.moregifs=Plus d'images...
+page.loading=Loading...
 
-page.error=Une erreur est survenue...
+page.error=An error occured...
+
+navigation.shortcuts=Keyboard shortcuts
+navigation.previousPage=Previous page
+navigation.nextPage=Next page
+navigation.nextSite=Next site
+navigation.previousSite=Previous site
+navigation.refresh=Refresh

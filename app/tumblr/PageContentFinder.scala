@@ -7,18 +7,14 @@ import ExecutionContext.Implicits.global
 import play.api._
 
 import i18n.Messages
+import libs.iteratee.Enumerator
 import model._
 
 import dao.{SiteDao, PageDao}
 
 case class PageContentFinder(site: Site, pageNumber: Option[Int])  {
 
-  def getContent() = {
-    pageNumber match {
-      case None         => getContentFromSite()
-      case Some(p: Int) => getContentFromMongo()
-    }
-  }
+  def getContent() = getContentFromSite()
 
   def getContentFromSite(): Future[Option[Page]] = {
     Logger.info("getContentFromSite")

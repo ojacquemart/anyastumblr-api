@@ -160,6 +160,17 @@ section#navigation p {
     margin: 0;
 }
 
+/** Rotate to simulate a keyboard icon. */
+.icon-keyboard:before { content: "\f0f7"; }
+.icon-keyboard-top-right {
+    position: absolute;
+    right: 0;
+    margin-right: 10px;
+    transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+}
+
 /**
  * Content
  */

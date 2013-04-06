@@ -101,7 +101,6 @@ function siteGifsController($scope, $http) {
             case 68:
                 $scope.loadNextPage();
                 break;
-                $scope.siteId = $scope.sites[$scope.currentSiteIndex].id;
             // Previous site = up | z
             case 90:
                 $scope.loadSiteImages(-1);
@@ -116,6 +115,10 @@ function siteGifsController($scope, $http) {
                 break;
         }
     };
+
+    $scope.showModalShortcuts = function() {
+        $("#modal-shortcuts").modal();
+    }
 
     //-------------------
     // on controller load.

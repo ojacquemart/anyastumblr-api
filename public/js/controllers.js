@@ -89,7 +89,7 @@ function siteGifsController($scope, $http) {
     }
 
     $scope.handleKeypress = function(key) {
-        // left = 37, right = 39, q = 81, d = 68, z = 90, s = 83
+        // left = 37, right = 39, q = 81, d = 68, z = 90, s = 83, r = 82
         switch (key) {
             // Previous page = left | q
             case 37:
@@ -102,13 +102,17 @@ function siteGifsController($scope, $http) {
                 $scope.loadNextPage();
                 break;
                 $scope.siteId = $scope.sites[$scope.currentSiteIndex].id;
-            // Previous site = up
+            // Previous site = up | z
             case 90:
                 $scope.loadSiteImages(-1);
                 break;
-            // Next site = down
+            // Next site = down | s
             case 83:
                 $scope.loadSiteImages(1);
+                break;
+            // Refresh = r
+            case 82:
+                $scope.refreshPage();
                 break;
         }
     };

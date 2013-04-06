@@ -22,13 +22,13 @@ object SiteDao {
       val hfrConfiguration: Configuration = HfrConfiguration.get()
 
       List(
-        Site("Images étonnantes", "http://forum.hardware.fr/tumblr/Discussions/Loisirs/images-etonnantes-cons-sujet_78667_1.htm", hfrConfiguration),
-        Site("Gifs: Femmes, Caca, Chutes&Co", "http://forum.hardware.fr/tumblr/Discussions/Loisirs/chutes-warning-moderation-sujet_27848_1.htm", hfrConfiguration),
-        Site("Joiesducode", "http://lesjoiesducode.tumblr.com/page/1", JoiesDuCodeConfiguration.get),
-        Site("Joiesdusysadmin", "http://lesjoiesdusysadmin.tumblr.com/page/1", JoiesDuSysadminConfiguration.get),
-        Site("Joiesdutest", "http://lesjoiesdutest.tumblr.com/page/1", JoiesDuTestConfiguration.get),
-        Site("Joiesduscrum", "http://lesjoiesduscrum.tumblr.com/page/1", JoiesDuScrumConfiguration.get),
-        Site("N'oubliez jamais la capote", "http://noubliezjamaislacapote.tumblr.com/page/1", DontForgetCondomConfiguration.get)
+        Site(SiteType.HFR, "Images étonnantes", "http://forum.hardware.fr/tumblr/Discussions/Loisirs/images-etonnantes-cons-sujet_78667_1.htm", hfrConfiguration),
+        Site(SiteType.HFR, "Gifs: Femmes, Caca, Chutes&Co", "http://forum.hardware.fr/tumblr/Discussions/Loisirs/chutes-warning-moderation-sujet_27848_1.htm", hfrConfiguration),
+        Site(SiteType.LESJOIES, "Joiesducode", "http://lesjoiesducode.tumblr.com/page/1", JoiesDuCodeConfiguration.get),
+        Site(SiteType.LESJOIES, "Joiesdusysadmin", "http://lesjoiesdusysadmin.tumblr.com/page/1", JoiesDuSysadminConfiguration.get),
+        Site(SiteType.LESJOIES, "Joiesdutest", "http://lesjoiesdutest.tumblr.com/page/1", JoiesDuTestConfiguration.get),
+        Site(SiteType.LESJOIES, "Joiesduscrum", "http://lesjoiesduscrum.tumblr.com/page/1", JoiesDuScrumConfiguration.get),
+        Site(SiteType.MISC, "N'oubliez jamais la capote", "http://noubliezjamaislacapote.tumblr.com/page/1", DontForgetCondomConfiguration.get)
       )
     }
   }

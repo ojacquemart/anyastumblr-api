@@ -21,10 +21,10 @@
                 <div class="nav-collapse collapse">
                 <!-- Topics list -->
                 <select
-                id="topics-select"
-                ng-model="siteId"
-                ng-options="site.id as site.name for site in sites"
-                ng-change="loadImages();">
+                    id="topics-select"
+                    ng-model="siteId"
+                    ng-options="site.id as site.name group by site.type for site in sites"
+                    ng-change="loadImages();">
                 </select>
                 <span ng-show="page" class="page-title">
                     <a href="{{page.link.url}}" title="{{page.link.title}}" target="_blank">{{page.link.label}}</a>

@@ -14,18 +14,19 @@ case class PageNumberDescriptor(cssSelector: CssSelector, regex: String)
 case class PageResolver(pageNumberDescriptor: Option[PageNumberDescriptor], changePageDescriptor: ChangePageDescriptor)
 
 case class Configuration(cssSelectors: CssSelectors, navigationOrder: NavigationOrder, pageResolver: PageResolver, imageRule: Option[ImageRule])
-case class Site(id: String, name: String, url: String, configuration: Configuration)
+
+case class Site(id: String, siteType: SiteType, name: String, url: String, configuration: Configuration)
 
 object Site {
 
-  def apply(name: String, url: String, configuration: Configuration) = {
+  def apply(siteType: SiteType, name: String, url: String, configuration: Configuration) = {
     // Id in sha1...
     // TODO: use mongodb on another nosql collection to store sites and maybe more... like every images loaded...
     val md = java.security.MessageDigest.getInstance("SHA-1")
     val id = new sun.misc.BASE64Encoder().encode(md.digest((url + name).getBytes)).replace("/", "").replace("+", "")
 
     Logger.info(s"Site siteId=$id for $name")
-    new Site(id, name, url, configuration)
+    new Site(id, siteType, name, url, configuration)
   }
 }
 
@@ -40,7 +41,9 @@ object SiteJSON {
 
     def writes(site: Site): JsValue = {
       JsObject(
-        List("id" -> JsString(site.id),
+        List(
+          "type" -> JsString(site.siteType.name),
+          "id" -> JsString(site.id),
           "name" -> JsString(site.name)
         ))
     }

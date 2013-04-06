@@ -117,6 +117,10 @@ function siteGifsController($scope, $http) {
         }
     };
 
+    $scope.showModalShortcuts = function() {
+        $("#modal-shortcuts").modal();
+    }
+
     //-------------------
     // on controller load.
     //-------------------

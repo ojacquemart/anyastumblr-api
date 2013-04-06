@@ -6,11 +6,8 @@ import ExecutionContext.Implicits.global
 
 import play.api._
 
-import i18n.Messages
-import libs.iteratee.Enumerator
 import model._
-
-import dao.{SiteDao, PageDao}
+import dao._
 
 case class PageContentFinder(site: Site, pageNumber: Option[Int])  {
 

@@ -7,4 +7,9 @@ object TestHelpers {
     tryOption.get
   }
 
+  def seq[T](futureTryOption: Future[Seq[T]]) = {
+    val tryOption = futureTryOption.value.get
+    tryOption.get
+  }
+
 }

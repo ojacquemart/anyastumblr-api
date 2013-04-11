@@ -6,8 +6,6 @@ import jsoup.DocumentWrapper
 
 case class PageNumberResolver(site: Site, pageNumber: Option[Int] = None) {
 
-  val LinkHrefAttribute = "href"
-
   def resolve(): (String, Int) = {
     val pageIndex = pageNumber match {
       case None => getPageNumber()
@@ -27,11 +25,8 @@ case class PageNumberResolver(site: Site, pageNumber: Option[Int] = None) {
   }
 
   def getPageNumber(): Int = {
-    if(site.configuration.navigationOrder == NavigationOrder.Ascending) {
-      1
-    } else {
-      getLastPageNumber()
-    }
+    if (site.configuration.navigationOrder == NavigationOrder.Ascending) 1
+    else getLastPageNumber()
   }
 
   def getLastPageNumber(): Int = {
@@ -43,6 +38,7 @@ case class PageNumberResolver(site: Site, pageNumber: Option[Int] = None) {
         val selector: CssSelector = pageNumberDesc.cssSelector
 
         val elements = wrapper.list(selector.cssQuery, selector.htmlAttribute)
+
         if (elements.isEmpty) 1
         else {
           val url = elements(0)

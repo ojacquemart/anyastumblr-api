@@ -2,6 +2,7 @@ package model
 
 trait ConfigurationBuilder {
   def getCssSelectors(): CssSelectors
+  def isLastPageByCss(): Boolean = true
   def getNavigationOrder(): NavigationOrder
   def getImageRule(): Option[ImageRule]
 
@@ -10,7 +11,7 @@ trait ConfigurationBuilder {
 
   def getPageResolver() = new PageResolver(getPageNumberDescriptor(), getChangePageDescriptor())
 
-  def get() = new Configuration(getCssSelectors(), getNavigationOrder(), getPageResolver(), getImageRule())
+  def get() = new Configuration(getCssSelectors(), isLastPageByCss(), getNavigationOrder(), getPageResolver(), getImageRule())
 }
 
 object HfrConfiguration extends ConfigurationBuilder {
@@ -54,6 +55,14 @@ object JoiesDuTestConfiguration extends TumblrConfiguraiton {
   override def getCssSelectors() = new CssSelectors(new CssSelector(".post p img", Some("src")), Some(new CssSelector(".post h3 a", Some("href"))))
 
   def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector(".page-number"), """([0-9]+)$"""))
+}
+
+object CommitStripConfiguration extends TumblrConfiguraiton {
+  override def isLastPageByCss(): Boolean = false
+
+  override def getCssSelectors() = new CssSelectors(new CssSelector(".entry-content img", Some("src")), Some(new CssSelector(".post h1 a")))
+
+  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector("a"), """([0-9]+)$"""))
 }
 
 object DontForgetCondomConfiguration extends TumblrConfiguraiton {

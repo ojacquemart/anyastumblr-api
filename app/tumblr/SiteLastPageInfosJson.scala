@@ -6,23 +6,47 @@ import play.api.libs.json._
 import model.Link
 import dao.SiteDao
 import play.api.cache.Cache
+import play.api.Logger
 
+/**
+ * Object to retrieve the last page information.
+ */
 object SiteLastPageInfos {
 
+  /**
+   * The site may not permit to give the last page. In that case, an empty json object is returned.
+   */
   def getAsJson(siteId: String) = {
     import model.LinkJSON.Writer
-    Json.toJson(get(siteId))
+
+    get(siteId) match {
+      case None => JsNull
+      case Some(link: Link) => Json.toJson(link)
+    }
   }
 
-  def get(siteId: String): Link = {
-    Cache.getOrElse[Link](s"site.$siteId", 300 ) {
+  /**
+   * This methods return an Option[Link], giving the last page of the tumblr site.
+   *
+   * @param siteId the site id to parse the last page informations through a css query.
+   * @return if the site permits to retrieve a last page, a link with the informations is returned.
+   */
+  def get(siteId: String): Option[Link] = {
+    // Cache for 5 minutes the last page number from the site.
+    Cache.getOrElse[Option[Link]](s"site.$siteId", 300) {
       val site = SiteDao.findSite(siteId)
+      val lastPageByCss = site.configuration.lastPageByCss
+      Logger.debug(s"Get last page by css from ${site.name}=$lastPageByCss")
 
-      val resolver: PageNumberResolver = new PageNumberResolver(site)
-      val lastPageNumber = resolver.getLastPageNumber()
-      val lastPageUrl = resolver.getPageUrl(lastPageNumber)
+      if (!lastPageByCss) {
+        None
+      } else {
+        val resolver: PageNumberResolver = new PageNumberResolver(site)
+        val lastPageNumber = resolver.getLastPageNumber()
+        val lastPageUrl = resolver.getPageUrl(lastPageNumber)
 
-      Link(lastPageUrl, site.name, lastPageNumber)
+        Some(Link(lastPageUrl, site.name, lastPageNumber))
+      }
     }
   }
 

@@ -25,6 +25,13 @@ function siteGifsController($scope, $http) {
         $scope.currentSiteIndex = searchSiteIndex();
     }
 
+    $scope.getTweets = function() {
+        $http.get("tweets")
+            .success(function (data) {
+                $scope.tweets = data;
+            });
+    }
+
     $scope.storeImages = function (data) {
         $("html, body").animate({ scrollTop: 0 }, "slow");
         $scope.page = data;
@@ -33,7 +40,12 @@ function siteGifsController($scope, $http) {
     $scope.loadLastPageInfos = function() {
         $http.get("sites/" + $scope.siteId + "/lastPageInfos")
             .success(function (data) {
-                $scope.lastPageInfos = data;
+                // FIXME: lastPageInfos must return a true null.
+                if (data == "null") {
+                    $scope.lastPageInfos = null;
+                } else {
+                    $scope.lastPageInfos = data;
+                }
             });
     }
 
@@ -48,6 +60,7 @@ function siteGifsController($scope, $http) {
                 $scope.loadLastPageInfos();
 
                 $scope.updateCurrentSiteIndex();
+                $scope.getTweets();
             });
 
     };
@@ -67,7 +80,16 @@ function siteGifsController($scope, $http) {
     $scope.loadNextPage = function () {
         var nextPageNumber = $scope.page.pageNumber + 1;
         var lastPageInfos = $scope.lastPageInfos;
-        if (lastPageInfos != null && nextPageNumber <= lastPageInfos.pageNumber) {
+
+        function canGoToNextPage() {
+            if (lastPageInfos == null) {
+                return true;
+            }
+
+            return nextPageNumber <= lastPageInfos.pageNumber;
+        }
+
+        if (canGoToNextPage()) {
             $scope.loadPage(nextPageNumber);
         }
     }

@@ -60,7 +60,7 @@ function siteGifsController($scope, $http) {
                 $scope.loadLastPageInfos();
 
                 $scope.updateCurrentSiteIndex();
-                $scope.getTweets();
+                //$scope.getTweets();
             });
 
     };

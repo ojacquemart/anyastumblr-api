@@ -34,8 +34,8 @@ angular.module('SharedServices', [])
 angular.module('AnyAsTumblr', ['SharedServices'])
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.
-            when('/index', { templateUrl: "assets/partial/tumblr.html", controller: TumblrController}).
-            when('/tweets', {templateUrl: 'tweets', controller: TweetsController}).
+            when('/index', { templateUrl: "assets/partials/tumblr.html", controller: TumblrController}).
+            when('/tweets', {templateUrl: 'assets/partials/tweets.html', controller: TweetsController}).
             otherwise({redirectTo: '/index'});
     }]);
 

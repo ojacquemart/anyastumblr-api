@@ -3,10 +3,6 @@ body {
     height: 100%;
 }
 
-a {
-    color: #FFF !important;
-}
-
 i {
     cursor: pointer;
 }
@@ -30,8 +26,7 @@ header {
     padding: 20px 0;
     background: #fff;
     background: #315064;
-    border-bottom: 1px solid #ccc;
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 header .container-fluid {
@@ -45,11 +40,6 @@ header .navbar .brand {
 
 header #app-bar p, #app-bar span.page-title {
     color: #A0C5DE !important;
-}
-
-header select, input {
-    margin-top: 5px;
-    width: auto;
 }
 
 header input {
@@ -66,14 +56,6 @@ header #center-messages {
     top: 10px;
     text-align: center;
     z-index: 10000;
-}
-
-header #loading .alert-information {
-    background: gold;
-}
-
-header #loading .alert {
-    color: #9E8043;
 }
 
 header #loading {
@@ -93,6 +75,67 @@ header #error p {
 }
 
 /**
+ * Tumblr sites & navigation bar.
+ */
+
+#tumblr-content {
+    background: #fff;
+    position: fixed;
+    width: 100%;
+    top: 45px;
+    left: 0;
+    margin-top: -5px;
+    padding: 5px 0 0 0;
+    z-index: 1;
+}
+
+#tumblr-sites-bar {
+    height: 35px;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+}
+
+#tumblr-sites-list {
+    position: absolute;
+    left: 5px;
+    text-align: left;
+    top: 0;
+    color: #000;
+}
+
+#tumblr-sites-list span a {
+    color: #000;
+}
+
+#tumblr-sites-navigation {
+    position: relative;
+    left: 47.5%;
+    top: 3px;
+}
+
+/** Rotate to simulate a keyboard icon. */
+.icon-keyboard:before {
+    content: "\f0f7";
+}
+
+.icon-keyboard-top-right {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    margin-right: 10px;
+    transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+}
+
+#tumblr-page-content {
+    position: relative;
+    top: 40px;
+    padding: 0 1em;
+}
+
+/**
  * Stack
  */
 #stack-box p {
@@ -103,41 +146,44 @@ ul#stack li {
     float: left;
     margin-right: 2px
 }
+
 ul#stack li a {
-    display: block; height: 16px;
+    display: block;
+    height: 16px;
     width: 16px;
-    text-indent:-9999px;
+    text-indent: -9999px;
 }
-.scala, .mongodb, .play, .angular, .github{
+
+.scala, .mongodb, .play, .angular, .github {
     background: url(../img/stack.png) no-repeat;
 }
 
-.scala{
-    background-position: -52px -3px ;
+.scala {
+    background-position: -52px -3px;
     width: 16px;
     height: 16px;
 }
 
-.mongodb{
-    background-position: -151.00000762939453px -4px ;
+.mongodb {
+    background-position: -151.00000762939453px -4px;
     width: 16px;
     height: 16px;
 }
 
-.play{
-    background-position: -1px -3px ;
+.play {
+    background-position: -1px -3px;
     width: 16px;
     height: 16px;
 }
 
-.angular{
-    background-position: -101.00000762939453px -3px ;
+.angular {
+    background-position: -101.00000762939453px -3px;
     width: 16px;
     height: 16px;
 }
 
-.github{
-    background-position: -203.00000762939453px -3px ;
+.github {
+    background-position: -203.00000762939453px -3px;
     width: 16px;
     height: 16px;
 }
@@ -155,31 +201,9 @@ section#navigation {
     border-bottom: 1px solid #CCCCCC;
 }
 
-section#navigation p {
-    text-align: center;
-    margin: 0;
-}
-
-/** Rotate to simulate a keyboard icon. */
-.icon-keyboard:before { content: "\f0f7"; }
-.icon-keyboard-top-right {
-    position: absolute;
-    right: 0;
-    margin-right: 10px;
-    transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
-    -webkit-transform: rotate(-90deg);
-}
-
 /**
  * Content
  */
-
-section#content {
-    width: auto;
-    margin-top: 85px;
-    padding: 0 1em;
-}
 
 .container {
     width: auto !important;
@@ -196,6 +220,13 @@ hr {
 .lead {
     margin-bottom: 0;
 }
+
+section#content {
+    position: relative;
+    top: 45px;
+}
+
+²
 
 section#content img {
     padding: 1px;
@@ -226,4 +257,191 @@ section#content .more-images {
 
 .nav-pills li, .thumbnail {
     padding: 1px;
+}
+
+/** Footer tweets carousel **/
+#tweets-carousel {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 48px;
+    background: #c0deed;
+    margin: 0;
+}
+
+#tweets-carousel .close {
+    position: absolute;
+    right: 0;
+    z-index: 10;
+}
+
+#tweets-carousel img {
+    width: 48px;
+    height: 48px;
+}
+
+#tweets-carousel  ul {
+    margin: 0;
+}
+
+#tweets-carousel .carousel {
+    overflow: auto;
+    width: 1000%;
+}
+
+#tweets-carousel .panes {
+    list-style: none;
+    position: relative;
+    width: 1000%; /* Number of panes * 100% */
+    overflow: hidden; /* This is used solely to clear floats, it does not add functionality. */
+    -webkit-animation: hscroll 80s infinite;
+    -moz-animation: hscroll 80s infinite;
+    -ms-animation: hscroll 80s infinite;
+}
+
+#tweets-carousel .panes > li {
+    position: relative;
+    float: left;
+    width: 5%;
+    height: 100px;
+}
+
+#tweets-carousel .carousel h2 {
+    font-size: 1em;
+    padding: 0.5em;
+    bottom: 10px;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+@-webkit-keyframes hscroll {
+    0% {
+        left: 0;
+    }
+    5% {
+        left: 0;
+    }
+    10% {
+        left: -100%;
+    }
+    15% {
+        left: -100%;
+    }
+    20% {
+        left: -200%;
+    }
+    25% {
+        left: -200%;
+    }
+    30% {
+        left: -300%;
+    }
+    35% {
+        left: -300%;
+    }
+    40% {
+        left: -400%;
+    }
+    45% {
+        left: -400%;
+    }
+    50% {
+        left: -500%;
+    }
+    55% {
+        left: -500%;
+    }
+    60% {
+        left: -600%;
+    }
+    65% {
+        left: -600%;
+    }
+    70% {
+        left: -700%;
+    }
+    75% {
+        left: -700%;
+    }
+    80% {
+        left: -800%;
+    }
+    85% {
+        left: -800%;
+    }
+    90% {
+        left: -900%;
+    }
+    95% {
+        left: -900%;
+    }
+    100% {
+        left: 0;
+    }
+}
+
+@keyframes hscroll {
+    0% {
+        left: 0;
+    }
+    5% {
+        left: 0;
+    }
+    10% {
+        left: -100%;
+    }
+    15% {
+        left: -100%;
+    }
+    20% {
+        left: -200%;
+    }
+    25% {
+        left: -200%;
+    }
+    30% {
+        left: -300%;
+    }
+    35% {
+        left: -300%;
+    }
+    40% {
+        left: -400%;
+    }
+    45% {
+        left: -400%;
+    }
+    50% {
+        left: -500%;
+    }
+    55% {
+        left: -500%;
+    }
+    60% {
+        left: -600%;
+    }
+    65% {
+        left: -600%;
+    }
+    70% {
+        left: -700%;
+    }
+    75% {
+        left: -700%;
+    }
+    80% {
+        left: -800%;
+    }
+    85% {
+        left: -800%;
+    }
+    90% {
+        left: -900%;
+    }
+    95% {
+        left: -900%;
+    }
+    100% {
+        left: 0;
+    }
 }

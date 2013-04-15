@@ -1,0 +1,83 @@
+<div id="tumblr-content" >
+
+    <div id="tumblr-sites-bar" class="nav-collapse collapse">
+        <div id="tumblr-sites-list">
+            <!-- Sites list -->
+            <select
+                    id="topics-select"
+                    ng-model="siteId"
+                    ng-options="site.id as site.name group by site.type for site in sites"
+                    ng-change="loadImages();">
+            </select>
+
+            <!-- Current page / Total pages -->
+            <span ng-show="page" class="page-title">
+                <a href="{{page.link.url}}" title="{{page.link.title}}" target="_blank">{{page.link.label}}</a>
+                <span id="last-page-infos" ng-show="lastPageInfos" ng-cloak>
+                    / <a href="{{lastPageInfos.url}}" title="{{lastPageInfos.title}}" target="_blank">{{lastPageInfos.label}}</a>
+                </span>
+            </span>
+        </div>
+
+        <div id="tumblr-sites-navigation" ng-show="page">
+                <i class="btn icon-arrow-left icon-large" ng-click="loadPreviousPage();"></i>
+                <i class="btn icon-arrow-right icon-large" ng-click="loadNextPage();"></i>
+                <i class="btn icon-refresh icon-large" ng-click="refreshPage();"></i>
+        </div>
+        <i class="icon-keyboard icon-large icon-keyboard-top-right" ng-click="showModalShortcuts();"></i>
+    </div>
+</div>
+
+<!-- Site content -->
+<div id="tumblr-page-content" class="container">
+    <!-- Icons -->
+    <div class="page-icons" ng-show="page.images_1">
+        <ul class="nav nav-pills">
+            <li ng-repeat="icon in page.images_1">
+                <img class="img-polaroid" ng-src="{{icon.src}}"/>
+            </li>
+        </ul>
+        <hr>
+    </div>
+
+    <!-- Images -->
+    <div class="page-images" ng-show="page.images_2 ">
+        <ul class="nav nav-pills">
+            <li class="image-text" ng-model="image" ng-show="image.text != ''" ng-repeat="image in page.images_2">
+                <p>{{image.text}}</p>
+                <img hoverable="true" ng-model="image" class="img-polaroid" ng-src="{{image.src}}"/>
+            </li>
+            <li class="image" ng-model="image" ng-show="image.text == ''" ng-repeat="image in page.images_2">
+                <img hoverable="true" ng-model="image" class="img-polaroid" ng-src="{{image.src}}"/>
+            </li>
+        </ul>
+        <hr>
+    </div>
+</div>
+
+<!-- Modal keyboard shortcuts -->
+<div id="tumblr-sites-modal-shortcuts" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3>Navigation shortcuts</h3>
+    </div>
+    <div class="modal-body">
+        <h4>Navigation</h4>
+
+        <p><span class="label label-inverse">z</span> Previous site</p>
+        <p><span class="label label-inverse">s</span> Next site</p>
+
+        <p>
+            <span class="label label-inverse">q</span>,
+            <span class="label label-inverse"><i class="icon-arrow-left"></i></span>
+            Previous page
+        </p>
+        <p>
+            <span class="label label-inverse">d</span>, <span class="label label-inverse"><i
+                class="icon-arrow-right"></i></span>
+            Next page
+        </p>
+
+        <p><span class="label label-inverse">r</span> Refresh</p>
+    </div>
+</div>

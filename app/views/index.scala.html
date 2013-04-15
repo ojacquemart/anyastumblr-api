@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="siteGifs" xmlns="http://www.w3.org/1999/html">
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>@Messages("project.title")</title>
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
@@ -13,28 +13,12 @@
     <script src="@routes.Assets.at("js/app.js")"></script>
     <script src="@routes.Assets.at("js/controllers.js")"></script>
 </head>
-<body ng-controller="siteGifsController" on-keyup-fn="handleKeypress">
+<body ng-app="AnyAsTumblr" ui-keypress="{37:'keypressCallback($event)'}">
     <header>
         <div id="app-bar" class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <p class="brand">@Messages("project.title")</p>
 
-                <div class="nav-collapse collapse">
-                <!-- Topics list -->
-                <select
-                    id="topics-select"
-                    ng-model="siteId"
-                    ng-options="site.id as site.name group by site.type for site in sites"
-                    ng-change="loadImages();">
-                </select>
-                <!-- Current page / Total pages -->
-                <span ng-show="page" class="page-title">
-                    <a href="{{page.link.url}}" title="{{page.link.title}}" target="_blank">{{page.link.label}}</a>
-                    <span id="last-page-infos" ng-show="lastPageInfos" ng-cloak>
-                      / <a href="{{lastPageInfos.url}}" title="{{lastPageInfos.title}}" target="_blank">{{lastPageInfos.label}}</a>
-                    </span>
-                </span>
-                <!-- Stack -->
                 <div id="stack-box" class="pull-right">
                     <p>Powered by</p>
                     <ul id="stack" class="unstyled">
@@ -55,8 +39,6 @@
                         </li>
                     </ul>
                 </div>
-                </div>
-
             </div>
         </div>
 
@@ -70,65 +52,14 @@
             <div id="error" class="message-information hide">
                 <p class="alert alert-error">
                     @Messages("page.error")
-                    <i class="add-on icon-large icon-refresh alert-error" ng-click="refreshPage();"></i>
+                <i class="add-on icon-large icon-refresh alert-error" ng-click="refreshPage();"></i>
                 </p>
             </div>
         </div>
     </header>
 
-    <section id="navigation" ng-show="page">
-        <p class="more-images">
-            <i class="btn icon-arrow-left icon-large" ng-click="loadPreviousPage();"></i>
-            <i class="btn icon-arrow-right icon-large" ng-click="loadNextPage();"></i>
-            <i class="btn icon-refresh icon-large" ng-click="refreshPage();"></i>
-            <i class="icon-keyboard icon-large icon-keyboard-top-right" ng-click="showModalShortcuts();"></i>
-        </p>
-    </section>
-
-    <!-- Modal keyboard shortcuts -->
-    <div id="modal-shortcuts" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3>@Messages("navigation.shortcuts")</h3>
-        </div>
-        <div class="modal-body">
-            <h4>Navigation</h4>
-            <p><span class="label label-inverse">z</span> @Messages("navigation.previousSite")</p>
-            <p><span class="label label-inverse">s</span> @Messages("navigation.nextSite")</p>
-            <p><span class="label label-inverse">q</span>, <span class="label label-inverse"><i class="icon-arrow-left"></i></span> @Messages("navigation.previousPage")</p>
-            <p><span class="label label-inverse">d</span>, <span class="label label-inverse"><i class="icon-arrow-right"></i></span> @Messages("navigation.nextPage")</p>
-            <p><span class="label label-inverse">r</span> @Messages("navigation.refresh")</p>
-        </div>
-    </div>
-
     <section id="content">
-        <!-- Site content -->
-        <div id="topic-content" class="container">
-            <!-- Icons -->
-            <div class="page-icons" ng-show="page.images_1" >
-                <ul class="nav nav-pills">
-                    <li ng-repeat="icon in page.images_1">
-                    <img class="img-polaroid" ng-src="{{icon.src}}"/>
-                    </li>
-                </ul>
-                <hr>
-            </div>
-
-            <!-- Images -->
-
-            <div  class="page-images" ng-show="page.images_2 ">
-                <ul class="nav nav-pills">
-                    <li class="image-text" ng-model="image" ng-show="image.text != ''" ng-repeat="image in page.images_2">
-                        <p>{{image.text}}</p>
-                        <img hoverable="true" ng-model="image" class="img-polaroid" ng-src="{{image.src}}"/>
-                    </li>
-                    <li class="image" ng-model="image" ng-show="image.text == ''" ng-repeat="image in page.images_2">
-                        <img hoverable="true" ng-model="image" class="img-polaroid" ng-src="{{image.src}}"/>
-                    </li>
-                </ul>
-                <hr>
-            </div>
-        </div>
+        <div ng-view></div>
     </section>
 </body>
-</html>
+</htm>

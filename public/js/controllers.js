@@ -1,7 +1,12 @@
 /**
- * AngularJS - Gifs controller.
+ * AngularJS - controllers.
  */
-function siteGifsController($scope, $http) {
+
+function TweetsController($scope, $http) {
+    // TODO...
+}
+
+function TumblrController($scope, $http) {
 
     $scope.currentSiteIndex = 0;
     $scope.page = null;
@@ -23,19 +28,12 @@ function siteGifsController($scope, $http) {
         }
 
         $scope.currentSiteIndex = searchSiteIndex();
-    }
-
-    $scope.getTweets = function() {
-        $http.get("tweets")
-            .success(function (data) {
-                $scope.tweets = data;
-            });
-    }
+    };
 
     $scope.storeImages = function (data) {
         $("html, body").animate({ scrollTop: 0 }, "slow");
         $scope.page = data;
-    }
+    };
 
     $scope.loadLastPageInfos = function() {
         $http.get("sites/" + $scope.siteId + "/lastPageInfos")
@@ -47,7 +45,7 @@ function siteGifsController($scope, $http) {
                     $scope.lastPageInfos = data;
                 }
             });
-    }
+    };
 
     $scope.loadImages = function () {
         $http.get("sites/" + $scope.siteId + "/gifs")
@@ -108,7 +106,7 @@ function siteGifsController($scope, $http) {
             $scope.siteId = $scope.sites[nextIndex].id;
             $scope.loadImages();
         }
-    }
+    };
 
     $scope.handleKeypress = function(key) {
         // left = 37, right = 39, q = 81, d = 68, z = 90, s = 83, r = 82
@@ -139,16 +137,24 @@ function siteGifsController($scope, $http) {
     };
 
     $scope.showModalShortcuts = function() {
-        $("#modal-shortcuts").modal();
-    }
+        $("#tumblr-sites-modal-shortcuts").modal();
+    };
 
-    //-------------------
-    // on controller load.
-    //-------------------
+    /**
+     * On load code ... below.
+     */
+
     $http.get('sites').success(function (data) {
         $scope.sites = data;
         $scope.loadSiteImages(0);
     });
+
+    // FIXME: see to use angularjs directive
+    // Dont see how to put a directive on the body and use this controller.
+    $(document).keydown(function(e){
+        $scope.handleKeypress(e.keyCode);
+    });
+
 
 }
 

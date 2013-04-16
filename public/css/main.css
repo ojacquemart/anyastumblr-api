@@ -33,9 +33,12 @@ header .container-fluid {
     padding-left: 0;
 }
 
-header .navbar .brand {
-    padding: 10px 5px;
-    margin-left: 0;
+header .title {
+    font-size: 20px;
+}
+
+header .navbar-inverse a {
+    color: #c0deed !important;
 }
 
 header #app-bar p, #app-bar span.page-title {
@@ -226,8 +229,6 @@ section#content {
     top: 45px;
 }
 
-²
-
 section#content img {
     padding: 1px;
 }
@@ -259,7 +260,12 @@ section#content .more-images {
     padding: 1px;
 }
 
-/** Footer tweets carousel **/
+/** Twitter **/
+
+.twitter-color {
+    color: #c0deed;
+}
+
 #tweets-carousel {
     position: fixed;
     bottom: 0;

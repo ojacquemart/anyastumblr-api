@@ -1,1 +1,15 @@
-TODO TWEETS
+<div id="tweets-searchbox" class="marginbox-center">
+    <form name="TweetsForm" class="simple-form css-form" novalidate>
+        <h3>Search on twitter</h3>
+        <div class="input-append">
+            <span>
+                <input type="text" name="query" id="tweets-search-query" ng-model="test" required ng-minlength="3" ng-maxlength="80">
+            </span>
+            <button type="submit" class="btn" ng-disabled="!TweetsForm.$valid" >Search</button>
+            <span ng-show="TweetsForm.query.$error.minlength || TweetsForm.query.$error.maxlength" class="help-block">Search length must be between 3 and 80 characters.</span>
+        </div>
+    </form>
+</div>
+
+<style type="text/css">
+</style>

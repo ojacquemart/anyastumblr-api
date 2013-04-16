@@ -6,6 +6,10 @@ function TweetsController($scope, $http) {
     // TODO...
 }
 
+function TumblrStatsController($scope, $http) {
+    // TODO...
+}
+
 function TumblrController($scope, $http) {
 
     $scope.currentSiteIndex = 0;

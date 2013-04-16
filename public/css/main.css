@@ -260,10 +260,37 @@ section#content .more-images {
     padding: 1px;
 }
 
+.marginbox-center {
+    margin: 0    auto;
+    text-align: center;
+}
+
 /** Twitter **/
 
 .twitter-color {
     color: #c0deed;
+}
+
+#tweets-searchbox {
+    width: 300px;
+}
+
+#tweets-searchbox label {
+    margin: 25px;
+    font-size: 28px;
+}
+
+#tweets-searchbox input {
+    font-size: 18px;
+    width: 300px;
+}
+
+#tweets-searchbox .css-form input.ng-invalid.ng-dirty {
+    background-color: #FA787E;
+}
+
+#tweets-searchbox .help-block {
+    font-size: 12px;
 }
 
 #tweets-carousel {

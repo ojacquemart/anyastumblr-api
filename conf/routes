@@ -2,13 +2,17 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                                       controllers.Application.index
+# index
+GET     /                                           controllers.Application.index
 
-GET     /sites                                 controllers.Application.sites()
-GET     /sites/:siteId/lastPageInfos           controllers.Application.getSiteTotalPages(siteId: String)
-GET     /sites/:siteId/gifs                    controllers.Application.getSiteFirstPage(siteId: String)
-GET     /sites/:siteId/gifs/:pageNumber        controllers.Application.getSitePageByPageNumber(siteId: String, pageNumber: Int)
+# tumblr
+GET     /api/tumblr/sites                           controllers.Application.sites()
+GET     /api/tumblr/:siteId                         controllers.Application.getSiteFirstPage(siteId: String)
+GET     /api/tumblr/:siteId/lastPageInfos           controllers.Application.getSiteTotalPages(siteId: String)
+GET     /api/tumblr/:siteId/page/:pageNumber        controllers.Application.getSitePageByPageNumber(siteId: String, pageNumber: Int)
+
+# twitter
+GET     /api/tweets                                 controllers.Tweets.index
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -36,7 +36,7 @@ function TumblrController($scope, $http) {
     };
 
     $scope.loadLastPageInfos = function() {
-        $http.get("sites/" + $scope.siteId + "/lastPageInfos")
+        $http.get("api/tumblr/" + $scope.siteId + "/lastPageInfos")
             .success(function (data) {
                 // FIXME: lastPageInfos must return a true null.
                 if (data == "null") {
@@ -48,7 +48,7 @@ function TumblrController($scope, $http) {
     };
 
     $scope.loadImages = function () {
-        $http.get("sites/" + $scope.siteId + "/gifs")
+        $http.get("api/tumblr/" + $scope.siteId)
             .success(function (data) {
                 $("#topics-select").blur();
                 $scope.storeImages(data);
@@ -69,7 +69,7 @@ function TumblrController($scope, $http) {
     };
 
     $scope.loadPage = function(pageNumber) {
-        $http.get("sites/" + $scope.siteId + "/gifs/" + pageNumber)
+        $http.get("api/tumblr/" + $scope.siteId + "/page/" + pageNumber)
             .success(function (data) {
                 $scope.storeImages(data);
             });
@@ -144,7 +144,7 @@ function TumblrController($scope, $http) {
      * On load code ... below.
      */
 
-    $http.get('sites').success(function (data) {
+    $http.get('api/tumblr/sites').success(function (data) {
         $scope.sites = data;
         $scope.loadSiteImages(0);
     });

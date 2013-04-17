@@ -58,16 +58,16 @@ object Tweet {
   def fetch(query: String): Future[Seq[Tweet]] = {
     Logger.debug(s"Twitter query: $query")
 
-    val tweets = WS.url(JsonApi).withQueryString(
+    val futureTweets = WS.url(JsonApi).withQueryString(
       "q" -> query,
       "include_entities" -> "false",
-      "rpp" -> "5"
+      "rpp" -> "40"
     ).get().map(response => response.status match {
       case 200 => response.json.asOpt[Seq[Tweet]].getOrElse(Nil)
       case _ => Nil
     })
 
-    tweets
+    futureTweets
   }
 
   def stream(query: String): Enumerator[JsValue] = {

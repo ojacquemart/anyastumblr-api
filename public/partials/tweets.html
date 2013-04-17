@@ -3,13 +3,70 @@
         <h3>Search on twitter</h3>
         <div class="input-append">
             <span>
-                <input type="text" name="query" id="tweets-search-query" ng-model="test" required ng-minlength="3" ng-maxlength="80">
+                <input type="text" name="query" id="tweets-search-query" ng-model="query" required ng-minlength="3" ng-maxlength="80">
             </span>
-            <button type="submit" class="btn" ng-disabled="!TweetsForm.$valid" >Search</button>
+            <button type="submit" class="btn" ng-disabled="!TweetsForm.$valid" ng-click="loadTweets()">Search</button>
             <span ng-show="TweetsForm.query.$error.minlength || TweetsForm.query.$error.maxlength" class="help-block">Search length must be between 3 and 80 characters.</span>
         </div>
     </form>
 </div>
 
+<div id="tweets-list" ng-show="tweets">
+    <ul class="nav nav-pills">
+        <li ng-repeat="tweet in tweets">
+            <div class="tweet-content">
+                <div class="tweet-user">
+                    <a href="http://twitter.com/{{tweet.userName}}">
+                        <img src="{{tweet.avatar}}" />
+                        <p class="tweet-text-left">{{tweet.userName}}</p>
+                    </a>
+                </div>
+                <div class="tweet-text-left tweet-text">
+                    <p>{{tweet.text}}</p>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
 <style type="text/css">
+    #tweets-list {
+        text-align: center;
+        padding-bottom: 10px;
+    }
+    #tweets-list ul {
+        margin: 0 auto;
+        width: 80%;
+    }
+    #tweets-list ul li {
+        float: left;
+        padding: 0.5em;
+        height: 70px;
+        width: 47%;
+    }
+
+    #tweets-list ul li:nth-child(4n+1),#tweets-list ul li:nth-child(4n+2) {
+        background: #F4A0C1
+    }
+    #tweets-list ul li:nth-child(2n +1) {
+        border-right: 1px solid #F06FA8;
+    }
+    .tweet-user {
+        position: relative;
+        left: 0;
+    }
+    .tweet-user img {
+        position: absolute;
+        left: 0;
+        height: 48px;
+        width: 48px;
+    }
+    .tweet-text-left {
+        text-align: left;
+        margin-left: 54px;
+
+    }
+    .tweet-text {
+        margin-top: -10px;
+    }
 </style>

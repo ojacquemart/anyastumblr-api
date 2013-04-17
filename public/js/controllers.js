@@ -2,8 +2,29 @@
  * AngularJS - controllers.
  */
 
+/**
+ * Tweets Controller.
+ *
+ * @param $scope
+ * @param $http
+ * @constructor
+ */
 function TweetsController($scope, $http) {
-    // TODO...
+
+    $scope.tweets = null;
+    $scope.query = "#java";
+
+    $scope.loadTweets = function () {
+        $http({
+            method: 'GET',
+            url: "api/tweets/" + escape($scope.query)
+        })
+        .success(function (data) {
+            $scope.tweets = data;
+        });
+    }
+
+    $scope.loadTweets();
 }
 
 function TumblrStatsController($scope, $http) {

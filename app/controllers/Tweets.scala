@@ -13,12 +13,15 @@ object Tweets extends Controller {
   def index(query: String) = Action {
     implicit request =>
       Async {
-        val futureTweets: Future[Seq[Tweet]] = Tweet.fetch(query)
+        val futureTweets = Tweet.fetch(query)
         futureTweets map {
-          tweets =>
-            Ok(Json.toJson(tweets)).as("application/json")
+          tweets => Ok(Json.toJson(tweets)).as("application/json")
         }
       }
+  }
+
+  def stream(query: String) = Action {
+    Ok.stream(Tweet.streamCountRecents(query)).as("text/event-stream")
   }
 
 }

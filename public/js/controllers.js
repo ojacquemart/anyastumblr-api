@@ -2,29 +2,64 @@
  * AngularJS - controllers.
  */
 
-/**
- * Tweets Controller.
- *
- * @param $scope
- * @param $http
- * @constructor
- */
 function TweetsController($scope, $http) {
 
+    $scope.query = "java";
     $scope.tweets = null;
-    $scope.query = "#java";
+
+    $scope.stream = null;
+    $scope.nbNewTweets = 0;
+
+    $scope.espaceQuery = function() {
+        return encodeURIComponent($scope.query);
+    }
 
     $scope.loadTweets = function () {
-        $http({
-            method: 'GET',
-            url: "api/tweets/" + escape($scope.query)
-        })
-        .success(function (data) {
+        $http.get( "api/tweets/" + $scope.espaceQuery()).success(function (data) {
             $scope.tweets = data;
+            $scope.openStream();
         });
     }
 
+    $scope.closeIfStreamActive = function() {
+        if ($scope.stream != null) {
+            $scope.stream.close();
+        }
+    }
+
+    $scope.openStream = function() {
+        $scope.closeIfStreamActive();
+
+        $scope.nbNewTweets = 0;
+        $scope.stream = new EventSource("api/tweets/stream/" + $scope.espaceQuery());
+        $($scope.stream).on('message', function(e) {
+            var json = JSON.parse(e.originalEvent.data);
+
+            $scope.$apply(function () {
+                $scope.nbNewTweets = parseInt(json.recents);
+                if ($scope.nbNewTweets == 0) {
+                    // Null when no new tweets to use ng-show.
+                    $scope.nbNewTweets = null;
+                }
+                if ($scope.nbNewTweets == 100) {
+                    // Close current stream when reaching 100 new tweets.
+                    e.target.close();
+                }
+            });
+        })
+    }
+
+    /**
+     * On load...
+     */
     $scope.loadTweets();
+
+    /**
+     * On destroy, close active stream.
+     */
+    $scope.$on('$destroy', function(){
+        $scope.closeIfStreamActive();
+    });
 }
 
 function TumblrStatsController($scope, $http) {
@@ -61,31 +96,28 @@ function TumblrController($scope, $http) {
     };
 
     $scope.loadLastPageInfos = function() {
-        $http.get("api/tumblr/" + $scope.siteId + "/lastPageInfos")
-            .success(function (data) {
-                // FIXME: lastPageInfos must return a true null.
-                if (data == "null") {
-                    $scope.lastPageInfos = null;
-                } else {
-                    $scope.lastPageInfos = data;
-                }
-            });
+        $http.get("api/tumblr/" + $scope.siteId + "/lastPageInfos").success(function (data) {
+            // FIXME: lastPageInfos must return a true null.
+            if (data == "null") {
+                $scope.lastPageInfos = null;
+            } else {
+                $scope.lastPageInfos = data;
+            }
+        });
     };
 
     $scope.loadImages = function () {
-        $http.get("api/tumblr/" + $scope.siteId)
-            .success(function (data) {
-                $("#topics-select").blur();
-                $scope.storeImages(data);
+        $http.get("api/tumblr/" + $scope.siteId).success(function (data) {
+            $("#topics-select").blur();
+            $scope.storeImages(data);
 
-                // Reset last page infos to reinit binding.
-                $scope.lastPageInfos = null;
-                $scope.loadLastPageInfos();
+            // Reset last page infos to reinit binding.
+            $scope.lastPageInfos = null;
+            $scope.loadLastPageInfos();
 
-                $scope.updateCurrentSiteIndex();
-                //$scope.getTweets();
-            });
-
+            $scope.updateCurrentSiteIndex();
+            //$scope.getTweets();
+        });
     };
 
     $scope.refreshPage = function() {
@@ -94,10 +126,9 @@ function TumblrController($scope, $http) {
     };
 
     $scope.loadPage = function(pageNumber) {
-        $http.get("api/tumblr/" + $scope.siteId + "/page/" + pageNumber)
-            .success(function (data) {
-                $scope.storeImages(data);
-            });
+        $http.get("api/tumblr/" + $scope.siteId + "/page/" + pageNumber).success(function (data) {
+            $scope.storeImages(data);
+        });
     };
 
     $scope.loadNextPage = function () {
@@ -127,12 +158,17 @@ function TumblrController($scope, $http) {
         var nextIndex = $scope.currentSiteIndex + siteIndex;
         if (nextIndex >= 0 && nextIndex < $scope.sites.length) {
             $scope.currentSiteIndex = nextIndex;
+
             // to bind topic in select.
             $scope.siteId = $scope.sites[nextIndex].id;
             $scope.loadImages();
         }
     };
 
+    /**
+     * Keyboard navigation, FPS like and left/right arrows.
+     * @param key the keycode.
+     */
     $scope.handleKeypress = function(key) {
         // left = 37, right = 39, q = 81, d = 68, z = 90, s = 83, r = 82
         switch (key) {
@@ -166,7 +202,7 @@ function TumblrController($scope, $http) {
     };
 
     /**
-     * On load code ... below.
+     * On controller load...
      */
 
     $http.get('api/tumblr/sites').success(function (data) {
@@ -176,11 +212,14 @@ function TumblrController($scope, $http) {
 
     // FIXME: see to use angularjs directive
     // Dont see how to put a directive on the body and use this controller.
-    $(document).keydown(function(e){
+    $(document).bind("keydown", function(e){
         $scope.handleKeypress(e.keyCode);
     });
 
-
+    // Unbind keydown event on controller destroy.
+    $scope.$on('$destroy', function(){
+        $(document).unbind("keydown");
+    });
 }
 
 

@@ -3,27 +3,107 @@ package twitter
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 
-import play.api.libs.iteratee._
-
+import play.api.Play.current
 import play.api._
-import play.api.libs._
+import cache.Cache
 import play.api.libs.ws._
+import play.api.libs.EventSource
+import play.api.libs.iteratee.{Enumeratee, Enumerator}
 
 import play.api.libs.json._
-import play.api.libs.functional._
 import play.api.libs.functional.syntax._
 import play.api.libs.json.Reads._
+
 import java.util.concurrent.TimeUnit
 
 case class Tweet(id: String, text: String, userName: String, avatar: String, source: String)
 
+/**
+ * Companion to cache the last since_id from twitter.
+ */
+object TweetSinceIdCache {
+
+  /**
+   * Generate key cache by query.
+   *
+   * @param query the query.
+   * @return the key cache.
+   */
+  def getKeyCache(query: String) = "tweets.last_id" + query
+
+  def put(query: String, tweets: Seq[Tweet]) = {
+    if (!tweets.isEmpty) {
+      val mostRecentTweetId = tweets.head.id
+      Logger.debug(s"Put most recent tweet id to cache: $mostRecentTweetId")
+      // Put in cache last tweet id to stream since this id.
+      Cache.set(getKeyCache(query), mostRecentTweetId)
+    }
+  }
+
+  def get(query: String) = {
+    val tweetId = Cache.getOrElse[String](getKeyCache(query))("")
+    Logger.debug(s"Get most recent tweet id from cache: $tweetId")
+
+    tweetId
+  }
+
+}
+
+class TweetFetcher(query: String, sinceId: String) {
+
+  /**
+   * The Json Twitter API.
+   * TODO: see to use 1.1 version with oauth.
+   */
+  val TwitterV1JsonApi: String = "http://search.twitter.com/search.json"
+
+  val responsePerPage = if (sinceId.isEmpty) "" else "100"
+
+  def fetch(): Future[Seq[Tweet]] = {
+     val futureTweets = fetchResponse().map(response => response.status match {
+       case 200 => {
+         val tweets = response.json.asOpt[Seq[Tweet]].getOrElse(Nil)
+         Logger.debug(s"Tweets fetched: ${tweets.size}")
+         TweetSinceIdCache.put(query, tweets)
+         tweets
+       }
+       case _ => Nil
+     })
+
+
+    futureTweets
+  }
+
+  def count(): Future[Int] = {
+     val futureCountTweets = fetchResponse().map(response => response.status match {
+       case 200 => {
+         val results = (response.json \ "results").as[List[JsObject]]
+         val count = results.size
+         Logger.debug(s"Tweets count: $count")
+         count
+       }
+       case _ => 0
+     })
+
+    futureCountTweets
+  }
+
+  def fetchResponse(): Future[Response] = {
+    Logger.debug(s"Fetch tweets for $query with rpp $responsePerPage")
+
+    WS.url(TwitterV1JsonApi).withQueryString(
+      "q" -> query,
+      "include_entities" -> "false",
+      "since_id" -> sinceId,
+      "result_type" -> "recent",
+      "rpp" -> responsePerPage
+    ).get()
+  }
+}
+
 object Tweet {
 
   implicit val writeTweetAsJson = Json.writes[Tweet]
-
-  val asJson: Enumeratee[Tweet, JsValue] = Enumeratee.map {
-    case t => Json.toJson(t)
-  }
 
   implicit val readTweet: Reads[Seq[Tweet]] =
     (__ \ "results").read(
@@ -43,44 +123,25 @@ object Tweet {
       )
     )
 
-  /**
-   * The Json Twitter API.
-   * TODO: see to use 1.1 version with oauth.
-   */
-  val JsonApi: String = "http://search.twitter.com/search.json"
-
-  /**
-   * Retrieve tweets from a given query.
-   *
-   * @param query the query.
-   * @return
-   */
-  def fetch(query: String): Future[Seq[Tweet]] = {
-    Logger.debug(s"Twitter query: $query")
-
-    val futureTweets = WS.url(JsonApi).withQueryString(
-      "q" -> query,
-      "include_entities" -> "false",
-      "rpp" -> "40"
-    ).get().map(response => response.status match {
-      case 200 => response.json.asOpt[Seq[Tweet]].getOrElse(Nil)
-      case _ => Nil
-    })
-
-    futureTweets
+  def fetch(query: String, sinceId: String = ""): Future[Seq[Tweet]] = {
+    new TweetFetcher(query, sinceId).fetch()
   }
 
-  def stream(query: String): Enumerator[JsValue] = {
-    // Flatenize an Enumerator[Seq[Tweet]] as n Enumerator[Tweet]
-    val flatenize = Enumeratee.mapConcat[Seq[Tweet]](identity)
+  def count(query: String, sinceId: String = ""): Future[Int] = {
+    new TweetFetcher(query, sinceId).count()
+  }
 
-    // Schedule
-    val schedule = Enumeratee.mapM[Tweet](t => play.api.libs.concurrent.Promise.timeout(t, 5, TimeUnit.SECONDS))
+  def streamCountRecents(query: String): Enumerator[String] = {
+    val countRecents = Enumerator.repeatM[Int]({
+      count(query, TweetSinceIdCache.get(query))
+    })
 
-    // Create a stream of tweets from multiple twitter API calls
-    val tweets = Enumerator.repeatM(fetch(query))
+    val schedule = Enumeratee.mapM[Int](t => play.api.libs.concurrent.Promise.timeout(t, 10, TimeUnit.SECONDS))
 
-    // Compose the final stream
-    tweets &> flatenize &> schedule &> asJson
+    val countRecentsAsJson: Enumeratee[Int, JsValue] = Enumeratee.map {
+      case t => Json.obj("recents" -> t)
+    }
+
+    countRecents &> schedule &> countRecentsAsJson &> EventSource()
   }
 }

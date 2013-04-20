@@ -15,7 +15,7 @@ class TweetSpec extends Specification {
 
   "The Tweet class" should {
 
-    "fetch tweets" in {
+    "fetch tweets" in new FakeApp {
       val futureTweets = Tweet.fetch("#java, #scala")
       Await.ready(futureTweets, Duration(5, TimeUnit.SECONDS))
 

@@ -63,7 +63,16 @@ function TweetsController($scope, $http) {
 }
 
 function TumblrStatsController($scope, $http) {
-    // TODO...
+
+    $scope.nbDocuments = 0;
+
+    /**
+     * On load...
+     */
+
+    $http.get("api/tumblr/sites/stats").success(function(data) {
+        $scope.nbDocuments = data.count;
+    });
 }
 
 function TumblrController($scope, $http) {

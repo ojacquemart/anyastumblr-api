@@ -11,6 +11,9 @@ GET     /api/tumblr/:siteId                         controllers.Application.getS
 GET     /api/tumblr/:siteId/lastPageInfos           controllers.Application.getSiteTotalPages(siteId: String)
 GET     /api/tumblr/:siteId/page/:pageNumber        controllers.Application.getSitePageByPageNumber(siteId: String, pageNumber: Int)
 
+# tumblr stats
+GET     /api/tumblr/sites/stats                     controllers.Application.stats()
+
 # twitter
 GET     /api/tweets/:query                          controllers.Tweets.index(query: String)
 GET     /api/tweets/stream/:query                   controllers.Tweets.stream(query: String)

@@ -83,6 +83,21 @@ class PageDaoSpec extends Specification {
       pageUpdated.images_2 must be equalTo(images_2ToUpdate)
     }
 
+    "count documents" in new FakeApp {
+      val images_1 = List(Image("a"))
+      val images_2 = List(Image("d"))
+      val newPage = new Page("foo2", 2, images_1, images_2)
+      PageDao.save(newPage)
+
+      val futureOptionPage = PageDao.findHeadByTopicIdAndPageOffset("foo2", 2)
+      Await.ready(futureOptionPage, Duration(60, TimeUnit.SECONDS))
+
+      val futureCount = PageDao.count()
+      Await.ready(futureCount, Duration(60, TimeUnit.SECONDS))
+      val count = simple(futureCount)
+      count must be equalTo(1)
+    }
+
   }
 
 }

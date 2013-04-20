@@ -28,6 +28,15 @@ object Application extends Controller with MongoController {
     }
   }
 
+  def stats = Action {
+    Async {
+      val futurePagesCount = PageDao.count()
+      futurePagesCount map {
+        pagesCount => Ok(Json.obj("count" -> pagesCount))
+      }
+    }
+  }
+
   def getSiteTotalPages(siteId: String) = Action {
     Ok(SiteLastPageInfos.getAsJson(siteId))
   }

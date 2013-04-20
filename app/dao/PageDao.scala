@@ -25,8 +25,8 @@ object PageDao {
 
     futurePage onSuccess {
       case result => result match {
-        case None => println("No match found"); save(page)
-        case Some(p: Page) => println("Found one match"); update(p)
+        case None => save(page)
+        case Some(p: Page) => update(p)
       }
     }
   }
@@ -65,6 +65,15 @@ object PageDao {
 
     val cursor = collection.find(query)
     cursor.headOption
+  }
+
+  // TODO: update to reactive mongo 0.9-SNAPSHOT and aggregation framework.
+  def count(): Future[Int] = {
+    Logger.debug("Count documents from " + collection.name)
+    implicit val reader = PageBSON.Reader
+
+    val query = BSONDocument()
+    collection.find(query).toList().map(_.size)
   }
 
 }

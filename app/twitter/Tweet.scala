@@ -23,28 +23,31 @@ case class Tweet(id: String, text: String, userName: String, avatar: String, sou
  */
 object TweetSinceIdCache {
 
+  def PrefixCacheKey = "tweets.last_id"
+
   /**
    * Generate key cache by query.
    *
    * @param query the query.
    * @return the key cache.
    */
-  def getKeyCache(query: String) = "tweets.last_id" + query
+  def getCacheKey(query: String) = PrefixCacheKey + query
 
   def put(query: String, tweets: Seq[Tweet]) = {
     if (!tweets.isEmpty) {
-      val mostRecentTweetId = tweets.head.id
-      Logger.debug(s"Put most recent tweet id to cache: $mostRecentTweetId")
-      // Put in cache last tweet id to stream since this id.
-      Cache.set(getKeyCache(query), mostRecentTweetId)
+      // since_id will be the first tweet found.
+      val sinceId = tweets.head.id
+      Logger.debug(s"Put most recent tweet id to cache: $sinceId")
+
+      Cache.set(getCacheKey(query), sinceId)
     }
   }
 
   def get(query: String) = {
-    val tweetId = Cache.getOrElse[String](getKeyCache(query))("")
-    Logger.debug(s"Get most recent tweet id from cache: $tweetId")
+    val sinceId = Cache.getOrElse[String](getCacheKey(query))("")
+    Logger.debug(s"Get most recent tweet id from cache: $sinceId")
 
-    tweetId
+    sinceId
   }
 
 }

@@ -14,13 +14,13 @@
 <div id="tweets-list" ng-show="tweets">
     <div id="tweets-stream-new" ng-show="nbNewTweets">
         <p>
-             <a ng-click="loadTweets()">
-                 <ng-pluralize count="nbNewTweets"
-                    when="{'1': 'One new tweet',
+            <a ng-click="loadTweets()">
+                <ng-pluralize count="nbNewTweets"
+                              when="{'1': 'One new tweet',
                             'other': '{{nbNewTweets}} new tweets'}">
-                 </ng-pluralize>
-             </a>
-       </p>
+                </ng-pluralize>
+            </a>
+        </p>
     </div>
     <ul class="nav nav-pills">
         <li ng-repeat="tweet in tweets">

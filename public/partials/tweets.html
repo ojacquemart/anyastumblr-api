@@ -12,8 +12,8 @@
 </div>
 
 <div id="tweets-list" ng-show="tweets">
-    <div id="tweets-stream-new" ng-show="nbNewTweets">
-        <p>
+    <div id="tweets-list-content">
+        <p id="tweets-list-show-recents" ng-show="nbNewTweets">
             <a ng-click="loadTweets()">
                 <ng-pluralize count="nbNewTweets"
                               when="{'1': 'One new tweet',
@@ -21,22 +21,22 @@
                 </ng-pluralize>
             </a>
         </p>
+        <ul class="nav nav-pills">
+            <li ng-repeat="tweet in tweets">
+                <div class="tweet-content">
+                    <div class="tweet-user">
+                        <a href="http://twitter.com/{{tweet.userName}}">
+                            <img src="{{tweet.avatar}}" />
+                            <p class="tweet-text-left">{{tweet.userName}}</p>
+                        </a>
+                    </div>
+                    <div class="tweet-text-left tweet-text">
+                        <p>{{tweet.text}}</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
     </div>
-    <ul class="nav nav-pills">
-        <li ng-repeat="tweet in tweets">
-            <div class="tweet-content">
-                <div class="tweet-user">
-                    <a href="http://twitter.com/{{tweet.userName}}">
-                        <img src="{{tweet.avatar}}" />
-                        <p class="tweet-text-left">{{tweet.userName}}</p>
-                    </a>
-                </div>
-                <div class="tweet-text-left tweet-text">
-                    <p>{{tweet.text}}</p>
-                </div>
-            </div>
-        </li>
-    </ul>
 </div>
 
 <style type="text/css">
@@ -44,7 +44,7 @@
         text-align: center;
         padding-bottom: 10px;
     }
-    #tweets-list ul {
+    #tweets-list-content {
         width: 50%;
         display: inline-block;
         margin: 0;
@@ -53,19 +53,29 @@
         zoom:1;
         *display: inline;
     }
-    #tweets-list ul li {
+    p#tweets-list-show-recents {
+        margin: 0;
+        padding: 0.5em;
+        width: 100%;
+        background: #CF2144;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    #tweets-list-show-recents a {
+        color: #fff;
+    }
+    #tweets-list-content ul li {
         float: left;
         padding: 0.5em;
         height: 70px;
         width: 100%;
-        display: block
-    }
-
-    #tweets-list ul li:nth-child(odd) {
-        background: #F4A0C1
-    }
-    #tweets-list ul li {
+        display: block;
         border-bottom: 1px solid #F06FA8;
+    }
+    #tweets-list-content ul li:nth-child(odd) {
+        background: #F4A0C1;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
     }
     .tweet-user {
         position: relative;
@@ -86,4 +96,4 @@
         margin-top: -10px;
     }
     ng-pluralize { cursor: pointer }
-</style>
+</style>gi

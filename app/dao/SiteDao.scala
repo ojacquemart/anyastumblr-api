@@ -28,10 +28,11 @@ object SiteDao {
         Site(SiteType.LESJOIES, "Joiesdusysadmin", "http://lesjoiesdusysadmin.tumblr.com/page/1", JoiesDuSysadminConfiguration.get),
         Site(SiteType.LESJOIES, "Joiesdutest", "http://lesjoiesdutest.tumblr.com/page/1", JoiesDuTestConfiguration.get),
         Site(SiteType.LESJOIES, "Joiesduscrum", "http://lesjoiesduscrum.tumblr.com/page/1", JoiesDuScrumConfiguration.get),
+        Site(SiteType.MISC, "ActressesWithoutTeeth", "http://actresseswithoutteeth.net/page/1", ActressesWithoutTeeth.get),
         Site(SiteType.MISC, "CommitStrip", "http://www.commitstrip.com/page/1", CommitStripConfiguration.get),
-        Site(SiteType.MISC, "Sportballsreplacedwithcats", "http://sportballsreplacedwithcats.tumblr.com/page/1", SportBallsReplacedWithCatsConfiguration.get),
+        Site(SiteType.MISC, "Failbog.fr", "http://failblog.fr/fail/page-1.html", FailBlogFrConfiguration.get),
         Site(SiteType.MISC, "N'oubliez jamais la capote", "http://noubliezjamaislacapote.tumblr.com/page/1/", DontForgetCondomConfiguration.get),
-        Site(SiteType.MISC, "Failbog.fr", "http://failblog.fr/fail/page-1.html", FailBlogFrConfiguration.get)
+        Site(SiteType.MISC, "Sportballsreplacedwithcats", "http://sportballsreplacedwithcats.tumblr.com/page/1", SportBallsReplacedWithCatsConfiguration.get)
       )
     }
   }

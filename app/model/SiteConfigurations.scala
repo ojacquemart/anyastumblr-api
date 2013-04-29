@@ -91,3 +91,11 @@ object FailBlogFrConfiguration extends ConfigurationBuilder {
 
   def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector(".page p > a:last-child"), """([0-9]+)$"""))
 }
+
+object ActressesWithoutTeeth extends TumblrConfiguraiton {
+  override def isLastPageByCss(): Boolean = false
+
+  override def getCssSelectors() = new CssSelectors(new CssSelector(".content .photo img", Some("src")), None)
+
+  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector("a"), """([0-9]+)$"""))
+}

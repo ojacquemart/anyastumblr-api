@@ -1,5 +1,6 @@
 import concurrent.duration.Duration
 import concurrent.{Await, ExecutionContext}
+import dao.PageDao
 import ExecutionContext.Implicits.global
 
 import java.util.concurrent.TimeUnit
@@ -30,7 +31,9 @@ trait FakeApp extends Around with org.specs2.specification.Scope {
   def around[T: AsResult](t: => T) = running(FakeApp) {
     Logger.debug("Running test ==================================")
     Logger.debug("Clear test database ===========================")
-    val futureRemove = ReactiveMongoPlugin.db.collection("pages").remove(BSONDocument())
+    Logger.debug(s"\tClear collection ${PageDao.collectionName}")
+
+    val futureRemove = ReactiveMongoPlugin.db.collection(PageDao.collectionName).remove(BSONDocument())
     Await.ready(futureRemove, Duration(60, TimeUnit.SECONDS))
 
     // Run tests inside a fake application

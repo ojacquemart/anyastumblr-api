@@ -18,7 +18,8 @@ import model._
 object PageDao {
 
   def db = ReactiveMongoPlugin.db
-  def collection = db("pages")
+  def collection = db(collectionName)
+  val collectionName = "pages"
 
   def saveOrUpdate(page: Page) {
     val futurePage = findHead(page)

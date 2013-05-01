@@ -17,11 +17,11 @@ import play.modules.reactivemongo.ReactiveMongoPlugin
 import reactivemongo.bson._
 import reactivemongo.bson.handlers.DefaultBSONHandlers.DefaultBSONDocumentWriter
 
+import TestAwait._
+
 import dao._
 import model._
 import tumblr._
-
-import TestHelpers._
 
 class PageDaoSpec extends Specification {
 
@@ -33,10 +33,8 @@ class PageDaoSpec extends Specification {
       val newPage = new Page("foo", 1, images_1, images_2)
       PageDao.save(newPage)
 
-      val futureOptionPage = PageDao.findHeadByTopicIdAndPageOffset("foo", 1)
-      Await.ready(futureOptionPage, Duration(5, TimeUnit.SECONDS))
+      val optionPage = result(PageDao.findHeadByTopicIdAndPageOffset("foo", 1))
 
-      val optionPage = option(futureOptionPage)
       val page = optionPage.get
       page.siteId must be equalTo ("foo")
       page.pageNumber must be equalTo (1)
@@ -52,10 +50,7 @@ class PageDaoSpec extends Specification {
 
       // check save
 
-      val futureOptionPage = PageDao.findHeadByTopicIdAndPageOffset("foo2", 2)
-      Await.ready(futureOptionPage, Duration(60, TimeUnit.SECONDS))
-
-      val optionPage = option(futureOptionPage)
+      val optionPage = result(PageDao.findHeadByTopicIdAndPageOffset("foo2", 2))
       optionPage must not be equalTo(None)
 
       val page = optionPage.get
@@ -67,15 +62,11 @@ class PageDaoSpec extends Specification {
       val images_1ToUpdate = List(Image("a"), Image("b"), Image("c"))
       val images_2ToUpdate = List(Image("d"), Image("e"), Image("g"))
       val pageToUpdate = new Page("foo2", 2, images_1ToUpdate, images_2ToUpdate)
-      val futureUpdate = PageDao.update(pageToUpdate)
-      Await.ready(futureUpdate, Duration(60, TimeUnit.SECONDS))
+      result(PageDao.update(pageToUpdate))
 
       // check update
 
-      val futureOptionPageUpdated = PageDao.findHeadByTopicIdAndPageOffset("foo2", 2)
-      Await.ready(futureOptionPageUpdated, Duration(60, TimeUnit.SECONDS))
-
-      val optionPageUpdated = option(futureOptionPageUpdated)
+      val optionPageUpdated = result(PageDao.findHeadByTopicIdAndPageOffset("foo2", 2))
       optionPageUpdated must not be equalTo(None)
 
       val pageUpdated = optionPageUpdated.get
@@ -89,12 +80,7 @@ class PageDaoSpec extends Specification {
       val newPage = new Page("foo2", 2, images_1, images_2)
       PageDao.save(newPage)
 
-      val futureOptionPage = PageDao.findHeadByTopicIdAndPageOffset("foo2", 2)
-      Await.ready(futureOptionPage, Duration(60, TimeUnit.SECONDS))
-
-      val futureCount = PageDao.count()
-      Await.ready(futureCount, Duration(60, TimeUnit.SECONDS))
-      val count = simple(futureCount)
+      val count = result(PageDao.count())
       count must be equalTo(1)
     }
 

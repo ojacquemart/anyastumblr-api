@@ -65,6 +65,14 @@ object CommitStripConfiguration extends TumblrConfiguraiton {
   def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector("a"), """([0-9]+)$"""))
 }
 
+object DataAnxietyConfiguration extends TumblrConfiguraiton {
+  override def isLastPageByCss(): Boolean = false
+
+  override def getCssSelectors() = new CssSelectors(new CssSelector(".post-content img", Some("src")), None)
+
+  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector("a"), """([0-9]+)$"""))
+}
+
 object SportBallsReplacedWithCatsConfiguration extends TumblrConfiguraiton {
   override def isLastPageByCss(): Boolean = false
 

@@ -38,7 +38,7 @@ trait TumblrConfiguraiton extends ConfigurationBuilder {
 }
 
 object JoiesDuCodeConfiguration extends TumblrConfiguraiton {
-  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector(".pagination strong"), """([0-9]+)$"""))
+  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector(".footer i"), """([0-9]+)$"""))
 }
 
 object JoiesDuSysadminConfiguration extends TumblrConfiguraiton {

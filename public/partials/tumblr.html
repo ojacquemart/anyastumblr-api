@@ -1,4 +1,11 @@
-<div id="tumblr-content" >
+<div id="error" class="message-information" ng-show="show">
+    <p class="alert alert-error">
+        An error occured...
+        <i class="add-on icon-large icon-refresh alert-error" ng-click="refreshPage(); show = !show"></i>
+    </p>
+</div>
+
+<div id="tumblr-content">
     <div id="tumblr-sites-bar" class="nav-collapse collapse">
         <div id="tumblr-sites-list">
             <!-- Sites list -->

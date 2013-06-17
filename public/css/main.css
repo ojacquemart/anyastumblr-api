@@ -65,18 +65,6 @@ header #loading {
     margin-left: 105px;
 }
 
-header #error {
-    margin-top: -5px;
-}
-
-header #error i {
-    cursor: pointer;
-}
-
-header #error p {
-    padding: 5px;
-}
-
 /**
  * Tumblr sites & navigation bar.
  */
@@ -199,6 +187,23 @@ section#navigation {
 /**
  * Content
  */
+
+#error {
+    position: absolute;
+    top: -41px;
+    z-index: 100000;
+    left: 47%;
+    text-align: center;
+    display: none;
+}
+
+#error i {
+    cursor: pointer;
+}
+
+#error p {
+    padding: 5px;
+}
 
 .container {
     width: auto !important;

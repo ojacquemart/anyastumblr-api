@@ -29,6 +29,7 @@ object SiteDao {
         Site(SiteType.LESJOIES, "Joiesdutest", "http://lesjoiesdutest.tumblr.com/page/1", JoiesDuTestConfiguration.get),
         Site(SiteType.LESJOIES, "Joiesduscrum", "http://lesjoiesduscrum.tumblr.com/page/1", JoiesDuScrumConfiguration.get),
         Site(SiteType.MISC, "ActressesWithoutTeeth", "http://actresseswithoutteeth.net/page/1", ActressesWithoutTeeth.get),
+        Site(SiteType.MISC, "ChersVoisins", "http://chersvoisins.tumblr.com/page/1", ChersVoisinsConfiguration.get),
         Site(SiteType.MISC, "CommitStrip", "http://www.commitstrip.com/page/1", CommitStripConfiguration.get),
         Site(SiteType.MISC, "DataAnxiety", "http://dataanxiety.tumblr.com/page/1", DataAnxietyConfiguration.get),
         Site(SiteType.MISC, "Failbog.fr", "http://failblog.fr/fail/page-1.html", FailBlogFrConfiguration.get),

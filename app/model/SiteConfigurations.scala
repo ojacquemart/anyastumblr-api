@@ -1,6 +1,8 @@
 package model
 
 trait ConfigurationBuilder {
+  val regexLastPage = """([0-9]+)$"""
+
   def getCssSelectors(): CssSelectors
   def isLastPageByCss(): Boolean = true
   def getNavigationOrder(): NavigationOrder
@@ -38,31 +40,38 @@ trait TumblrConfiguraiton extends ConfigurationBuilder {
 }
 
 object JoiesDuCodeConfiguration extends TumblrConfiguraiton {
-  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector(".footer i"), """([0-9]+)$"""))
+  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector(".footer i"), regexLastPage))
 }
 
 object JoiesDuSysadminConfiguration extends TumblrConfiguraiton {
-  def getPageNumberDescriptor() = Some( new PageNumberDescriptor(new CssSelector(".pagination"), """([0-9]+)$"""))
+  def getPageNumberDescriptor() = Some( new PageNumberDescriptor(new CssSelector(".pagination"), regexLastPage))
 }
 
 object JoiesDuScrumConfiguration extends TumblrConfiguraiton {
   override def getCssSelectors() = new CssSelectors(new CssSelector(".post p img", Some("src")), Some(new CssSelector(".post a h3", Some("href"))))
 
-  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector("#prev-next"), """([0-9]+)$"""))
+  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector("#prev-next"), regexLastPage))
 }
 
 object JoiesDuTestConfiguration extends TumblrConfiguraiton {
   override def getCssSelectors() = new CssSelectors(new CssSelector(".post p img", Some("src")), Some(new CssSelector(".post h3 a", Some("href"))))
 
-  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector(".page-number"), """([0-9]+)$"""))
+  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector(".page-number"), regexLastPage))
 }
+
+object ChersVoisinsConfiguration extends TumblrConfiguraiton {
+  override def getCssSelectors() = new CssSelectors(new CssSelector(".post img", Some("src")), None)
+
+  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector("#page-location"), regexLastPage))
+}
+
 
 object CommitStripConfiguration extends TumblrConfiguraiton {
   override def isLastPageByCss(): Boolean = false
 
   override def getCssSelectors() = new CssSelectors(new CssSelector(".entry-content img", Some("src")), Some(new CssSelector(".post h1 a")))
 
-  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector("a"), """([0-9]+)$"""))
+  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector("a"), regexLastPage))
 }
 
 object DataAnxietyConfiguration extends TumblrConfiguraiton {
@@ -70,7 +79,7 @@ object DataAnxietyConfiguration extends TumblrConfiguraiton {
 
   override def getCssSelectors() = new CssSelectors(new CssSelector(".post-content img", Some("src")), None)
 
-  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector("a"), """([0-9]+)$"""))
+  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector("a"), regexLastPage))
 }
 
 object SportBallsReplacedWithCatsConfiguration extends TumblrConfiguraiton {
@@ -78,13 +87,13 @@ object SportBallsReplacedWithCatsConfiguration extends TumblrConfiguraiton {
 
   override def getCssSelectors() = new CssSelectors(new CssSelector(".photo_post img", Some("src")), None)
 
-  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector("a"), """([0-9]+)$"""))
+  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector("a"), regexLastPage))
 }
 
 object DontForgetCondomConfiguration extends TumblrConfiguraiton {
   override def getCssSelectors() = new CssSelectors(new CssSelector(".post img", Some("src")), None)
 
-  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector(".pagination .count"), """([0-9]+)$"""))
+  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector(".pagination .count"), regexLastPage))
 }
 
 object FailBlogFrConfiguration extends ConfigurationBuilder {
@@ -97,7 +106,7 @@ object FailBlogFrConfiguration extends ConfigurationBuilder {
 
   override def getCssSelectors() = new CssSelectors(new CssSelector(".contenu a img", Some("src")), Some(new CssSelector(".contenu h1 a", None)))
 
-  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector(".page p > a:last-child"), """([0-9]+)$"""))
+  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector(".page p > a:last-child"), regexLastPage))
 }
 
 object ActressesWithoutTeeth extends TumblrConfiguraiton {

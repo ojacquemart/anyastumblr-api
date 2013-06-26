@@ -9,6 +9,6 @@ object TestAwait {
     Await.result(awaitable, defaultWaittime)
   }
 
-  val defaultWaittime = Duration(5, TimeUnit.SECONDS)
+  val defaultWaittime = Duration(20, TimeUnit.SECONDS)
 
 }

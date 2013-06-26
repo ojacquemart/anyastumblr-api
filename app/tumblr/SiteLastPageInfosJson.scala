@@ -1,12 +1,12 @@
 package tumblr
 
 import play.api.Play.current
+import play.api.cache.Cache
+import play.api.Logger
 import play.api.libs.json._
 
 import model.Link
 import dao.SiteDao
-import play.api.cache.Cache
-import play.api.Logger
 
 /**
  * Object to retrieve the last page information.
@@ -17,7 +17,7 @@ object SiteLastPageInfos {
    * The site may not permit to give the last page. In that case, an empty json object is returned.
    */
   def getAsJson(siteId: String) = {
-    import model.LinkJSON.Writer
+    import Link.writes
 
     get(siteId) match {
       case None => JsNull
@@ -45,7 +45,7 @@ object SiteLastPageInfos {
         val lastPageNumber = resolver.getLastPageNumber()
         val lastPageUrl = resolver.getPageUrl(lastPageNumber)
 
-        Some(Link(lastPageUrl, site.name, lastPageNumber))
+        Some(Link.get(lastPageUrl, site.name, lastPageNumber))
       }
     }
   }

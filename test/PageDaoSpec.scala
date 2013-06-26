@@ -15,7 +15,6 @@ import play.api.test.Helpers._
 import play.modules.reactivemongo.ReactiveMongoPlugin
 
 import reactivemongo.bson._
-import reactivemongo.bson.handlers.DefaultBSONHandlers.DefaultBSONDocumentWriter
 
 import TestAwait._
 
@@ -28,8 +27,8 @@ class PageDaoSpec extends Specification {
   "The PageDao class" should {
 
     "save new page and retrieve it" in new FakeApp {
-      val images_1 = List(Image("a"), Image("b"), Image("c"))
-      val images_2 = List(Image("d"), Image("e"), Image("f"))
+      val images_1 = List(Image.get("a"), Image.get("b"), Image.get("c"))
+      val images_2 = List(Image.get("d"), Image.get("e"), Image.get("f"))
       val newPage = new Page("foo", 1, images_1, images_2)
       PageDao.save(newPage)
 
@@ -43,8 +42,8 @@ class PageDaoSpec extends Specification {
     }
 
     "save and then update existing page" in new FakeApp {
-      val images_1 = List(Image("a"))
-      val images_2 = List(Image("d"))
+      val images_1 = List(Image.get("a"))
+      val images_2 = List(Image.get("d"))
       val newPage = new Page("foo2", 2, images_1, images_2)
       PageDao.save(newPage)
 
@@ -59,8 +58,8 @@ class PageDaoSpec extends Specification {
 
       // update
 
-      val images_1ToUpdate = List(Image("a"), Image("b"), Image("c"))
-      val images_2ToUpdate = List(Image("d"), Image("e"), Image("g"))
+      val images_1ToUpdate = List(Image.get("a"), Image.get("b"), Image.get("c"))
+      val images_2ToUpdate = List(Image.get("d"), Image.get("e"), Image.get("g"))
       val pageToUpdate = new Page("foo2", 2, images_1ToUpdate, images_2ToUpdate)
       result(PageDao.update(pageToUpdate))
 
@@ -75,8 +74,8 @@ class PageDaoSpec extends Specification {
     }
 
     "count documents" in new FakeApp {
-      val images_1 = List(Image("a"))
-      val images_2 = List(Image("d"))
+      val images_1 = List(Image.get("a"))
+      val images_2 = List(Image.get("d"))
       val newPage = new Page("foo2", 2, images_1, images_2)
       PageDao.save(newPage)
 

@@ -9,7 +9,7 @@ class SiteConfigurationsSpec extends Specification {
 
     "build tumblr configuration" in {
       val config = HfrConfiguration.get()
-      config.navigationOrder must be equalTo (NavigationOrder.Descending)
+      config.navigationAcending must be equalTo(false)
 
       config.cssSelectors.images.cssQuery must be equalTo ("tr.message td.messCase2 img")
       config.cssSelectors.text must be equalTo (None)
@@ -22,7 +22,7 @@ class SiteConfigurationsSpec extends Specification {
 
     "build joiesducode configuration" in {
       val config = JoiesDuCodeConfiguration.get()
-      config.navigationOrder must be equalTo (NavigationOrder.Ascending)
+      config.navigationAcending must be equalTo(true)
 
       config.cssSelectors.images.cssQuery must be equalTo (".post .bodytype img")
       val textSelector: Option[CssSelector] = config.cssSelectors.text

@@ -10,8 +10,9 @@ import play.api.test.Helpers._
 import play.api.Play.current
 
 import play.modules.reactivemongo.ReactiveMongoPlugin
+import reactivemongo.api.collections.default.BSONCollection
+import reactivemongo.bson._
 import reactivemongo.bson.BSONDocument
-import reactivemongo.bson.handlers.DefaultBSONHandlers.DefaultBSONDocumentWriter
 
 import org.specs2.execute.AsResult
 import org.specs2.mutable.Around
@@ -33,7 +34,7 @@ trait FakeApp extends Around with org.specs2.specification.Scope {
     Logger.debug("Clear test database ===========================")
     Logger.debug(s"\tClear collection ${PageDao.collectionName}")
 
-    val futureRemove = ReactiveMongoPlugin.db.collection(PageDao.collectionName).remove(BSONDocument())
+    val futureRemove = ReactiveMongoPlugin.db.collection[BSONCollection](PageDao.collectionName).remove(BSONDocument())
     Await.ready(futureRemove, Duration(60, TimeUnit.SECONDS))
 
     // Run tests inside a fake application

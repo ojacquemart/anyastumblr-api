@@ -37,7 +37,7 @@ case class PageContentFinder(site: Site, pageNumber: Option[Int])  {
     Logger.debug(s"Content Site => [pageNumber=$currentPageNumber,imagesSize=$allImagesSize]")
 
     val page = new Page(site.id, currentPageNumber, allImages._1, allImages._2)
-    page.link = Some(Link(currentUrl, site.name, currentPageNumber))
+    page.link = Some(Link.get(currentUrl, site.name, currentPageNumber))
     page
   }
 
@@ -56,7 +56,7 @@ case class PageContentFinder(site: Site, pageNumber: Option[Int])  {
       case Some(page: Page) => {
         val site = SiteDao.findSite(page.siteId)
         val currentUrl = new PageNumberResolver(site, Some(page.pageNumber)).resolve()._1
-        page.link = Some(Link(currentUrl, site.name, page.pageNumber))
+        page.link = Some(Link.get(currentUrl, site.name, page.pageNumber))
 
         future {
           future {

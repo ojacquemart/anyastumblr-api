@@ -1,25 +1,23 @@
 package dao
 
-import play.api.Logger
-import play.api.Play.current
-import play.modules.reactivemongo.ReactiveMongoPlugin
-
-import reactivemongo.bson._
-import reactivemongo.bson.handlers.DefaultBSONHandlers.DefaultBSONDocumentWriter
-import reactivemongo.bson.handlers.DefaultBSONHandlers.DefaultBSONReaderHandler
-
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 
-import mongo.Implicits._
+import play.api.Logger
+import play.api.libs.json._
+
+import play.modules.reactivemongo.json.BSONFormats._
+
+import reactivemongo.bson._
 
 import model._
 
-object PageDao {
+object PageDao extends MongoDao[Page] {
 
-  def db = ReactiveMongoPlugin.db
-  def collection = db(collectionName)
   val collectionName = "pages"
+
+  implicit val formatImage: Format[Image]= Json.format[Image]
+  implicit val writesImage: Writes[Image]= Json.writes[Image]
 
   def saveOrUpdate(page: Page) {
     val futurePage = findHead(page)
@@ -32,49 +30,39 @@ object PageDao {
     }
   }
 
-  def save(page: Page): scala.concurrent.Future[reactivemongo.core.commands.LastError] = {
+  def save(page: Page): Future[reactivemongo.core.commands.LastError] = {
     Logger.debug("save page " + page)
-    implicit val writer = PageBSON.Writer
     collection.insert(page)
   }
 
-  def update(page: Page): scala.concurrent.Future[reactivemongo.core.commands.LastError] = {
+  def update(page: Page): Future[reactivemongo.core.commands.LastError] = {
     Logger.debug("update page " + page)
-    implicit val writer = ImageBSON.Writer
 
-    val selector = BSONDocument("siteId" -> BSONString(page.siteId), "pageNumber" -> BSONInteger(page.pageNumber))
-    val modifier = BSONDocument(
-      "$set" -> BSONDocument(
-        "images_1" -> listToBSONArray(page.images_1),
-        "images_2" -> listToBSONArray(page.images_2)
+    implicit val writesImage = Json.writes[Image]
+
+    val selector = Json.obj("siteId" -> page.siteId, "pageNumber" -> page.pageNumber)
+    val modifier = Json.obj(
+      "$set" -> Json.obj(
+        "images_1" -> Json.arr(page.images_1),
+        "images_2" -> Json.arr(page.images_2)
       ),
-      "$inc" -> BSONDocument("nbViews" -> BSONInteger(1))
+      "$inc" -> Json.obj("nbViews" -> 1)
     )
 
     collection.update(selector, modifier)
   }
 
-
   def findHead(page: Page): Future[Option[Page]] = {
     findHeadByTopicIdAndPageOffset(page.siteId, page.pageNumber)
   }
 
-  def findHeadByTopicIdAndPageOffset(topicId: String, offset: Int): Future[Option[Page]] = {
-    Logger.debug(s"find head for $topicId and $offset")
-    implicit val reader = PageBSON.Reader
-    val query = BSONDocument("siteId" -> BSONString(topicId), "pageNumber" -> BSONInteger(offset))
+  def findHeadByTopicIdAndPageOffset(siteId: String, pageNumber: Int): Future[Option[Page]] = {
+    Logger.debug(s"find head for $siteId and $pageNumber")
 
-    val cursor = collection.find(query)
-    cursor.headOption
-  }
-
-  // TODO: update to reactive mongo 0.9-SNAPSHOT and aggregation framework.
-  def count(): Future[Int] = {
-    Logger.debug("Count documents from " + collection.name)
-    implicit val reader = PageBSON.Reader
-
-    val query = BSONDocument()
-    collection.find(query).toList().map(_.size)
+   collection
+      .find(Json.obj("siteId" -> siteId, "pageNumber" -> pageNumber))
+      .cursor[Page]
+      .headOption()
   }
 
 }

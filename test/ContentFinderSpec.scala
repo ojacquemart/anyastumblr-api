@@ -10,27 +10,27 @@ class ContentFinderSpec extends Specification {
 
     "partition avatars and images" in new FakeApp {
       val images = List(
-        Image("http://forum-images.hardware.fr/themes/dark/shit.gif"),
-        Image("http://forum-images.hardware.fr/images/perso/cerveau ouch.gif"),
-        Image("http://forum-images.hardware.fr/images/perso/cerveau ouch.gif"),
-        Image("http://forum-images.hardware.fr/images/perso/cerveau ouch.gif"),
-        Image("http://i.minus.com/iKmav6Fr2vvBk.gif"),
-        Image("http://forum-images.hardware.fr/icones/redface.gif"),
-        Image("http://forum-images.hardware.fr/icones/redface.gif"),
-        Image("http://forum-images.hardware.fr/images/perso/mlc.gif"),
-        Image("http://i.imgur.com/XbuN4JK.gif?1"),
-        Image("http://forum-images.hardware.fr/images/perso/4/ticento.gif"),
-        Image("http://tumblr-rehost.net/http://cdn.uproxx.com/wp-content/uploads/2013/02/many-bill-murray.gif"),
-        Image("http://tumblr-rehost.net/http://cdn.uproxx.com/wp-content/uploads/2013/02/many-bill-murray.gif"),
-        Image("http://forum-images.hardware.fr/images/perso/ripthejacker.gif"),
-        Image("http://forum-images.hardware.fr/images/perso/ripthejacker.gif"),
-        Image("http://tumblr-rehost.net/gif/46c39e78876acadea512dd8399bf4db47eb6"),
-        Image("http://forum-images.hardware.fr/images/perso/2/ixam.gif"),
-        Image("http://forum-images.hardware.fr/images/perso/2/ixam.gif"),
-        Image("http://forum-images.hardware.fr/images/perso/2/ixam.gif"),
-        Image("http://forum-images.hardware.fr/images/perso/2/ixam.gif"),
-        Image("http://forum-images.hardware.fr/images/perso/2/ixam.gif"),
-        Image("http://forum-images.hardware.fr/images/perso/2/ixam.gif")
+        Image.get("http://forum-images.hardware.fr/themes/dark/shit.gif"),
+        Image.get("http://forum-images.hardware.fr/images/perso/cerveau ouch.gif"),
+        Image.get("http://forum-images.hardware.fr/images/perso/cerveau ouch.gif"),
+        Image.get("http://forum-images.hardware.fr/images/perso/cerveau ouch.gif"),
+        Image.get("http://i.minus.com/iKmav6Fr2vvBk.gif"),
+        Image.get("http://forum-images.hardware.fr/icones/redface.gif"),
+        Image.get("http://forum-images.hardware.fr/icones/redface.gif"),
+        Image.get("http://forum-images.hardware.fr/images/perso/mlc.gif"),
+        Image.get("http://i.imgur.com/XbuN4JK.gif?1"),
+        Image.get("http://forum-images.hardware.fr/images/perso/4/ticento.gif"),
+        Image.get("http://tumblr-rehost.net/http://cdn.uproxx.com/wp-content/uploads/2013/02/many-bill-murray.gif"),
+        Image.get("http://tumblr-rehost.net/http://cdn.uproxx.com/wp-content/uploads/2013/02/many-bill-murray.gif"),
+        Image.get("http://forum-images.hardware.fr/images/perso/ripthejacker.gif"),
+        Image.get("http://forum-images.hardware.fr/images/perso/ripthejacker.gif"),
+        Image.get("http://tumblr-rehost.net/gif/46c39e78876acadea512dd8399bf4db47eb6"),
+        Image.get("http://forum-images.hardware.fr/images/perso/2/ixam.gif"),
+        Image.get("http://forum-images.hardware.fr/images/perso/2/ixam.gif"),
+        Image.get("http://forum-images.hardware.fr/images/perso/2/ixam.gif"),
+        Image.get("http://forum-images.hardware.fr/images/perso/2/ixam.gif"),
+        Image.get("http://forum-images.hardware.fr/images/perso/2/ixam.gif"),
+        Image.get("http://forum-images.hardware.fr/images/perso/2/ixam.gif")
       )
       val site = SiteDao.getFirstSite
       val imagesFinder: ImagesFinder = new ImagesFinder(site.url, site.configuration)
@@ -38,16 +38,16 @@ class ContentFinderSpec extends Specification {
       val concatImgs = rearrangeImgs._1 ++ rearrangeImgs._2
 
       val expected = List(
-        Image("http://forum-images.hardware.fr/images/perso/cerveau ouch.gif"),
-        Image("http://forum-images.hardware.fr/icones/redface.gif"),
-        Image("http://forum-images.hardware.fr/images/perso/mlc.gif"),
-        Image("http://forum-images.hardware.fr/images/perso/4/ticento.gif"),
-        Image("http://forum-images.hardware.fr/images/perso/ripthejacker.gif"),
-        Image("http://forum-images.hardware.fr/images/perso/2/ixam.gif"),
-        Image("http://tumblr-rehost.net/gif/46c39e78876acadea512dd8399bf4db47eb6"),
-        Image("http://tumblr-rehost.net/http://cdn.uproxx.com/wp-content/uploads/2013/02/many-bill-murray.gif"),
-        Image("http://i.imgur.com/XbuN4JK.gif?1"),
-        Image("http://i.minus.com/iKmav6Fr2vvBk.gif")
+        Image.get("http://forum-images.hardware.fr/images/perso/cerveau ouch.gif"),
+        Image.get("http://forum-images.hardware.fr/icones/redface.gif"),
+        Image.get("http://forum-images.hardware.fr/images/perso/mlc.gif"),
+        Image.get("http://forum-images.hardware.fr/images/perso/4/ticento.gif"),
+        Image.get("http://forum-images.hardware.fr/images/perso/ripthejacker.gif"),
+        Image.get("http://forum-images.hardware.fr/images/perso/2/ixam.gif"),
+        Image.get("http://tumblr-rehost.net/gif/46c39e78876acadea512dd8399bf4db47eb6"),
+        Image.get("http://tumblr-rehost.net/http://cdn.uproxx.com/wp-content/uploads/2013/02/many-bill-murray.gif"),
+        Image.get("http://i.imgur.com/XbuN4JK.gif?1"),
+        Image.get("http://i.minus.com/iKmav6Fr2vvBk.gif")
       )
 
       concatImgs.size must be equalTo (expected.size)

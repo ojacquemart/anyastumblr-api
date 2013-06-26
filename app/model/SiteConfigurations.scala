@@ -5,7 +5,7 @@ trait ConfigurationBuilder {
 
   def getCssSelectors(): CssSelectors
   def isLastPageByCss(): Boolean = true
-  def getNavigationOrder(): NavigationOrder
+  def getNavigationAscending(): Boolean
   def getImageRule(): Option[ImageRule]
 
   def getPageNumberDescriptor(): Option[PageNumberDescriptor]
@@ -13,13 +13,13 @@ trait ConfigurationBuilder {
 
   def getPageResolver() = new PageResolver(getPageNumberDescriptor(), getChangePageDescriptor())
 
-  def get() = new Configuration(getCssSelectors(), isLastPageByCss(), getNavigationOrder(), getPageResolver(), getImageRule())
+  def get() = new Configuration(getCssSelectors(), isLastPageByCss(), getNavigationAscending(), getPageResolver(), getImageRule())
 }
 
 object HfrConfiguration extends ConfigurationBuilder {
   def getCssSelectors() = new CssSelectors(new CssSelector("tr.message td.messCase2 img", Some("src")), None)
 
-  def getNavigationOrder() = NavigationOrder.Descending
+  def getNavigationAscending() = false
 
   def getImageRule() = {
     Some(new ImageRule(exclude = "http://forum-images.hardware.fr/themes", startsWith = List("http://forum-images.hardware.fr/images/perso", "http://forum-images.hardware.fr/icones")))
@@ -32,7 +32,7 @@ object HfrConfiguration extends ConfigurationBuilder {
 trait TumblrConfiguraiton extends ConfigurationBuilder {
   def getCssSelectors() = new CssSelectors(new CssSelector(".post .bodytype img", Some("src")), Some(new CssSelector(".post h3 a", Some("href"))))
 
-  def getNavigationOrder(): NavigationOrder = NavigationOrder.Ascending
+  def getNavigationAscending() = true
 
   def getImageRule() = None
 
@@ -98,7 +98,7 @@ object DontForgetCondomConfiguration extends TumblrConfiguraiton {
 
 object FailBlogFrConfiguration extends ConfigurationBuilder {
 
-  def getNavigationOrder(): NavigationOrder = NavigationOrder.Ascending
+  def getNavigationAscending() = true
 
   def getImageRule() = None
 

@@ -10,15 +10,15 @@ import play.api.mvc._
 import play.modules.reactivemongo._
 import cache.Cached
 
-import model.PageJSON.Writer
+import model._
+import model.Page.writes
 import dao._
 import tumblr._
 
 object Application extends Controller with MongoController {
 
-  def index = Action {
-    request =>
-      Ok(views.html.index())
+  def index = Action { request =>
+    Ok(views.html.index())
   }
 
   def sites = Cached("app.sites") {
@@ -31,8 +31,8 @@ object Application extends Controller with MongoController {
   def stats = Action {
     Async {
       val futurePagesCount = PageDao.count()
-      futurePagesCount map {
-        pagesCount => Ok(Json.obj("count" -> pagesCount))
+      futurePagesCount.map { pagesCount =>
+        Ok(Json.obj("count" -> pagesCount))
       }
     }
   }
@@ -48,8 +48,8 @@ object Application extends Controller with MongoController {
   def getSitePage(siteId: String, pageNumber: Option[Int] = None) = Action {
     Async {
       val futurePage = PageContentFinder(siteId,pageNumber).getContent()
-      futurePage map {
-        optionPage => Ok(Json.toJson(optionPage.get)).as("application/json")
+      futurePage.map { optionPage =>
+        Ok(Json.toJson(optionPage.get)).as("application/json")
       }
     }
   }

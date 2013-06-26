@@ -15,7 +15,7 @@ object ApplicationBuild extends Build {
 
   val appDependencies = Seq(
     "org.jsoup" % "jsoup" % "1.7.2",
-    "org.reactivemongo" %% "play2-reactivemongo" % "0.8"
+    "org.reactivemongo" %% "play2-reactivemongo" % "0.9"
   )
 
   val main = play.Project(appName, appVersion, appDependencies, settings = s).settings(

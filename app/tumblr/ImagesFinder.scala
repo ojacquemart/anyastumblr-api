@@ -21,7 +21,7 @@ case class ImagesFinder(url: String, configuration: Configuration) {
 
     val combination = listImages().zipAll(listTexts(), "", "")
     combination.foreach(comb => {
-      buffer += Image(comb._1, comb._2)
+      buffer += Image.get(comb._1, comb._2)
     })
 
     buffer.toList

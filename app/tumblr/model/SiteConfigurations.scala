@@ -1,4 +1,4 @@
-package model
+package tumblr.model
 
 trait ConfigurationBuilder {
   val regexLastPage = """([0-9]+)$"""

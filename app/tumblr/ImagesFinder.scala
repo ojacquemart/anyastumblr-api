@@ -2,7 +2,7 @@ package tumblr
 
 import collection.mutable.ListBuffer
 
-import model._
+import tumblr.model._
 
 import jsoup.DocumentWrapper
 

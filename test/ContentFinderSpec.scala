@@ -1,7 +1,7 @@
 import org.specs2.mutable._
 
-import model._
-import dao._
+import tumblr.model._
+import tumblr.dao._
 import tumblr._
 
 class ContentFinderSpec extends Specification {

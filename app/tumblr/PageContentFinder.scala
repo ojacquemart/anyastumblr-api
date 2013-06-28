@@ -6,8 +6,8 @@ import ExecutionContext.Implicits.global
 
 import play.api._
 
-import model._
-import dao._
+import tumblr.model._
+import tumblr.dao._
 
 case class PageContentFinder(site: Site, pageNumber: Option[Int])  {
 

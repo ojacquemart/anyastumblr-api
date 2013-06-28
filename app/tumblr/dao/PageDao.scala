@@ -1,4 +1,4 @@
-package dao
+package tumblr.dao
 
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
@@ -10,7 +10,7 @@ import play.modules.reactivemongo.json.BSONFormats._
 
 import reactivemongo.bson._
 
-import model._
+import tumblr.model._
 
 object PageDao extends MongoDao[Page] {
 

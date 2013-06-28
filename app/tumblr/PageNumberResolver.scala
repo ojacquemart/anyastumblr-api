@@ -1,6 +1,6 @@
 package tumblr
 
-import model._
+import tumblr.model._
 
 import jsoup.DocumentWrapper
 

@@ -1,6 +1,6 @@
 import org.specs2.mutable._
 
-import model._
+import tumblr.model._
 import tumblr._
 
 class SiteConfigurationsSpec extends Specification {

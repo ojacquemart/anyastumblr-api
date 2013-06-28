@@ -1,4 +1,4 @@
-package model
+package tumblr.model
 
 import play.api.libs.json._
 import play.api.i18n.Messages

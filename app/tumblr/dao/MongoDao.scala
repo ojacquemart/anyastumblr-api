@@ -1,4 +1,4 @@
-package dao
+package tumblr.dao
 
 import scala.concurrent.Future
 import concurrent.ExecutionContext

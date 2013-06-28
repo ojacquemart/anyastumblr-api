@@ -2,8 +2,8 @@ import org.specs2.mutable._
 
 import scala.Some
 
-import model._
-import dao._
+import tumblr.model._
+import tumblr.dao._
 import tumblr._
 
 class TotalPageInformationsSpec extends Specification {

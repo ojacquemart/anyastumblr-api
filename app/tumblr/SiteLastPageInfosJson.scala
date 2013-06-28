@@ -5,8 +5,8 @@ import play.api.cache.Cache
 import play.api.Logger
 import play.api.libs.json._
 
-import model.Link
-import dao.SiteDao
+import tumblr.model.Link
+import tumblr.dao.SiteDao
 
 /**
  * Object to retrieve the last page information.

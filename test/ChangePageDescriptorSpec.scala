@@ -1,6 +1,6 @@
 import org.specs2.mutable._
 
-import model._
+import tumblr.model._
 
 class ChangePageDescriptorSpec extends Specification {
 

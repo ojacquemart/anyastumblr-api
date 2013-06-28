@@ -1,14 +1,12 @@
-package dao
+package tumblr.dao
 
 import play.api.Play.current
 import play.api.cache.Cache
 import play.api.libs.json._
-import play.api.libs.json.util._
 import play.api.libs.json.Writes._
 import play.api.Logger
 
-import model._
-import model.Site.SiteWrites.writes
+import tumblr.model._
 
 /**
  * TODO: use mongodb to store sites and configurations.

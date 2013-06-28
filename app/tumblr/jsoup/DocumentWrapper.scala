@@ -1,4 +1,4 @@
-package jsoup
+package tumblr.jsoup
 
 import collection.mutable.ListBuffer
 

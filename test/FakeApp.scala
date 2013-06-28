@@ -1,6 +1,6 @@
 import concurrent.duration.Duration
 import concurrent.{Await, ExecutionContext}
-import dao.PageDao
+import tumblr.dao.PageDao
 import ExecutionContext.Implicits.global
 
 import java.util.concurrent.TimeUnit

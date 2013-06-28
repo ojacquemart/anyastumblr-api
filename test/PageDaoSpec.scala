@@ -18,8 +18,8 @@ import reactivemongo.bson._
 
 import TestAwait._
 
-import dao._
-import model._
+import tumblr.dao._
+import tumblr.model._
 import tumblr._
 
 class PageDaoSpec extends Specification {
@@ -37,7 +37,7 @@ class PageDaoSpec extends Specification {
       val optionPage = result(PageDao.findHeadByTopicIdAndPageOffset("foo", 1))
 
       Logger.debug("Item found!")
-      
+
       val page = optionPage.get
       page.siteId must be equalTo ("foo")
       page.pageNumber must be equalTo (1)
@@ -71,9 +71,9 @@ class PageDaoSpec extends Specification {
 
       val optionPageUpdated = result(PageDao.findHeadByTopicIdAndPageOffset("foo2", 2))
       optionPageUpdated must not be equalTo(None)
-     val pageUpdated = optionPageUpdated.get
-      pageUpdated.images_1 must be equalTo(images_1ToUpdate)
-      pageUpdated.images_2 must be equalTo(images_2ToUpdate)
+      val pageUpdated = optionPageUpdated.get
+      pageUpdated.images_1 must be equalTo (images_1ToUpdate)
+      pageUpdated.images_2 must be equalTo (images_2ToUpdate)
       Logger.debug("Item updated!")
     }
 
@@ -85,8 +85,8 @@ class PageDaoSpec extends Specification {
       PageDao.save(newPage)
 
       val count = result(PageDao.count())
-      count must be equalTo(1)
-      Logger.debug("Foud one item!")
+      count must be equalTo (1)
+      Logger.debug("Found one item!")
     }
 
   }

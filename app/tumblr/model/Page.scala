@@ -1,11 +1,11 @@
-package model
+package tumblr.model
 
 import org.joda.time.DateTime
 
 import play.api.libs.json._
 
-import reactivemongo.bson._
 import play.modules.reactivemongo.json.BSONFormats._
+import reactivemongo.bson._
 
 case class Page(_id: Option[BSONObjectID],
                      siteId: String,

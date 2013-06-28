@@ -10,9 +10,9 @@ import play.api.mvc._
 import play.modules.reactivemongo._
 import cache.Cached
 
-import model._
-import model.Page.writes
-import dao._
+import tumblr.model._
+import tumblr.model.Page.writes
+import tumblr.dao._
 import tumblr._
 
 object Application extends Controller with MongoController {

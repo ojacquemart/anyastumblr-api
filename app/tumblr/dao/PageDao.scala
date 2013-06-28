@@ -30,11 +30,6 @@ object PageDao extends MongoDao[Page, BSONObjectID] {
     }
   }
 
-  def save(page: Page): Future[reactivemongo.core.commands.LastError] = {
-    Logger.debug("save page " + page)
-    collection.insert(page)
-  }
-
   def update(page: Page): Future[reactivemongo.core.commands.LastError] = {
     Logger.debug("update page " + page)
 

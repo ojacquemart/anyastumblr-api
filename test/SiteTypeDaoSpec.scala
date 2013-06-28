@@ -22,51 +22,50 @@ class SiteTypeDaoSpec extends Specification {
       newType
     }
 
-    "save new type" in new FakeApp {
-     val newItem = saveItem()
+    def saveItemAndGetPK() = saveItem().id.get
+
+    def findByPK(id: BSONObjectID) = {
+      val maybeItem = result(SiteTypeDao.findByPK(id))
+      maybeItem must not be equalTo(None)
+      maybeItem.get
+    }
+
+    "save" in new FakeApp {
+      val newItem = saveItem()
 
       Logger.debug("Check count > 0")
       val count = result(SiteTypeDao.count())
-      count must be>(0)
+      count must be > (0)
 
       Logger.debug("Check name is retrievable")
       val types = result(SiteTypeDao.findAll())
       types must not be empty
-      types.head.name must be equalTo(newItem.name)
+      types.head.name must be equalTo (newItem.name)
     }
 
-    "save and update existing type" in new FakeApp {
-      saveItem()
-
-      Logger.debug("Find head")
-      val types = result(SiteTypeDao.findAll())
-      val head = types.head
-      head.name = "foo2"
-
-      Logger.debug(s"Update $head")
-      SiteTypeDao.save(head)
-
-      Logger.debug("Check update...")
-      val updates = result(SiteTypeDao.findAll())
-      updates.head.name must be equalTo(head.name)
-    }
-
-    "find by id" in new FakeApp {
+    "update (using findByPK)" in new FakeApp {
       val newItem = saveItem()
+      val PK = newItem.id.get
 
-      Logger.debug("Find by PK")
-      val maybeItem = result(SiteTypeDao.findByPK(newItem.id.get))
-      maybeItem must not be equalTo(None)
+      val newItemChanged = findByPK(PK)
+      newItemChanged.name must be equalTo(newItem.name)
+      newItemChanged.name = "foo2"
 
-      val item = maybeItem.get
-      item.name must be equalTo(newItem.name)
+      SiteTypeDao.save(newItemChanged)
 
-      Logger.debug(s"Found item $item")
+      val itemUpdated = findByPK(PK)
+      itemUpdated.name must be equalTo (newItemChanged.name)
     }
 
     "remove all documents" in new FakeApp {
       saveItem()
       SiteTypeDao.removeAll()
+    }
+
+    "remove one document by PK" in new FakeApp {
+      val PK = saveItemAndGetPK()
+      SiteTypeDao.remove(PK)
+
     }
 
   }

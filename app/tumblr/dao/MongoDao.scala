@@ -4,6 +4,7 @@ import scala.concurrent.Future
 import concurrent.ExecutionContext
 import ExecutionContext.Implicits.global
 
+import play.api.Logger
 import play.api.Play.current
 import play.api.libs.json._
 
@@ -40,6 +41,7 @@ trait MongoDao[T, PK] {
    * @return a Future list of documents.
    */
   def findAll()(implicit reader: Reads[T]): Future[List[T]]= {
+    Logger.debug(s"$collectionName - findAll()")
     collection
       .find(Json.obj())
       .cursor[T]
@@ -55,9 +57,9 @@ trait MongoDao[T, PK] {
    * @return the document matching the PK.
    */
   def findByPK(pk: PK)(implicit writer: Writes[PK], reader: Reads[T]): Future[Option[T]] = {
-    val query = Json.obj("_id" -> pk)
+    Logger.debug(s"$collectionName - findByPK($pk)")
 
-    collection.find(query).one[T]
+    collection.find(Json.obj("_id" -> pk)).one[T]
   }
 
   /**
@@ -65,16 +67,30 @@ trait MongoDao[T, PK] {
    *
    * @param element the element to persist.
    */
-  def save(element: T)(implicit writer: Writes[T]) = collection.save(element)
+  def save(element: T)(implicit writer: Writes[T]) = {
+    Logger.debug(s"$collectionName - save($element)")
+    collection.save(element)
+  }
+
+  def remove(pk: PK)(implicit writer: Writes[PK]) = {
+    Logger.debug(s"$collectionName - remove(pk) ")
+    collection.remove(pk)
+  }
 
   /**
    * Remove all documents from the collection.
    */
-  def removeAll() = collection.remove(Json.obj())
+  def removeAll() = {
+    Logger.debug(s"$collectionName - removeAll()")
+    collection.remove(Json.obj())
+  }
 
   /**
    * Count the number of documents from the collection.
    */
-  def count(): Future[Int] = db.command(Count(collectionName))
+  def count(): Future[Int] = {
+    Logger.debug(s"$collectionName - count()")
+    db.command(Count(collectionName))
+  }
 
 }

@@ -14,7 +14,7 @@ case class Page(_id: Option[BSONObjectID],
                      images_1: List[Image],
                      images_2: List[Image],
                      createdAt: Option[DateTime],
-                     var link: Option[Link] = None) extends MongoModel[Option[BSONObjectID]] {
+                     var link: Option[Link] = None) extends OptionBSONObjectIdModel {
   def this(topicId: String,
            offset: Int,
            nbViews: Int,

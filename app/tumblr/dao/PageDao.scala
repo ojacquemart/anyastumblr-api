@@ -12,7 +12,7 @@ import reactivemongo.bson._
 
 import tumblr.model._
 
-object PageDao extends MongoDao[Page] {
+object PageDao extends MongoDao[Page, BSONObjectID] {
 
   val collectionName = "pages"
 

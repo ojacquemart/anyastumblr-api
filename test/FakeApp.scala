@@ -1,6 +1,5 @@
 import concurrent.duration.Duration
 import concurrent.{Await, ExecutionContext}
-import tumblr.dao.PageDao
 import ExecutionContext.Implicits.global
 
 import java.util.concurrent.TimeUnit
@@ -17,6 +16,8 @@ import reactivemongo.bson.BSONDocument
 import org.specs2.execute.AsResult
 import org.specs2.mutable.Around
 
+import tumblr.dao._
+
 trait FakeApp extends Around with org.specs2.specification.Scope {
 
   val TestMongoDbName = "hfr_test"
@@ -32,10 +33,15 @@ trait FakeApp extends Around with org.specs2.specification.Scope {
   def around[T: AsResult](t: => T) = running(FakeApp) {
     Logger.debug("Running test ==================================")
     Logger.debug("Clear test database ===========================")
-    Logger.debug(s"\tClear collection ${PageDao.collectionName}")
 
-    val futureRemove = ReactiveMongoPlugin.db.collection[BSONCollection](PageDao.collectionName).remove(BSONDocument())
-    Await.ready(futureRemove, Duration(60, TimeUnit.SECONDS))
+    def cleanCollection(collectionName: String) = {
+      Logger.debug(s"\tClear collection $collectionName")
+      val futureRemove = ReactiveMongoPlugin.db.collection[BSONCollection](collectionName).remove(BSONDocument())
+      Await.ready(futureRemove, Duration(60, TimeUnit.SECONDS))
+    }
+
+    cleanCollection(PageDao.collectionName)
+    cleanCollection(SiteTypeDao.collectionName)
 
     // Run tests inside a fake application
     AsResult(t)

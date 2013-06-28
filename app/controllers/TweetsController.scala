@@ -8,7 +8,7 @@ import play.api.mvc._
 
 import twitter._
 
-object Tweets extends Controller {
+object TweetsController extends Controller {
 
   def index(query: String) = Action {
     implicit request =>

@@ -10,12 +10,11 @@ import play.api.mvc._
 import play.modules.reactivemongo._
 import cache.Cached
 
-import tumblr.model._
-import tumblr.model.Page.writes
-import tumblr.dao._
 import tumblr._
+import tumblr.dao._
+import tumblr.model.Page.writes
 
-object Application extends Controller with MongoController {
+object TumblrController extends Controller with MongoController {
 
   def index = Action { request =>
     Ok(views.html.index())

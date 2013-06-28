@@ -3,21 +3,20 @@
 # ~~~~
 
 # index
-GET     /                                           controllers.Application.index
+GET     /                                           controllers.TumblrController.index
 
 # tumblr
-GET     /api/tumblr/sites                           controllers.Application.sites()
-GET     /api/tumblr/:siteId                         controllers.Application.getSiteFirstPage(siteId: String)
-GET     /api/tumblr/:siteId/lastPageInfos           controllers.Application.getSiteTotalPages(siteId: String)
-GET     /api/tumblr/:siteId/page/:pageNumber        controllers.Application.getSitePageByPageNumber(siteId: String, pageNumber: Int)
+GET     /api/tumblr/sites                           controllers.TumblrController.sites()
+GET     /api/tumblr/:siteId                         controllers.TumblrController.getSiteFirstPage(siteId: String)
+GET     /api/tumblr/:siteId/lastPageInfos           controllers.TumblrController.getSiteTotalPages(siteId: String)
+GET     /api/tumblr/:siteId/page/:pageNumber        controllers.TumblrController.getSitePageByPageNumber(siteId: String, pageNumber: Int)
 
 # tumblr stats
-GET     /api/tumblr/sites/stats                     controllers.Application.stats()
+GET     /api/tumblr/sites/stats                     controllers.TumblrController.stats()
 
 # twitter
-GET     /api/tweets/:query                          controllers.Tweets.index(query: String)
-GET     /api/tweets/stream/:query                   controllers.Tweets.stream(query: String)
-GET     /api/tweets/stream/:query                   controllers.Tweets.stream(query: String)
+GET     /api/tweets/:query                          controllers.TweetsController.index(query: String)
+GET     /api/tweets/stream/:query                   controllers.TweetsController.stream(query: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

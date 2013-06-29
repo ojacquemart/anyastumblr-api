@@ -8,7 +8,7 @@ GET     /                                           controllers.TumblrController
 # tumblr
 GET     /api/tumblr/sites                           controllers.TumblrController.sites()
 GET     /api/tumblr/:siteId                         controllers.TumblrController.getSiteFirstPage(siteId: String)
-GET     /api/tumblr/:siteId/lastPageInfos           controllers.TumblrController.getSiteTotalPages(siteId: String)
+GET     /api/tumblr/:siteId/last-page/link          controllers.TumblrController.getSiteTotalPages(siteId: String)
 GET     /api/tumblr/:siteId/page/:pageNumber        controllers.TumblrController.getSitePageByPageNumber(siteId: String, pageNumber: Int)
 
 # tumblr stats

@@ -79,7 +79,7 @@ function TumblrController($scope, $http) {
 
     $scope.currentSiteIndex = 0;
     $scope.page = null;
-    $scope.lastPageInfos = null;
+    $scope.lastPageLink = null;
 
     $scope.updateCurrentSiteIndex = function() {
 
@@ -104,13 +104,13 @@ function TumblrController($scope, $http) {
         $scope.page = data;
     };
 
-    $scope.loadLastPageInfos = function() {
-        $http.get("api/tumblr/" + $scope.siteId + "/lastPageInfos").success(function (data) {
-            // FIXME: lastPageInfos must return a true null.
+    $scope.loadlastPageLink = function() {
+        $http.get("api/tumblr/" + $scope.siteId + "/last-page/link").success(function (data) {
+            // FIXME: lastPageLink must return a true null.
             if (data == "null") {
-                $scope.lastPageInfos = null;
+                $scope.lastPageLink = null;
             } else {
-                $scope.lastPageInfos = data;
+                $scope.lastPageLink = data;
             }
         });
     };
@@ -121,8 +121,8 @@ function TumblrController($scope, $http) {
             $scope.storeImages(data);
 
             // Reset last page infos to reinit binding.
-            $scope.lastPageInfos = null;
-            $scope.loadLastPageInfos();
+            $scope.lastPageLink = null;
+            $scope.loadlastPageLink();
 
             $scope.updateCurrentSiteIndex();
             //$scope.getTweets();
@@ -142,14 +142,14 @@ function TumblrController($scope, $http) {
 
     $scope.loadNextPage = function () {
         var nextPageNumber = $scope.page.pageNumber + 1;
-        var lastPageInfos = $scope.lastPageInfos;
+        var lastPageLink = $scope.lastPageLink;
 
         function canGoToNextPage() {
-            if (lastPageInfos == null) {
+            if (lastPageLink == null) {
                 return true;
             }
 
-            return nextPageNumber <= lastPageInfos.pageNumber;
+            return nextPageNumber <= lastPageLink.pageNumber;
         }
 
         if (canGoToNextPage()) {

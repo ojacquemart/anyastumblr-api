@@ -19,8 +19,8 @@
             <!-- Current page / Total pages -->
             <span ng-show="page" class="page-title">
                 <a href="{{page.link.url}}" title="{{page.link.title}}" target="_blank">{{page.link.label}}</a>
-                <span id="last-page-infos" ng-show="lastPageInfos" ng-cloak>
-                    / <a href="{{lastPageInfos.url}}" title="{{lastPageInfos.title}}" target="_blank">{{lastPageInfos.label}}</a>
+                <span id="last-page-infos" ng-show="lastPageLink" ng-cloak>
+                    / <a href="{{lastPageLink.url}}" title="{{lastPageLink.title}}" target="_blank">{{lastPageLink.label}}</a>
                 </span>
             </span>
         </div>

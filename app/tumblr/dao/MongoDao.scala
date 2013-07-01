@@ -21,7 +21,7 @@ import reactivemongo.core.commands.Count
  * <pre>
  *   <code>
  *    import scala.concurrent.ExecutionContext
- *     import ExecutionContext.Implicits.global
+ *    import ExecutionContext.Implicits.global
  *  </code>
  *  </pre>
  *

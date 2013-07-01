@@ -10,13 +10,17 @@ import play.api.libs.functional.syntax._
 import play.modules.reactivemongo.json.collection.JSONCollection
 import play.autosource.reactivemongo._
 
+import tumblr.model._
+import tumblr.model.AdminSiteJSON._
+
+import tumblr.dao.SiteDao
 import tumblr.dao.SiteTypeDao
 
-object SiteTypeController extends ReactiveMongoAutoSourceController[JsObject] {
+object SiteTypeController extends ReactiveMongoAutoSourceController[SiteType] {
   val coll = db.collection[JSONCollection](SiteTypeDao.collectionName)
+}
 
-  override val reader = __.read[JsObject] keepAnd (
-    (__ \ "name").read[String]
-  )
+object SiteController extends ReactiveMongoAutoSourceController[Site] {
+  val coll = db.collection[JSONCollection](SiteDao.collectionName)
 }
 

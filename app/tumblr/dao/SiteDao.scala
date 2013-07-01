@@ -13,6 +13,8 @@ import tumblr.model._
  */
 object SiteDao {
 
+  val collectionName = "site"
+
   def getSites() = {
     Cache.getOrElse[List[Site]]("dao.topics") {
       Logger.info("Reading sites content...")

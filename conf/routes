@@ -16,6 +16,7 @@ GET     /api/tumblr/sites/stats                     tumblr.controllers.TumblrCon
 
 # tumblr administration
 ->      /api/tumblr/admin/site-type                 tumblr.controllers.admin.SiteTypeController
+->      /api/tumblr/admin/site                      tumblr.controllers.admin.SiteController
 
 # twitter
 GET     /api/tweets/:query                          twitter.controllers.TweetsController.index(query: String)

@@ -25,14 +25,10 @@ case class Configuration(cssSelectors: CssSelectors,
                          imageRule: Option[ImageRule])
 
 case class Site(id: String,
-                siteType: SiteType,
+                siteType: String,
                 name: String,
                 url: String,
                 configuration: Configuration)
-
-object SimpleSiteJson {
-
-}
 
 object AdminSiteJSON {
   implicit val cssSelectorWrites = (
@@ -71,7 +67,7 @@ object AdminSiteJSON {
     )(PageResolver.apply _)
 
   implicit val configurationWrites = (
-    (__ \ "cssSelector").write[CssSelectors] and
+    (__ \ "cssSelectors").write[CssSelectors] and
       (__ \ "lastPageByCss").write[Boolean] and
       (__ \ "navigationAcending").write[Boolean] and
       (__ \ "pageResolver").write[PageResolver] and
@@ -85,8 +81,20 @@ object AdminSiteJSON {
       (__ \ "imageRule").read[Option[ImageRule]]
     )(Configuration.apply _)
 
-  implicit val siteWrites: Writes[Site] = Json.writes[Site]
-  implicit val sitesReads: Reads[Site] = Json.reads[Site]
+  implicit val siteWrites = (
+    (__ \ "id").write[String] and
+    (__ \ "siteType").write[String] and
+    (__ \ "name").write[String] and
+    (__ \ "url").write[String] and
+      (__ \ "configuration").write[Configuration]
+    )(unlift(Site.unapply))
+  implicit val siteReads = (
+    (__ \ "id").read[String] and
+      (__ \ "siteType").read[String] and
+      (__ \ "name").read[String] and
+      (__ \ "url").read[String] and
+      (__ \ "configuration").read[Configuration]
+    )(Site.apply _)
 }
 
 object Site {
@@ -96,7 +104,7 @@ object Site {
     def writes(site: Site): JsValue = {
       JsObject(
         List(
-          "type" -> JsString(site.siteType.name),
+          "type" -> JsString(site.siteType),
           "id" -> JsString(site.id),
           "name" -> JsString(site.name)
         ))
@@ -111,6 +119,6 @@ object Site {
     val id = new sun.misc.BASE64Encoder().encode(md.digest((url + name).getBytes)).replace("/", "").replace("+", "")
 
     Logger.info(s"Site siteId=$id for $name")
-    new Site(id, siteType, name, url, configuration)
+    new Site(id, siteType.name, name, url, configuration)
   }
 }

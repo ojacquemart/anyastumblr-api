@@ -1,4 +1,4 @@
-package controllers
+package tumblr.controllers
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.Some

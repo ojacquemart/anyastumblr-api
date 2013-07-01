@@ -1,4 +1,4 @@
-package controllers
+package twitter.controllers
 
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global

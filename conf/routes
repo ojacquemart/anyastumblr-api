@@ -3,20 +3,23 @@
 # ~~~~
 
 # index
-GET     /                                           controllers.TumblrController.index
+GET     /                                           tumblr.controllers.TumblrController.index
 
 # tumblr
-GET     /api/tumblr/sites                           controllers.TumblrController.sites()
-GET     /api/tumblr/:siteId                         controllers.TumblrController.getSiteFirstPage(siteId: String)
-GET     /api/tumblr/:siteId/last-page/link          controllers.TumblrController.getSiteTotalPages(siteId: String)
-GET     /api/tumblr/:siteId/page/:pageNumber        controllers.TumblrController.getSitePageByPageNumber(siteId: String, pageNumber: Int)
+GET     /api/tumblr/sites                           tumblr.controllers.TumblrController.sites
+GET     /api/tumblr/:siteId                         tumblr.controllers.TumblrController.getSiteFirstPage(siteId: String)
+GET     /api/tumblr/:siteId/last-page/link          tumblr.controllers.TumblrController.getSiteTotalPages(siteId: String)
+GET     /api/tumblr/:siteId/page/:pageNumber        tumblr.controllers.TumblrController.getSitePageByPageNumber(siteId: String, pageNumber: Int)
 
 # tumblr stats
-GET     /api/tumblr/sites/stats                     controllers.TumblrController.stats()
+GET     /api/tumblr/sites/stats                     tumblr.controllers.TumblrController.stats
+
+# tumblr administration
+->      /api/tumblr/admin/site-type                 tumblr.controllers.admin.SiteTypeController
 
 # twitter
-GET     /api/tweets/:query                          controllers.TweetsController.index(query: String)
-GET     /api/tweets/stream/:query                   controllers.TweetsController.stream(query: String)
+GET     /api/tweets/:query                          twitter.controllers.TweetsController.index(query: String)
+GET     /api/tweets/stream/:query                   twitter.controllers.TweetsController.stream(query: String)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file                               controllers.Assets.at(path="/public", file)

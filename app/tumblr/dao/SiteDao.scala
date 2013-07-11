@@ -13,7 +13,7 @@ import tumblr.model._
  */
 object SiteDao {
 
-  val collectionName = "site"
+  val collectionName = "sites"
 
   def getSites() = {
     Cache.getOrElse[List[Site]]("dao.topics") {

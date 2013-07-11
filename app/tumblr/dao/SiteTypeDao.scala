@@ -8,6 +8,6 @@ import reactivemongo.bson.BSONObjectID
 
 object SiteTypeDao extends MongoDao[SiteType, BSONObjectID] {
 
-  val collectionName = "site_type"
+  val collectionName = "site_types"
 
 }

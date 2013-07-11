@@ -1,10 +1,8 @@
 import play.api._
 import play.api.mvc._
 
-object Global extends GlobalSettings {
+import tumblr.filters._
 
-  override def onRouteRequest(request: RequestHeader): Option[Handler] = {
-    super.onRouteRequest(request)
-  }
+object Global extends WithFilters(TumblrAdminFilter) with GlobalSettings {
 
 }

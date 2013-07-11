@@ -1,15 +1,9 @@
-project.title=any.asTumblr()
-project.about=Powered by
-project.github.url=https://github.com/ojacquemart/hfrAsTumblr
+# tumblr
+tumblr.main.title=any.asTumblr()
+tumblr.admin.title=Tumblr Administration
 
+# commons
 page.label=Page
-page.loading=Loading...
 
-page.error=An error occured...
-
-navigation.shortcuts=Keyboard shortcuts
-navigation.previousPage=Previous page
-navigation.nextPage=Next page
-navigation.nextSite=Next site
-navigation.previousSite=Previous site
-navigation.refresh=Refresh
+# secure social
+securesocial.appName=Tumblr Administration

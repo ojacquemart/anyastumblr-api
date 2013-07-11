@@ -2,25 +2,48 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# index
-GET     /                                           tumblr.controllers.TumblrController.index
+#--------------
+# Tumblr
+#--------------
 
-# tumblr
-GET     /api/tumblr/sites                           tumblr.controllers.TumblrController.sites
-GET     /api/tumblr/:siteId                         tumblr.controllers.TumblrController.getSiteFirstPage(siteId: String)
-GET     /api/tumblr/:siteId/last-page/link          tumblr.controllers.TumblrController.getSiteTotalPages(siteId: String)
-GET     /api/tumblr/:siteId/page/:pageNumber        tumblr.controllers.TumblrController.getSitePageByPageNumber(siteId: String, pageNumber: Int)
+# Index
+GET         /                                           tumblr.controllers.TumblrController.index
 
-# tumblr stats
-GET     /api/tumblr/sites/stats                     tumblr.controllers.TumblrController.stats
+# Sites
+GET         /api/tumblr/sites                           tumblr.controllers.TumblrController.sites
+GET         /api/tumblr/:siteId                         tumblr.controllers.TumblrController.getSiteFirstPage(siteId: String)
+GET         /api/tumblr/:siteId/last-page/link          tumblr.controllers.TumblrController.getSiteTotalPages(siteId: String)
+GET         /api/tumblr/:siteId/page/:pageNumber        tumblr.controllers.TumblrController.getSitePageByPageNumber(siteId: String, pageNumber: Int)
 
-# tumblr administration
-->      /api/tumblr/admin/site-type                 tumblr.controllers.admin.SiteTypeController
-->      /api/tumblr/admin/site                      tumblr.controllers.admin.SiteController
+# Tumblr stats
+GET         /api/tumblr/sites/stats                     tumblr.controllers.TumblrController.stats
 
-# twitter
-GET     /api/tweets/:query                          twitter.controllers.TweetsController.index(query: String)
-GET     /api/tweets/stream/:query                   twitter.controllers.TweetsController.stream(query: String)
+# Tumblr administration
+GET         /tumblr/administration                      tumblr.controllers.admin.TumblrAdminController.index
+
+# Tumblr administration autosource
+->          /api/tumblr/admin/site-type                 tumblr.controllers.admin.SiteTypeController
+->          /api/tumblr/admin/site                      tumblr.controllers.admin.SiteController
+
+#--------------
+# Twitter
+#--------------
+
+GET         /api/tweets/:query                          twitter.controllers.TweetsController.index(query: String)
+GET         /api/tweets/stream/:query                   twitter.controllers.TweetsController.stream(query: String)
+
+#--------------
+# Secure social
+#--------------
+
+# Login / logout
+GET         /login                                      securesocial.controllers.LoginPage.login
+GET         /logout                                     securesocial.controllers.LoginPage.logout
+
+# Providers entry points
+GET         /authenticate/:provider                     securesocial.controllers.ProviderController.authenticate(provider)
+POST        /authenticate/:provider                     securesocial.controllers.ProviderController.authenticateByPost(provider)
+GET         /not-authorized                             securesocial.controllers.ProviderController.notAuthorized
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file                               controllers.Assets.at(path="/public", file)
+GET         /assets/*file                               controllers.Assets.at(path="/public", file)

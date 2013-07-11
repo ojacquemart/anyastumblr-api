@@ -34,14 +34,15 @@ trait FakeApp extends Around with org.specs2.specification.Scope {
     Logger.debug("Running test ==================================")
     Logger.debug("Clear test database ===========================")
 
-    def cleanCollection(collectionName: String) = {
-      Logger.debug(s"\tClear collection $collectionName")
-      val futureRemove = ReactiveMongoPlugin.db.collection[BSONCollection](collectionName).remove(BSONDocument())
-      Await.ready(futureRemove, Duration(60, TimeUnit.SECONDS))
+    def clearCollections(collectionsNames: String*) = {
+      collectionsNames.foreach(collectionName => {
+        Logger.debug(s"\tClear collection: $collectionName")
+        val futureRemove = ReactiveMongoPlugin.db.collection[BSONCollection](collectionName).remove(BSONDocument())
+        Await.ready(futureRemove, Duration.create(1, "min"))
+      })
     }
 
-    cleanCollection(PageDao.collectionName)
-    cleanCollection(SiteTypeDao.collectionName)
+    clearCollections(PageDao.collectionName, SiteTypeDao.collectionName, UserDao.collectionName)
 
     // Run tests inside a fake application
     AsResult(t)

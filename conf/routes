@@ -36,9 +36,14 @@ GET         /api/tweets/stream/:query                   twitter.controllers.Twee
 # Secure social
 #--------------
 
-# Login / logout
+# Login
 GET         /login                                      securesocial.controllers.LoginPage.login
 GET         /logout                                     securesocial.controllers.LoginPage.logout
+
+# User Registration and password handling
+# Keep registration GET routes to avoid: play.api.Application$$anon$1: Execution exception[[ClassNotFoundException: securesocial.controllers.ReverseRegistration]]
+GET         /signup                                     securesocial.controllers.Registration.startSignUp
+GET         /reset                                      securesocial.controllers.Registration.startResetPassword
 
 # Providers entry points
 GET         /authenticate/:provider                     securesocial.controllers.ProviderController.authenticate(provider)

@@ -12,7 +12,7 @@ object SiteType {
 
   def get(name: String) = new SiteType(Some(BSONObjectID.generate), name)
 
-  implicit val format: Format[SiteType] = Json.format[SiteType]
+  implicit val formats: Format[SiteType] = Json.format[SiteType]
   implicit val writes: Writes[SiteType] = Json.writes[SiteType]
 
   val HFR = SiteType.get("Hfr")

@@ -1,20 +1,19 @@
 package tumblr.controllers
 
-import scala.concurrent.{ExecutionContext, Future}
-import scala.Some
+import scala.concurrent.ExecutionContext
+import ExecutionContext.Implicits.global
 
 import play.api.Play.current
 import play.api._
 import play.api.libs.json._
 import play.api.mvc._
-import play.modules.reactivemongo._
 import cache.Cached
 
 import tumblr._
 import tumblr.dao._
 import tumblr.model.Page.writes
 
-object TumblrController extends Controller with MongoController {
+object TumblrController extends Controller {
 
   def index = Action { request =>
     Ok(views.html.index())

@@ -1,75 +1,56 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html">
-    <head>
-        <title>@Messages("project.title")</title>
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <link href="@routes.Assets.at("css/bootstrap.min.css")" rel="stylesheet">
-        <link href="@routes.Assets.at("css/font-awesome.min.css")" rel="stylesheet">
-        <link href="@routes.Assets.at("css/main.css")" rel="stylesheet">
+@import tags._
 
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
-        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
-        <script src="@routes.Assets.at("js/app.js")"></script>
-        <script src="@routes.Assets.at("js/controllers.js")"></script>
-    </head>
-    <body ng-app="AnyAsTumblr">
-        <header>
-            <div id="app-bar" class="navbar navbar-inverse navbar-fixed-top">
-                <div class="container-fluid">
-                    <ul class="nav">
-                        <li>
-                            <a href="/" title="Tumblr" class="title twitter-color">
-                                <i class="icon-picture icon-large twitter-color"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/#stats" title="Tumblr Statistics">
-                                <i class="icon-bar-chart icon-large twitter-color"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/#tweets" title="Tweets Timeline Streaming">
-                                <i class="icon-twitter icon-large twitter-color"></i>
-                            </a>
-                        </li>
+@main(titleKey = "tumblr.main.title", ngApp = "AnyAsTumblr") {
+    <link href="@routes.Assets.at("css/main.css")" rel="stylesheet">
+
+    <script src="@routes.Assets.at("js/app.js")"></script>
+    <script src="@routes.Assets.at("js/controllers.js")"></script>
+} {
+    <header>
+        <div id="app-bar" class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <ul class="nav">
+                    <li>
+                        <a href="/" title="Tumblr" class="title twitter-color">
+                            <i class="icon-picture icon-large twitter-color"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/#stats" title="Tumblr Statistics">
+                            <i class="icon-bar-chart icon-large twitter-color"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/#tweets" title="Tweets Timeline Streaming">
+                            <i class="icon-twitter icon-large twitter-color"></i>
+                        </a>
+                    </li>
+                </ul>
+
+                <div id="stack-box" class="pull-right">
+                    <p>Powered by</p>
+                    <ul id="stack" class="unstyled">
+                        <li>@href("http://playframework.com", "Play Framework", "play")</li>
+                        <li>@href("http://scala-lang.org", "Scala", "scala")</li>
+                        <li>@href("http://angularjs.org", "AngularJS", "angular")</li>
+                        <li>@href("http://mongodb.org", "MongoDB", "mongodb")</li>
+                        <li>@href("http://github.com/ojacquemart", "Github", "github")</li>
                     </ul>
-
-                    <div id="stack-box" class="pull-right">
-                        <p>Powered by</p>
-                        <ul id="stack" class="unstyled">
-                            <li>
-                                <a href="http://playframework.com" title="Play Framework" class="play" target="_blank">Play Framework</a>
-                            </li>
-                            <li>
-                                <a href="http://scala-lang.org" title="Scala" class="scala" target="_blank">Scala</a>
-                            </li>
-                            <li >
-                                <a href="http://angularjs.org" title="AngularJS" class="angular" target="_blank">Angular</a>
-                            </li>
-                            <li class="mongodb">
-                                <a href="http://mongodb.org" title="MongoDB" class="mongodb" target="_blank">Mongodb</a>
-                            </li>
-                            <li class="github">
-                                <a href="http://github.com/ojacquemart" title="Github" class="github" target="_blank">Github</a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
             </div>
+        </div>
 
-                <!-- Loading -->
-            <div id="center-messages">
-                <div id="loading" class="message-information hide">
-                    <p>
-                        <i class="icon-large icon-spinner icon-spin"></i>
-                    </p>
-                </div>
+        <!-- Loading -->
+        <div id="center-messages">
+            <div id="loading" class="message-information hide">
+                <p>
+                    <i class="icon-large icon-spinner icon-spin"></i>
+                </p>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <section id="content">
-            <div ng-view></div>
-        </section>
-    </body>
-</html>
+    <section id="content">
+        <div ng-view></div>
+    </section>
+}

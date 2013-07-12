@@ -1,5 +1,10 @@
-@main(titleKey = "tumblr.admin.title", ngApp = "") {
-
+@main(titleKey = "tumblr.admin.title", ngApp = "adminTumblr") {
+    <script src="@routes.Assets.at("js/admin/services.js")"></script>
+    <script src="@routes.Assets.at("js/admin/app.js")"></script>
+    <script src="@routes.Assets.at("js/admin/controllers/SiteTypeController.js")"></script>
+    <script src="@routes.Assets.at("js/admin/controllers/SiteController.js")"></script>
 } {
-   TODO
+    <section id="content">
+        <div ng-view></div>
+    </section>
 }

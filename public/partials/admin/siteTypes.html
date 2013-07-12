@@ -1,0 +1,26 @@
+<div class="form">
+    <label>Name:</label>
+    <input name="name" ng-model="createForm.name" required/>
+    <button ng-click="create()">Add</button>
+    <hr/>
+</div>
+
+<div class="items">
+    <span ng-hide="siteTypes.length > 0">No items...</span>
+
+    <table ng-show="siteTypes.length > 0">
+        <thead>
+        <th>Name</th>
+        <td>Actions</td>
+        </thead>
+        <tbody ng-repeat="siteType in siteTypes">
+        <tr>
+            <td><input ng-model="siteType.name"/></td>
+            <td>
+                <button ng-click="update(siteType)">Update</button>
+                <button ng-click="remove(siteType)">Delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

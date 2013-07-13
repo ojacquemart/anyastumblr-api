@@ -17,7 +17,7 @@ class SiteConfigurationsSpec extends Specification {
       config.imageRule must not be equalTo(None)
       val imageRule: ImageRule = config.imageRule.get
       imageRule.exclude must be equalTo ("http://forum-images.hardware.fr/themes")
-      imageRule.startsWith must be equalTo (List("http://forum-images.hardware.fr/images/perso", "http://forum-images.hardware.fr/icones"))
+      imageRule.startsWith must be equalTo (List(SimpleValue("http://forum-images.hardware.fr/images/perso"), SimpleValue("http://forum-images.hardware.fr/icones")))
     }
 
     "build joiesducode configuration" in {

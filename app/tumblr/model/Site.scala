@@ -5,11 +5,16 @@ import play.api.Logger
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
 
+import play.modules.reactivemongo.json.BSONFormats._
+import reactivemongo.bson._
+
 case class CssSelector(cssQuery: String, htmlAttribute: Option[String] = None)
 
 case class CssSelectors(images: CssSelector, text: Option[CssSelector])
 
-case class ImageRule(exclude: String, startsWith: List[String])
+case class ImageRule(exclude: String, startsWith: List[SimpleValue])
+
+case class SimpleValue(value: String)
 
 case class ChangePageDescriptor(regex: String, replacement: String)
 
@@ -24,31 +29,33 @@ case class Configuration(cssSelectors: CssSelectors,
                          pageResolver: PageResolver,
                          imageRule: Option[ImageRule])
 
-case class Site(id: String,
+case class Site(_id: Option[BSONObjectID],
                 siteType: String,
                 name: String,
                 url: String,
-                configuration: Configuration)
+                configuration: Configuration) extends OptionBSONObjectIdModel
 
 object AdminSiteJSON {
   implicit val cssSelectorWrite = (
     (__ \ "cssQuery").write[String] and
-      (__ \ "htmlAttribute").write[Option[String]]
+      (__ \ "htmlAttribute").writeNullable[String]
     )(unlift(CssSelector.unapply))
   implicit val cssSelectorRead = (
     (__ \ "cssQuery").read[String] and
-      (__ \ "htmlAttribute").read[Option[String]]
+      (__ \ "htmlAttribute").readNullable[String]
     )(CssSelector.apply _)
 
   implicit val cssSelectorsWrite = (
     (__ \ "images").write[CssSelector] and
-      (__ \ "text").write[Option[CssSelector]]
+      (__ \ "text").writeNullable[CssSelector]
     )(unlift(CssSelectors.unapply))
   implicit val cssSelectorsRead = (
     (__ \ "images").read[CssSelector] and
-      (__ \ "text").read[Option[CssSelector]]
+      (__ \ "text").readNullable[CssSelector]
     )(CssSelectors.apply _)
 
+  implicit val simpleValueWrite = Json.writes[SimpleValue]
+  implicit val simpleValueRead = Json.reads[SimpleValue]
   implicit val pageNumberDescWrite = Json.writes[PageNumberDescriptor]
   implicit val pageNumberDescRead = Json.reads[PageNumberDescriptor]
 
@@ -58,43 +65,31 @@ object AdminSiteJSON {
   implicit val imageRuleRead = Json.reads[ImageRule]
 
   implicit val pageResolverWrite = (
-    (__ \ "pageNumberDescriptor").write[Option[PageNumberDescriptor]] and
+    (__ \ "pageNumberDescriptor").writeNullable[PageNumberDescriptor] and
       (__ \ "changePageDescriptor").write[ChangePageDescriptor]
     )(unlift(PageResolver.unapply))
   implicit val pageResolverRead = (
-    (__ \ "pageNumberDescriptor").read[Option[PageNumberDescriptor]] and
+    (__ \ "pageNumberDescriptor").readNullable[PageNumberDescriptor] and
       (__ \ "changePageDescriptor").read[ChangePageDescriptor]
     )(PageResolver.apply _)
 
   implicit val configurationWrite = (
     (__ \ "cssSelectors").write[CssSelectors] and
       (__ \ "lastPageByCss").write[Boolean] and
-      (__ \ "navigationAcending").write[Boolean] and
+      (__ \ "navigationAscending").write[Boolean] and
       (__ \ "pageResolver").write[PageResolver] and
-      (__ \ "imageRule").write[Option[ImageRule]]
+      (__ \ "imageRule").writeNullable[ImageRule]
     )(unlift(Configuration.unapply))
   implicit val configurationRead = (
     (__ \ "cssSelectors").read[CssSelectors] and
       (__ \ "lastPageByCss").read[Boolean] and
-      (__ \ "navigationAcending").read[Boolean] and
+      (__ \ "navigationAscending").read[Boolean] and
       (__ \ "pageResolver").read[PageResolver] and
-      (__ \ "imageRule").read[Option[ImageRule]]
+      (__ \ "imageRule").readNullable[ImageRule]
     )(Configuration.apply _)
 
-  implicit val siteWrite = (
-    (__ \ "id").write[String] and
-    (__ \ "siteType").write[String] and
-    (__ \ "name").write[String] and
-    (__ \ "url").write[String] and
-      (__ \ "configuration").write[Configuration]
-    )(unlift(Site.unapply))
-  implicit val siteRead = (
-    (__ \ "id").read[String] and
-      (__ \ "siteType").read[String] and
-      (__ \ "name").read[String] and
-      (__ \ "url").read[String] and
-      (__ \ "configuration").read[Configuration]
-    )(Site.apply _)
+  implicit val formats: Format[Site] = Json.format[Site]
+  implicit val writes: Writes[Site] = Json.writes[Site]
 }
 
 object Site {
@@ -105,7 +100,7 @@ object Site {
       JsObject(
         List(
           "type" -> JsString(site.siteType),
-          "id" -> JsString(site.id),
+          "_id" -> JsString(site._id.get.toString()),
           "name" -> JsString(site.name)
         ))
     }
@@ -119,6 +114,6 @@ object Site {
     val id = new sun.misc.BASE64Encoder().encode(md.digest((url + name).getBytes)).replace("/", "").replace("+", "")
 
     Logger.info(s"Site siteId=$id for $name")
-    new Site(id, siteType.name, name, url, configuration)
+    new Site(Some(BSONObjectID.generate), siteType.name, name, url, configuration)
   }
 }

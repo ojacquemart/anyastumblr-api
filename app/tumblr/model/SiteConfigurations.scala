@@ -22,7 +22,7 @@ object HfrConfiguration extends ConfigurationBuilder {
   def getNavigationAscending() = false
 
   def getImageRule() = {
-    Some(new ImageRule(exclude = "http://forum-images.hardware.fr/themes", startsWith = List("http://forum-images.hardware.fr/images/perso", "http://forum-images.hardware.fr/icones")))
+    Some(new ImageRule(exclude = "http://forum-images.hardware.fr/themes", startsWith = List(SimpleValue("http://forum-images.hardware.fr/images/perso"), SimpleValue("http://forum-images.hardware.fr/icones"))))
   }
 
   def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector("tr.cBackHeader.fondForum2PagesHaut div.left a:last-child", Some("href")), """([0-9]+)\.htm"""))

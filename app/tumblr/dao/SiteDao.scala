@@ -46,7 +46,7 @@ object SiteDao {
   def getDefaultSite() = getFirstSite()
 
   def findSite(siteId: String): Site = {
-    val topic = getSites().find(_.id == siteId).getOrElse(getDefaultSite())
+    val topic = getSites().find(_.id.get.toString() == siteId).getOrElse(getDefaultSite())
     Logger.info("Get siteId %s from siteId %s".format(topic.name, siteId))
     topic
   }

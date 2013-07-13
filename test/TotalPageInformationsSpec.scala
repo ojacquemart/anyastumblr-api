@@ -1,5 +1,6 @@
 import org.specs2.mutable._
 
+import reactivemongo.bson.BSONObjectID
 import scala.Some
 
 import tumblr.model._
@@ -9,10 +10,11 @@ import tumblr._
 class TotalPageInformationsSpec extends Specification {
 
   def getSiteByNameLowerCase(name: String): Site = {
-    val optionSite = SiteDao.getSites().find(site => site.name.toLowerCase() == name)
-    optionSite must not be equalTo(None)
-
-    optionSite.get
+    val maybeSite = SiteDao.getSites().find(site => site.name.toLowerCase() == name)
+    maybeSite must not be equalTo(None)
+    val site: tumblr.model.Site = maybeSite.get
+    site.name.toLowerCase() must be equalTo(name)
+    site
   }
 
   def getLastPageNumber(name: String): Int = {
@@ -27,7 +29,8 @@ class TotalPageInformationsSpec extends Specification {
 
     "returns None when the site doesn't expose its total page number" in new FakeApp {
       val site = getSiteByNameLowerCase("commitstrip")
-      SiteLastPageInfos.get(site.id) must be equalTo(None)
+
+      SiteLastPageInfos.get(site.id.get.toString()) must be equalTo(None)
     }
   }
 

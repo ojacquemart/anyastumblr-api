@@ -36,7 +36,7 @@ case class PageContentFinder(site: Site, pageNumber: Option[Int])  {
     Logger.info(s"Load from src $currentUrl")
     Logger.debug(s"Content Site => [pageNumber=$currentPageNumber,imagesSize=$allImagesSize]")
 
-    val page = new Page(site.id, currentPageNumber, allImages._1, allImages._2)
+    val page = new Page(site._id.get.toString(), currentPageNumber, allImages._1, allImages._2)
     page.link = Some(Link.get(currentUrl, site.name, currentPageNumber))
     page
   }

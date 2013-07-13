@@ -1,0 +1,152 @@
+<h3>Site {{site.id}}</h3>
+
+
+<form name="siteForm" class="form-horizontal" ng-controller="RootSiteFormController">
+    <div class="form-actions">
+        <button ng-click="save(site)" class="btn" ng-disabled="siteForm.$invalid">Save</button>
+        <a ng-href="#/sites" class="btn">Cancel</a>
+    </div>
+
+    <fieldset>
+        <legend>Informations</legend>
+        <div class="control-group">
+            <label class="control-label">Type *</label>
+            <div class="controls" ng-controller="SiteTypeController">
+                <select ng-model="site.siteType" ng-options="option.name as option.name for option in siteTypes" required></select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Name *</label>
+            <div class="controls">
+                <input ng-model="site.name" class="input-xxlarge" required />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Url *</label>
+            <div class="controls">
+                <input ng-model="site.url" class="input-xxlarge" required />
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Configuration</legend>
+
+        <div class="control-group">
+            <label class="control-label">Retrieves last page by css selector? *</label>
+            <div class="controls">
+                <select-yes-no value="site.configuration.lastPageByCss" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Navigation by ascending order? *</label>
+            <div class="controls">
+                <select-yes-no value="site.configuration.navigationAscending" />
+            </div>
+        </div>
+
+        <fieldset>
+            <legend>CSS image selector</legend>
+
+            <div class="control-group">
+                <label class="control-label">Css selector *</label>
+                <div class="controls">
+                    <input ng-model="site.configuration.cssSelectors.images.cssQuery" class="input-xxlarge" required />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Html attribute *</label>
+                <div class="controls">
+                    <input ng-model="site.configuration.cssSelectors.images.htmlAttribute" class="input-xxlarge" required />
+                </div>
+            </div>
+
+        </fieldset>
+        <fieldset>
+            <legend>CSS text selector</legend>
+
+            <div class="control-group">
+                <label class="control-label">Css selector</label>
+                <div class="controls">
+                    <input ng-model="site.configuration.cssSelectors.text.cssQuery" class="input-xxlarge" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Html attribute</label>
+                <div class="controls">
+                    <input ng-model="site.configuration.cssSelectors.text.htmlAttribute" class="input-xxlarge" />
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Page change description</legend>
+
+            <div class="control-group">
+                <label class="control-label">Regex *</label>
+                <div class="controls">
+                    <input ng-model="site.configuration.pageResolver.changePageDescriptor.regex" class="input-xxlarge" required />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Replacement *</label>
+                <div class="controls">
+                    <input ng-model="site.configuration.pageResolver.changePageDescriptor.replacement" class="input-xxlarge" required />
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Page number resolution</legend>
+
+            <div class="control-group">
+                <label class="control-label">Css selector</label>
+                <div class="controls">
+                    <input ng-model="site.configuration.pageResolver.pageNumberDescriptor.cssSelector.cssQuery" class="input-xxlarge" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Html attribute</label>
+                <div class="controls">
+                    <input ng-model="site.configuration.pageResolver.pageNumberDescriptor.cssSelector.htmlAttribute" class="input-xxlarge" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Regex</label>
+                <div class="controls">
+                    <input ng-model="site.configuration.pageResolver.pageNumberDescriptor.regex" class="input-xxlarge" />
+                </div>
+            </div>
+
+        </fieldset>
+        <fieldset>
+            <legend>Images rule (hfr specific)</legend>
+
+            <div class="control-group">
+                <label class="control-label">Exclude urls starting by</label>
+                <div class="controls">
+                    <input ng-model="site.configuration.imageRule.exclude" class="input-xxlarge" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">First images collection must start with</label>
+                <div class="controls">
+                    <button ng-click="addImageRuleException()" class="btn">Add</button>
+                    <div ng-repeat="object in site.configuration.imageRule.startsWith">
+                        <input ng-model="object.value" class="input-xxlarge" />
+                        <button ng-click="removeImageRuleException($index)" class="btn">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </fieldset>
+
+    <div class="form-actions">
+        <button ng-click="save(site)" class="btn" ng-disabled="siteForm.$invalid">Save</button>
+        <a ng-href="#/sites" class="btn">Cancel</a>
+    </div>
+
+    <fieldset>
+        <legend>Debug</legend>
+        <pre>form = {{site | json}}</pre>
+    </fieldset>
+
+</form>

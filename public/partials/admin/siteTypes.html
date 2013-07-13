@@ -1,26 +1,39 @@
-<div class="form">
-    <label>Name:</label>
-    <input name="name" ng-model="createForm.name" required/>
-    <button ng-click="create()">Add</button>
-    <hr/>
-</div>
+<div class="row-fluid">
+    <div class="span4">
 
-<div class="items">
-    <span ng-hide="siteTypes.length > 0">No items...</span>
+        <fieldset>
+            <legend>Site types</legend>
+            <table class="table  table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input ng-model="createForm.name" required/></td>
+                    <td class="span4">
+                        <button ng-click="create()" class="btn">Add</button>
+                    </td>
+                </tr>
+                </tbody>
 
-    <table ng-show="siteTypes.length > 0">
-        <thead>
-        <th>Name</th>
-        <td>Actions</td>
-        </thead>
-        <tbody ng-repeat="siteType in siteTypes">
-        <tr>
-            <td><input ng-model="siteType.name"/></td>
-            <td>
-                <button ng-click="update(siteType)">Update</button>
-                <button ng-click="remove(siteType)">Delete</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+            </table>
+
+            <table class="table table-striped">
+                <tbody>
+                <tr ng-repeat="siteType in siteTypes">
+                    <td><input ng-model="siteType.name"/></td>
+                    <td class="span4">
+                        <button ng-click="update(siteType)" class="btn">Update</button>
+                        <button ng-click="remove(siteType)" class="btn">Delete</button>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+        </fieldset>
+    </div>
+</div><!--/row-->
+

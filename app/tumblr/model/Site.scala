@@ -100,7 +100,7 @@ object Site {
       JsObject(
         List(
           "type" -> JsString(site.siteType),
-          "_id" -> JsString(site._id.get.toString()),
+          "id" -> JsString(site._id.get.stringify),
           "name" -> JsString(site.name)
         ))
     }

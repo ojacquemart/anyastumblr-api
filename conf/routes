@@ -22,8 +22,8 @@ GET         /api/tumblr/sites/stats                     tumblr.controllers.Tumbl
 GET         /tumblr/administration                      tumblr.controllers.admin.TumblrAdminController.index
 
 # Tumblr administration autosource
-->          /api/tumblr/admin/site-type                 tumblr.controllers.admin.SiteTypeController
-->          /api/tumblr/admin/site                      tumblr.controllers.admin.SiteController
+->          /api/tumblr/admin/site-types                tumblr.controllers.admin.SiteTypeController
+->          /api/tumblr/admin/sites                     tumblr.controllers.admin.SiteController
 
 #--------------
 # Twitter

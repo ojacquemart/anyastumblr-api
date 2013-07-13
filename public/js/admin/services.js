@@ -1,6 +1,6 @@
 angular.module("tumblrServices", ["ngResource"])
     .factory("SiteType", function ($resource) {
-        return $resource("/api/tumblr/admin/site-type/:id", {
+        return $resource("/api/tumblr/admin/site-types/:id", {
             id: "@id"
         }, {
             "update": { method: "PUT" },
@@ -10,7 +10,7 @@ angular.module("tumblrServices", ["ngResource"])
         });
     })
     .factory("Site", function ($resource) {
-        return $resource("/api/tumblr/admin/site/:id", {
+        return $resource("/api/tumblr/admin/sites/:id", {
             id: "@id"
         }, {
             "update": { method: "PUT" }

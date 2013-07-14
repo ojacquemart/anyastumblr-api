@@ -1,17 +1,17 @@
+package test.twitter
+
 import org.specs2.mutable._
 
-import concurrent._
-import ExecutionContext.Implicits.global
-
-import TestAwait._
-
 import twitter._
+
+import test.utils.SimpleFakeApp
+import test.utils.TestAwait._
 
 class TweetSpec extends Specification {
 
   "The Tweet class" should {
 
-    "fetch tweets" in new FakeApp {
+    "fetch tweets" in new SimpleFakeApp {
       val tweets = result(Tweet.fetch("#java, #scala"))
 
       tweets must not be equalTo(Nil)
@@ -21,13 +21,13 @@ class TweetSpec extends Specification {
 
   "The TweetSinceIdCache class" should {
 
-    "generate different cache keys according to query parameter" in new FakeApp {
+    "generate different cache keys according to query parameter" in new SimpleFakeApp {
       val javaCacheKey = TweetSinceIdCache.getCacheKey("java")
       val scalaCacheKey = TweetSinceIdCache.getCacheKey("scala")
       javaCacheKey must not be equalTo(scalaCacheKey)
     }
 
-    "put in cache the first tweet id, used to query since_id" in new FakeApp {
+    "put in cache the first tweet id, used to query since_id" in new SimpleFakeApp {
       val tweet1 = new Tweet("1", "foo", "bar", "avatar", "source")
       val tweet2 = new Tweet("2", "foo", "bar", "avatar", "source")
 

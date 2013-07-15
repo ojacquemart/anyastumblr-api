@@ -36,8 +36,9 @@ case class PageContentFinder(site: Site, pageNumber: Option[Int])  {
     Logger.info(s"Load from src $currentUrl")
     Logger.debug(s"Content Site => [pageNumber=$currentPageNumber,imagesSize=$allImagesSize]")
 
-    val page = new Page(site._id.get.toString(), currentPageNumber, allImages._1, allImages._2)
-    page.link = Some(Link.get(currentUrl, site.name, currentPageNumber))
+    val link = Link.get(currentUrl, site.name, currentPageNumber)
+    val page = new Page(site._id.get.toString(), currentPageNumber, allImages._1, allImages._2, link)
+
     page
   }
 
@@ -45,10 +46,13 @@ case class PageContentFinder(site: Site, pageNumber: Option[Int])  {
 
 object PageContentFinder {
 
-  def apply(site: String, pageNumber: Option[Int]) = {
-    Logger.info(s"Site siteId=$site")
-    val topic = SiteDao.findSite(site)
-    new PageContentFinder(topic, pageNumber)
+  def get(siteId: String, pageNumber: Option[Int]): Future[PageContentFinder] = {
+    Logger.info(s"Site siteId=$siteId")
+    val futureMaybeSite = SiteDao.findSiteById(siteId)
+
+    for {
+      maybeSite <- futureMaybeSite
+    } yield new PageContentFinder(maybeSite.get, pageNumber)
   }
 
 }

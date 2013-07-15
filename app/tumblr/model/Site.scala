@@ -88,13 +88,13 @@ object AdminSiteJSON {
       (__ \ "imageRule").readNullable[ImageRule]
     )(Configuration.apply _)
 
-  implicit val formats: Format[Site] = Json.format[Site]
+  implicit val format: Format[Site] = Json.format[Site]
   implicit val writes: Writes[Site] = Json.writes[Site]
 }
 
 object Site {
 
-  implicit object SiteWrites extends Writes[Site] {
+  implicit object SimpleWrites extends Writes[Site] {
 
     def writes(site: Site): JsValue = {
       JsObject(

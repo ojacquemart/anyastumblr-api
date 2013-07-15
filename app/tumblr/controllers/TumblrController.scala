@@ -11,32 +11,49 @@ import cache.Cached
 
 import tumblr._
 import tumblr.dao._
-import tumblr.model.Page.writes
+import tumblr.model.Link
 
 object TumblrController extends Controller {
 
-  def index = Action { request =>
-    Ok(views.html.index())
+  def index = Action {
+    request =>
+      Ok(views.html.index())
   }
 
   def sites = Cached("app.sites") {
     Action {
-      Logger.info("Getting sites...")
-      Ok(SiteDao.getSitesAsJson()).as("application/json")
+      Async {
+        Logger.info("Getting sites...")
+
+        import tumblr.model.AdminSiteJSON.format
+        SiteDao.findAll().map { sites =>
+          Ok(Json.toJson(sites)(Writes.seq(tumblr.model.Site.SimpleWrites))).as("application/json")
+        }
+      }
     }
   }
 
   def stats = Action {
     Async {
-      val futurePagesCount = PageDao.count()
-      futurePagesCount.map { pagesCount =>
+      PageDao.count().map { pagesCount =>
         Ok(Json.obj("count" -> pagesCount))
       }
     }
   }
 
   def getSiteTotalPages(siteId: String) = Action {
-    Ok(SiteLastPageInfos.getAsJson(siteId))
+    Async {
+      import Link.writes
+      SiteLastPageInfos.get(siteId).map(maybeLink => {
+        // The site may not permit to give the last page. In that case, an empty json object is returned.
+        val jsValue = maybeLink match {
+          case Some(link) => Json.toJson(link)
+          case None       => JsNull
+        }
+
+        Ok(jsValue).as("application/json")
+      })
+    }
   }
 
   def getSiteFirstPage(siteId: String) = getSitePage(siteId)
@@ -45,9 +62,13 @@ object TumblrController extends Controller {
 
   def getSitePage(siteId: String, pageNumber: Option[Int] = None) = Action {
     Async {
-      val futurePage = PageContentFinder(siteId,pageNumber).getContent()
+      val futurePage = for {
+        finder <- PageContentFinder.get(siteId, pageNumber)
+        content <- finder.getContent()
+      } yield content
+
       futurePage.map { optionPage =>
-        Ok(Json.toJson(optionPage.get)).as("application/json")
+        Ok(Json.toJson(optionPage.get)(Writes.of(tumblr.model.Page.simpleWriter))).as("application/json")
       }
     }
   }

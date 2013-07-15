@@ -11,6 +11,7 @@ import play.modules.reactivemongo.json.BSONFormats._
 import reactivemongo.bson._
 
 import tumblr.model._
+import tumblr.model.Page.{format, writes}
 
 object PageDao extends MongoDao[Page, BSONObjectID] {
 

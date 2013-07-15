@@ -40,7 +40,7 @@ trait MongoDao[T, PK] {
    *
    * @return a Future list of documents.
    */
-  def findAll()(implicit reader: Reads[T]): Future[List[T]]= {
+  def findAll()(implicit reader: Reads[T]): Future[List[T]] = {
     Logger.debug(s"$collectionName - findAll()")
     collection
       .find(Json.obj())

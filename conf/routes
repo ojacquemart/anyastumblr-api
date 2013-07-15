@@ -11,12 +11,12 @@ GET         /                                           tumblr.controllers.Tumbl
 
 # Sites
 GET         /api/tumblr/sites                           tumblr.controllers.TumblrController.sites
-GET         /api/tumblr/:siteId                         tumblr.controllers.TumblrController.getSiteFirstPage(siteId: String)
-GET         /api/tumblr/:siteId/last-page/link          tumblr.controllers.TumblrController.getSiteTotalPages(siteId: String)
-GET         /api/tumblr/:siteId/page/:pageNumber        tumblr.controllers.TumblrController.getSitePageByPageNumber(siteId: String, pageNumber: Int)
+GET         /api/tumblr/sites/:siteId                   tumblr.controllers.TumblrController.getSiteFirstPage(siteId: String)
+GET         /api/tumblr/sites/:siteId/last-page         tumblr.controllers.TumblrController.getSiteTotalPages(siteId: String)
+GET         /api/tumblr/sites/:siteId/page/:pageNumber  tumblr.controllers.TumblrController.getSitePageByPageNumber(siteId: String, pageNumber: Int)
 
 # Tumblr stats
-GET         /api/tumblr/sites/stats                     tumblr.controllers.TumblrController.stats
+GET         /api/tumblr/stats                           tumblr.controllers.TumblrController.stats
 
 # Tumblr administration
 GET         /tumblr/administration                      tumblr.controllers.admin.TumblrAdminController.index

@@ -3,16 +3,15 @@ package test.tumblr
 import org.specs2.mutable._
 
 import tumblr.model._
-import tumblr.dao._
 import tumblr._
 
-import test.utils.SimpleFakeApp
+import test.tumblr.dao.LocalSiteDao._
 
 class ContentFinderSpec extends Specification {
 
   "The ContentFinder class" should {
 
-    "partition avatars and images" in new SimpleFakeApp {
+    "partition avatars and images" in {
       val images = List(
         Image.get("http://forum-images.hardware.fr/themes/dark/shit.gif"),
         Image.get("http://forum-images.hardware.fr/images/perso/cerveau ouch.gif"),
@@ -36,7 +35,7 @@ class ContentFinderSpec extends Specification {
         Image.get("http://forum-images.hardware.fr/images/perso/2/ixam.gif"),
         Image.get("http://forum-images.hardware.fr/images/perso/2/ixam.gif")
       )
-      val site = SiteDao.getFirstSite
+      val site = LocalSites.head
       val imagesFinder: ImagesFinder = new ImagesFinder(site.url, site.configuration)
       val rearrangeImgs = imagesFinder.rearrangeImages(images)
       val concatImgs = rearrangeImgs._1 ++ rearrangeImgs._2

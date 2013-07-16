@@ -31,7 +31,7 @@ object SiteLastPageInfos {
     }
   }
 
-  private def getLink(site: Site): Option[Link] = {
+  def getLink(site: Site): Option[Link] = {
     val lastPageByCss = site.configuration.lastPageByCss
     Logger.debug(s"Get last page by css from ${site.name}=$lastPageByCss")
 

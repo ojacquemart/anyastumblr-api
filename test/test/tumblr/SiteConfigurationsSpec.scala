@@ -4,6 +4,7 @@ import org.specs2.mutable._
 
 import tumblr.model._
 import tumblr._
+import test.tumblr.dao.{JoiesDuCodeConfiguration, HfrConfiguration}
 
 class SiteConfigurationsSpec extends Specification {
 

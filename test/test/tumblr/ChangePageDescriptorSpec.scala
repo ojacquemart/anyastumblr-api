@@ -2,7 +2,7 @@ package test.tumblr
 
 import org.specs2.mutable._
 
-import tumblr.model._
+import test.tumblr.dao.{JoiesDuCodeConfiguration, HfrConfiguration}
 
 class ChangePageDescriptorSpec extends Specification {
 

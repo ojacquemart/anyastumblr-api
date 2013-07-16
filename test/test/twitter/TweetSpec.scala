@@ -2,17 +2,18 @@ package test.twitter
 
 import org.specs2.mutable._
 
+import play.api.test.Helpers._
+
 import twitter._
 
 import test.utils.SimpleFakeApp
-import test.utils.TestAwait._
 
 class TweetSpec extends Specification {
 
   "The Tweet class" should {
 
     "fetch tweets" in new SimpleFakeApp {
-      val tweets = result(Tweet.fetch("#java, #scala"))
+      val tweets = await(Tweet.fetch("#java, #scala"))
 
       tweets must not be equalTo(Nil)
       tweets.size must be >(1)

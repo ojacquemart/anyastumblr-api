@@ -3,15 +3,14 @@ package test.tumblr
 import org.specs2.mutable._
 
 import tumblr.model._
-import tumblr.dao._
 import tumblr._
 
-import test.utils._
+import test.tumblr.dao.LocalSiteDao._
 
 class TotalPageInformationsSpec extends Specification {
 
   def getSiteByNameLowerCase(name: String): Site = {
-    val maybeSite = SiteDao.getSites().find(site => site.name.toLowerCase() == name)
+    val maybeSite = LocalSites.find(site => site.name.toLowerCase() == name)
     maybeSite must not be equalTo(None)
 
     val site: tumblr.model.Site = maybeSite.get
@@ -29,17 +28,17 @@ class TotalPageInformationsSpec extends Specification {
 
   "The SiteLastPageInfosJson class" should {
 
-    "returns None when the site doesn't expose its total page number" in new SimpleFakeApp {
+    "returns None when the site doesn't expose its total page number" in {
       val site = getSiteByNameLowerCase("commitstrip")
 
-      SiteLastPageInfos.get(site.id.get.toString()) must be equalTo(None)
+      SiteLastPageInfos.getLink(site) must be equalTo(None)
     }
   }
 
   "The PageNumberResolver class" should {
 
     def getFirstSitePageNumber(pageNumber: Option[Int]) = {
-      val site = SiteDao.getFirstSite()
+      val site = LocalSites.head
 
       val resolver = new PageNumberResolver(site, pageNumber)
       val urlAndPageNumber = resolver.resolve
@@ -50,12 +49,12 @@ class TotalPageInformationsSpec extends Specification {
       urlAndPageNumber._2
     }
 
-    "resolve hfr page number from None and Some given number" in new SimpleFakeApp {
+    "resolve hfr page number from None and Some given number" in {
       getFirstSitePageNumber(None) must be > (1)
       getFirstSitePageNumber(Some(1000)) must be equalTo(1000)
     }
 
-    "get last page from joiesX sites" in new SimpleFakeApp {
+    "get last page from joiesX sites" in {
       getLastPageNumber("joiesducode") must be > (1)
       getLastPageNumber("joiesdusysadmin") must be > (1)
       getLastPageNumber("joiesdutest") must be > (1)

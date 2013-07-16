@@ -27,8 +27,7 @@ object SiteDao extends MongoDao[Site, BSONObjectID] {
   def findSiteById(siteId: String): Future[Option[Site]] = {
     Logger.debug(s"site id: $siteId")
 
-    val id = BSONObjectID(siteId)
-    findByPK(id)
+    findByPK(BSONObjectID(siteId))
   }
 
 }

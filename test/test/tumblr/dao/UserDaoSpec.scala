@@ -4,10 +4,10 @@ import org.specs2.mutable._
 
 import securesocial.core._
 
+import play.api.test.Helpers._
+
 import tumblr.dao._
 import tumblr.model._
-
-import test.utils.TestAwait._
 
 class UserDaoSpec extends Specification {
 
@@ -28,12 +28,12 @@ class UserDaoSpec extends Specification {
         )
       UserDao.save(newUser)
 
-      result(UserDao.count()) must be>=1
+      await(UserDao.count()) must be>=1
 
-      val foundUser: User = result(UserDao.findAll()).head
+      val foundUser: User = await(UserDao.findAll()).head
       newUser == foundUser must beTrue
 
-      val maybeByIdUser = result(UserDao.findById(newUser.id))
+      val maybeByIdUser = await(UserDao.findById(newUser.id))
       maybeByIdUser must not be equalTo(None)
       newUser == maybeByIdUser.get must beTrue
     }

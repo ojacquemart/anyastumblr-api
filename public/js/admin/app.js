@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('adminTumblr', [ 'tumblrDirectives', 'tumblrServices' ])
+angular.module('adminTumblr', [ "slugifier", 'tumblrDirectives', 'tumblrServices' ])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.
             when('/site-types', {

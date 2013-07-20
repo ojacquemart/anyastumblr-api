@@ -1,4 +1,4 @@
-package test.twitter
+package twitter
 
 import org.specs2.mutable._
 
@@ -6,7 +6,7 @@ import play.api.test.Helpers._
 
 import twitter._
 
-import test.utils.SimpleFakeApp
+import utils.SimpleFakeApp
 
 class TweetSpec extends Specification {
 

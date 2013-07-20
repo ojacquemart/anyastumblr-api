@@ -30,10 +30,11 @@ function RootSiteFormController($scope, SiteType) {
     }
 }
 
-function NewSiteController($scope, $location, Site) {
+function NewSiteController($scope, $location, Site, SiteType) {
     $scope.site = new Site();
+    $scope.siteTypes = SiteType.query();
 
-    $scope.save = function($scope) {
+    $scope.save = function() {
         $scope.site.$save(function (site) {
             $location.path("/sites");
         });

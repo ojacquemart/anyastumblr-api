@@ -1,18 +1,19 @@
-<h3>Site {{site.id}}</h3>
+<form id="admin-site-form" name="siteForm" class="form-horizontal" ng-controller="RootSiteFormController">
+    <fieldset>
+        <legend>Site {{site.slug}}</legend>
+    </fieldset>
 
-
-<form name="siteForm" class="form-horizontal" ng-controller="RootSiteFormController">
     <div class="form-actions">
-        <button ng-click="save(site)" class="btn" ng-disabled="siteForm.$invalid">Save</button>
-        <a ng-href="#/sites" class="btn">Cancel</a>
+        <a ng-href="#/sites" class="btn"><i class="icon-remove"></i>&nbsp; Cancel</a>
+        <button ng-click="save(site)" class="btn btn-primary" type="submit"><i class="icon-ok icon-white"></i>&nbsp; Save</button>
     </div>
 
     <fieldset>
         <legend>Informations</legend>
         <div class="control-group">
             <label class="control-label">Type *</label>
-            <div class="controls" ng-controller="SiteTypeController">
-                <select ng-model="site.siteType" ng-options="option.name as option.name for option in siteTypes" required></select>
+            <div class="controls">
+                <select ng-model="site.siteType" ng-options="i.name for i in siteTypes"></select>
             </div>
         </div>
         <div class="control-group">
@@ -22,9 +23,31 @@
             </div>
         </div>
         <div class="control-group">
+            <label class="control-label">Slug *</label>
+            <div class="controls">
+                <slug from="site.name" to="site.slug">
+                    <input ng-model="site.slug" ng-disabled="true" class="input-xxlarge" required />
+                </slug>
+            </div>
+        </div>
+
+        <div class="control-group">
             <label class="control-label">Url *</label>
             <div class="controls">
                 <input ng-model="site.url" class="input-xxlarge" required />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Ordinal *</label>
+            <div class="controls">
+                <input ng-model="site.ordinal" type="number" class="span2" required />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Enabled *</label>
+            <div class="controls">
+                <select-yes-no value="site.enabled" />
             </div>
         </div>
     </fieldset>
@@ -140,8 +163,8 @@
     </fieldset>
 
     <div class="form-actions">
-        <button ng-click="save(site)" class="btn" ng-disabled="siteForm.$invalid">Save</button>
-        <a ng-href="#/sites" class="btn">Cancel</a>
+        <a ng-href="#/sites" class="btn"><i class="icon-remove"></i>&nbsp; Cancel</a>
+        <button ng-click="save(site)" class="btn btn-primary" type="submit"><i class="icon-ok icon-white"></i>&nbsp; Save</button>
     </div>
 
     <fieldset>

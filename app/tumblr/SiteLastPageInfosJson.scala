@@ -26,7 +26,7 @@ object SiteLastPageInfos {
     // Cache for 5 minutes the last page number from the site.
     Cache.getOrElse[Future[Option[Link]]](s"site.$siteId", 300) {
       for {
-        maybeSite <- SiteDao.findSiteById(siteId)
+        maybeSite <- SiteDao.findBySlug(siteId)
       } yield getLink(maybeSite.get)
     }
   }

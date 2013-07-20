@@ -11,9 +11,9 @@ GET         /                                           tumblr.controllers.Tumbl
 
 # Sites
 GET         /api/tumblr/sites                           tumblr.controllers.TumblrController.sites
-GET         /api/tumblr/sites/:siteId                   tumblr.controllers.TumblrController.getSiteFirstPage(siteId: String)
-GET         /api/tumblr/sites/:siteId/last-page         tumblr.controllers.TumblrController.getSiteTotalPages(siteId: String)
-GET         /api/tumblr/sites/:siteId/page/:pageNumber  tumblr.controllers.TumblrController.getSitePageByPageNumber(siteId: String, pageNumber: Int)
+GET         /api/tumblr/sites/:slug                     tumblr.controllers.TumblrController.getSiteFirstPage(slug: String)
+GET         /api/tumblr/sites/:slug/last-page           tumblr.controllers.TumblrController.getSiteTotalPages(slug: String)
+GET         /api/tumblr/sites/:slug/page/:pageNumber    tumblr.controllers.TumblrController.getSitePageByPageNumber(slug: String, pageNumber: Int)
 
 # Tumblr stats
 GET         /api/tumblr/stats                           tumblr.controllers.TumblrController.stats

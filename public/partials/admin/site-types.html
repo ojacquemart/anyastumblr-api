@@ -1,0 +1,65 @@
+<div id="admin-site-types" class="row-fluid">
+    <div class="span6">
+        <fieldset>
+            <legend>{{siteTypes.length}} Site types</legend>
+
+            <table class="admin-site-types-table table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Slug</th>
+                        <th>Ordinal</th>
+                        <th>Enabled</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <!-- new item -->
+                    <tr class="new-site-type">
+                        <td>
+                            <input ng-model="newSiteType.name" required/>
+                        </td>
+                        <td>
+                            <input ng-model="newSiteType.slug" required/>
+                        </td>
+                        <td  >
+                            <input ng-model="newSiteType.ordinal" type="number" required/>
+                        </td>
+                        <td>
+                            <select-yes-no value="newSiteType.enabled" />
+                        </td>
+                        <td class="span4">
+                            <button ng-click="create()" class="btn"><i class="icon-plus"></i></button>
+                        </td>
+                    </tr>
+
+                    <!-- editable items -->
+                    <tr ng-repeat="siteType in siteTypes">
+                        <td>
+                            <input ng-model="siteType.name"/>
+                        </td>
+                        <td>
+                            <slug from="siteType.name" to="siteType.slug">
+                                <input ng-model="siteType.slug" ng-disabled="true" required />
+                            </slug>
+                        </td>
+                        <td>
+                            <input ng-model="siteType.ordinal" type="number"/>
+                        </td>
+                        <td>
+                            <select-yes-no value="siteType.enabled" />
+                        </td>
+                        <td class="span4">
+                            <div class="btn-group">
+                                <button ng-click="update(siteType)" class="btn"><i class="icon-save"></i></button>
+                                <button ng-click="remove(siteType)" class="btn"><i class="icon-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+</div><!--/row-->
+

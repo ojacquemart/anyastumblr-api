@@ -14,7 +14,7 @@ case class Page(_id: Option[BSONObjectID],
                 images_1: List[Image],
                 images_2: List[Image],
                 link: Link,
-                createdAt: Option[DateTime]) extends OptionBSONObjectIdModel {
+                createdAt: Option[DateTime]) extends GenericMongoModel {
   def this(topicId: String,
            offset: Int,
            nbViews: Int,
@@ -31,7 +31,7 @@ case class Page(_id: Option[BSONObjectID],
     this(topicId, pageNumber, 1, icons, images, link)
 
   override def toString =
-    s"Page=[$id,siteId=$siteId,pageNumber=$pageNumber,nbViews=$nbViews,iconsSize=${images_1.size},imagesSize=${images_2.size},createdAt=$createdAt]"
+    s"Page=[$id,slug=$siteId,pageNumber=$pageNumber,nbViews=$nbViews,iconsSize=${images_1.size},imagesSize=${images_2.size},createdAt=$createdAt]"
 
 }
 

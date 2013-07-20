@@ -20,7 +20,7 @@ object TumblrController extends Controller {
       Ok(views.html.index())
   }
 
-  def sites = Cached("app.sites") {
+  def sites = Cached(CacheKeys.ActionSites) {
     Action {
       Async {
         Logger.info("Getting sites...")
@@ -60,10 +60,11 @@ object TumblrController extends Controller {
 
   def getSitePageByPageNumber(siteId: String, pageNumber: Int) = getSitePage(siteId, Some(pageNumber))
 
-  def getSitePage(siteId: String, pageNumber: Option[Int] = None) = Action {
+  def getSitePage(slug: String, pageNumber: Option[Int] = None) = Action {
     Async {
+      Logger.debug(s"Get page $pageNumber for site $slug")
       val futurePage = for {
-        finder <- PageContentFinder.get(siteId, pageNumber)
+        finder <- PageContentFinder.get(slug, pageNumber)
         content <- finder.getContent()
       } yield content
 

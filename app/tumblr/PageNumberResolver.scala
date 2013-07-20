@@ -25,7 +25,7 @@ case class PageNumberResolver(site: Site, pageNumber: Option[Int] = None) {
   }
 
   def getPageNumber(): Int = {
-    if (site.configuration.navigationAcending) 1
+    if (site.configuration.navigationAscending) 1
     else getLastPageNumber()
   }
 

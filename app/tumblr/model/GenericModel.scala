@@ -8,6 +8,6 @@ trait MongoModel[PK] {
 
 }
 
-trait OptionBSONObjectIdModel extends MongoModel[Option[BSONObjectID]] {
+trait GenericMongoModel extends MongoModel[Option[BSONObjectID]] {
   def id = _id
 }

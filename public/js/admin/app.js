@@ -5,7 +5,7 @@ angular.module('adminTumblr', [ "slugifier", 'tumblrDirectives', 'tumblrServices
         $routeProvider.
             when('/site-types', {
                 controller: SiteTypeController,
-                templateUrl: "/assets/partials/admin/siteTypes.html"
+                templateUrl: "/assets/partials/admin/site-types.html"
             })
             .when('/sites', {
                 controller: SiteController,

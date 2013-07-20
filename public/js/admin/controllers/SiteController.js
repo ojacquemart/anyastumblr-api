@@ -10,8 +10,7 @@ function SiteController($scope, Site) {
     }
 }
 
-function RootSiteFormController($scope) {
-
+function RootSiteFormController($scope, SiteType) {
     $scope.checkImageRule = function() {
         if (typeof $scope.site.configuration.imageRule === "undefined") {
             $scope.site.configuration.imageRule = { "exclude": "", "startsWith": [] };
@@ -41,12 +40,30 @@ function NewSiteController($scope, $location, Site) {
     }
 }
 
-function EditSiteController($scope, $location, site) {
+function EditSiteController($scope, $location, site, SiteType) {
     $scope.site = site;
+    $scope.siteTypes = SiteType.query(function(siteTypes) {
+        $scope.site.siteType = $scope.updateSiteType();
+    });
+
+    $scope.updateSiteType = function() {
+        function getSiteType() {
+            var siteTypes = $scope.siteTypes;
+            for (var i = 0; i < siteTypes.length; i++) {
+                if ($scope.site.siteType.name == siteTypes[i].name) {
+                    return siteTypes[i];
+                }
+            }
+
+            return siteTypes[0];
+        }
+
+       return getSiteType();
+    }
 
     $scope.save = function() {
         $scope.site.$update(function (site) {
-            $location.path("/sites");
+           $location.path("/sites");
         });
     }
 }

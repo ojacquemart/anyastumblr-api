@@ -46,9 +46,9 @@ case class PageContentFinder(site: Site, pageNumber: Option[Int])  {
 
 object PageContentFinder {
 
-  def get(siteId: String, pageNumber: Option[Int]): Future[PageContentFinder] = {
-    Logger.info(s"Site siteId=$siteId")
-    val futureMaybeSite = SiteDao.findSiteById(siteId)
+  def get(slug: String, pageNumber: Option[Int]): Future[PageContentFinder] = {
+    Logger.info(s"Site slug=$slug")
+    val futureMaybeSite = SiteDao.findBySlug(slug)
 
     for {
       maybeSite <- futureMaybeSite

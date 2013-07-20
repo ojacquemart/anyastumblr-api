@@ -16,7 +16,7 @@ import reactivemongo.core.commands.Count
 
 /**
  * Generic Mongo Dao trait.
- *
+ * TODO: replace this by the ReactiveMongoAutoSource(coll)
  * To use this class, import in your dao object:
  * <pre>
  *   <code>
@@ -35,15 +35,24 @@ trait MongoDao[T, PK] {
   def collection: JSONCollection = db.collection(collectionName())
   def collectionName(): String
 
+  val sorter: JsObject = Json.obj()
+  val finder: JsObject = Json.obj()
+  val pkField = "_id"
+
+  def debug(message: String) = {
+    Logger.debug(s"$collectionName - $message")
+  }
+
   /**
    * Find all documents from the collection.
    *
    * @return a Future list of documents.
    */
   def findAll()(implicit reader: Reads[T]): Future[List[T]] = {
-    Logger.debug(s"$collectionName - findAll()")
+    debug("findAll()")
     collection
-      .find(Json.obj())
+      .find(finder)
+      .sort(sorter)
       .cursor[T]
       .toList
   }
@@ -57,9 +66,9 @@ trait MongoDao[T, PK] {
    * @return the document matching the PK.
    */
   def findByPK(pk: PK)(implicit writer: Writes[PK], reader: Reads[T]): Future[Option[T]] = {
-    Logger.debug(s"$collectionName - findByPK($pk)")
+    debug(s"findByPK($pk)")
 
-    collection.find(Json.obj("_id" -> pk)).one[T]
+    collection.find(Json.obj(pkField -> pk)).one[T]
   }
 
   /**
@@ -68,12 +77,12 @@ trait MongoDao[T, PK] {
    * @param element the element to persist.
    */
   def save(element: T)(implicit writer: Writes[T]) = {
-    Logger.debug(s"$collectionName - save($element)")
+    debug(s"save($element)")
     collection.save(element)
   }
 
   def remove(pk: PK)(implicit writer: Writes[PK]) = {
-    Logger.debug(s"$collectionName - remove(pk) ")
+    debug(s"remove($pk) ")
     collection.remove(pk)
   }
 
@@ -81,7 +90,7 @@ trait MongoDao[T, PK] {
    * Remove all documents from the collection.
    */
   def removeAll() = {
-    Logger.debug(s"$collectionName - removeAll()")
+    debug("removeAll()")
     collection.remove(Json.obj())
   }
 
@@ -89,7 +98,7 @@ trait MongoDao[T, PK] {
    * Count the number of documents from the collection.
    */
   def count(): Future[Int] = {
-    Logger.debug(s"$collectionName - count()")
+    debug("count()")
     db.command(Count(collectionName))
   }
 

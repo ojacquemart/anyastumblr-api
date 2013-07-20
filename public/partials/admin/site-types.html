@@ -21,7 +21,9 @@
                             <input ng-model="newSiteType.name" required/>
                         </td>
                         <td>
-                            <input ng-model="newSiteType.slug" required/>
+                            <slug from="newSiteType.name" to="newSiteType.slug">
+                                <input ng-model="newSiteType.slug" ng-disabled="true" required/>
+                            </slug>
                         </td>
                         <td  >
                             <input ng-model="newSiteType.ordinal" type="number" required/>

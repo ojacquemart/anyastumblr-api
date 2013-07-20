@@ -10,26 +10,29 @@
         <div id="tumblr-sites-list">
             <!-- Sites list -->
             <select
-                    id="topics-select"
+                    id="sites-select"
                     ng-model="siteId"
                     ng-options="site.id as site.name group by site.type for site in sites"
-                    ng-change="loadImages();">
+                    ng-change="getImagesFromSite();">
             </select>
 
             <!-- Current page / Total pages -->
             <span ng-show="page" class="page-title">
-                <a href="{{page.link.url}}" title="{{page.link.title}}" target="_blank">{{page.link.label}}</a>
-                <span id="last-page-infos" ng-show="pageTotal" ng-cloak>
+                <a href="{{page.link.url}}" title="{{page.link.title}}" target="_blank">{{page.link.label}}</a> {{pageTotal.length}}
+                <span id="last-page-infos" ng-show="hasNotEmptyTotalPage()" ng-cloak>
                     / <a href="{{pageTotal.url}}" title="{{pageTotal.title}}" target="_blank">{{pageTotal.label}}</a>
                 </span>
             </span>
         </div>
 
+        <!-- Previous / next | refresh -->
         <div id="tumblr-sites-navigation" ng-show="page">
-            <i class="btn icon-arrow-left icon-large" ng-click="loadPreviousPage();"></i>
-            <i class="btn icon-arrow-right icon-large" ng-click="loadNextPage();"></i>
+            <i class="btn icon-arrow-left icon-large" ng-click="getPreviousPage();"></i>
+            <i class="btn icon-arrow-right icon-large" ng-click="getNextPage();"></i>
             <i class="btn icon-refresh icon-large" ng-click="refreshPage();"></i>
         </div>
+
+        <!-- Shortcuts -->
         <i class="icon-keyboard icon-large icon-keyboard-top-right" ng-click="showModalShortcuts();"></i>
     </div>
 </div>

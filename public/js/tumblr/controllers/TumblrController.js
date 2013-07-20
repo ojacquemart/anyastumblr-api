@@ -27,57 +27,53 @@ function TumblrController($scope, Tumblr) {
         $scope.currentSiteIndex = searchSiteIndex();
     };
 
-    $scope.getTotalPage = function() {
-        Tumblr.getTotalPage({ id: $scope.siteId }, function (data) {
-            // FIXME: pageTotal must return a true null.
-            if (data == "null") {
-                $scope.pageTotal = null;
-            } else {
-                $scope.pageTotal = data;
-            }
-        });
-    };
+    $scope.hasNotEmptyTotalPage = function() {
+        return $scope.pageTotal != null && $scope.pageTotal["url"] != null;
+    }
 
-    $scope.setImages = function (data) {
-        $("html, body").animate({ scrollTop: 0 }, "slow");
-        $scope.page = data;
+    $scope.getTotalPage = function() {
+        $scope.pageTotal = Tumblr.getTotalPage({ id: $scope.siteId });
     };
 
     $scope.getImagesFromSite = function () {
-        Tumblr.get({ "id": $scope.siteId }, function (data) {
-            $("#topics-select").blur();
-            $scope.setImages(data);
+        $scope.pageTotal = null;
+        $scope.page = Tumblr.get({ "id": $scope.siteId }, function () {
+            $("#sites-select").blur();
 
-            // Reset last page infos to reinit binding.
-            $scope.pageTotal = null;
             $scope.getTotalPage();
-
             $scope.setCurrentSiteIndex();
         });
+
     };
+
+    $scope.animateToTop = function() {
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+    }
 
     $scope.getPageByNumber = function(pageNumber) {
         Tumblr.getPageByNumber({ "id" : $scope.siteId, "pageParam" : pageNumber }, function (data) {
-            $scope.setImages(data);
+            $scope.animateToTop();
+
+            $scope.page = data;
         });
     };
 
     $scope.getNextPage = function () {
         var nextPageNumber = $scope.page.pageNumber + 1;
-        var lastPageLink = $scope.pageTotal;
 
         function canGoToNextPage() {
-            if (lastPageLink == null) {
+            if (!$scope.hasNotEmptyTotalPage()) {
                 return true;
             }
 
-            return nextPageNumber <= lastPageLink.pageNumber;
+            return nextPageNumber <= $scope.pageTotal.pageNumber;
         }
 
         if (canGoToNextPage()) {
             $scope.getPageByNumber(nextPageNumber);
         }
     }
+
     $scope.getPreviousPage = function () {
         var pageNumber = $scope.page.pageNumber - 1;
         if (pageNumber !== 0) {
@@ -90,7 +86,7 @@ function TumblrController($scope, Tumblr) {
         if (nextIndex >= 0 && nextIndex < $scope.sites.length) {
             $scope.currentSiteIndex = nextIndex;
 
-            // to bind topic in select.
+            // to bind site in select.
             $scope.siteId = $scope.sites[nextIndex].id;
             $scope.getImagesFromSite();
         }

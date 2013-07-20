@@ -48,7 +48,7 @@ object TumblrController extends Controller {
         // The site may not permit to give the last page. In that case, an empty json object is returned.
         val jsValue = maybeLink match {
           case Some(link) => Json.toJson(link)
-          case None       => JsNull
+          case None       => Json.obj()
         }
 
         Ok(jsValue).as("application/json")

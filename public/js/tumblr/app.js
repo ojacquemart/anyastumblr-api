@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('SharedServices', [])
+angular.module('SharedServices', [ "tumblrServices"])
     .config(function ($httpProvider) {
         $httpProvider.responseInterceptors.push('loadingHttpInterceptor');
         var spinnerFunction = function (data, headersGetter) {

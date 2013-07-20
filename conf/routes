@@ -12,7 +12,7 @@ GET         /                                           tumblr.controllers.Tumbl
 # Sites
 GET         /api/tumblr/sites                           tumblr.controllers.TumblrController.sites
 GET         /api/tumblr/sites/:slug                     tumblr.controllers.TumblrController.getSiteFirstPage(slug: String)
-GET         /api/tumblr/sites/:slug/last-page           tumblr.controllers.TumblrController.getSiteTotalPages(slug: String)
+GET         /api/tumblr/sites/:slug/page/total          tumblr.controllers.TumblrController.getSiteTotalPages(slug: String)
 GET         /api/tumblr/sites/:slug/page/:pageNumber    tumblr.controllers.TumblrController.getSitePageByPageNumber(slug: String, pageNumber: Int)
 
 # Tumblr stats

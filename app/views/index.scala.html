@@ -1,7 +1,11 @@
 @import tags._
 
 @main(titleKey = "tumblr.main.title", ngApp = "AnyAsTumblr") {
+} {
     <link href="@routes.Assets.at("css/main.css")" rel="stylesheet">
+
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
 
     <script src="@routes.Assets.at("js/tumblr/services.js")"></script>
     <script src="@routes.Assets.at("js/tumblr/app.js")"></script>

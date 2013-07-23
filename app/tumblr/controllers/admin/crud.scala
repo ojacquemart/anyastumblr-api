@@ -8,10 +8,10 @@ import play.api.Play.current
 import play.api.Logger
 import play.api.cache.Cache
 import play.api.libs.json._
-import play.api.libs.functional.syntax._
-import play.api.mvc.{EssentialAction, Action}
+import play.api.mvc.{Controller, EssentialAction, Action}
 
 import play.autosource.reactivemongo._
+import play.modules.reactivemongo.json.BSONFormats._
 import play.modules.reactivemongo.json.collection.JSONCollection
 
 import reactivemongo.bson.BSONObjectID
@@ -23,8 +23,27 @@ import tumblr.CacheKeys
 import tumblr.dao.SiteDao
 import tumblr.dao.SiteTypeDao
 
-object SiteTypeController extends ReactiveMongoAutoSourceController[SiteType] {
+trait SlugChecker extends Controller {
+
+  def res(): ReactiveMongoAutoSource[_ <: Slugifiable]
+
+  def existsSlug(slug: String) = Action { request =>
+    Async {
+      val futureSlugs = res.find(Json.obj("slug" -> slug))
+      futureSlugs.map(slugs => {
+        val exists = slugs.size > 0
+        val id = slugs.headOption.map(head => head._2.stringify).getOrElse("")
+        Ok(Json.obj("exists" -> exists, "id" -> id)).as("application/json")
+      })
+    }
+
+  }
+
+}
+
+object SiteTypeController extends ReactiveMongoAutoSourceController[SiteType] with SlugChecker {
   val coll = db.collection[JSONCollection](SiteTypeDao.collectionName)
+
 
   override def update(id: BSONObjectID) = Action(parse.json){ request =>
     Json.fromJson[SiteType](request.body)(reader).map { newSiteTpe =>
@@ -57,7 +76,7 @@ object SiteTypeController extends ReactiveMongoAutoSourceController[SiteType] {
 
 }
 
-object SiteController extends ReactiveMongoAutoSourceController[Site] {
+object SiteController extends ReactiveMongoAutoSourceController[Site] with SlugChecker {
   val coll = db.collection[JSONCollection](SiteDao.collectionName)
 
   /**

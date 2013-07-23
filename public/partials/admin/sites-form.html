@@ -5,7 +5,10 @@
 
     <div class="form-actions">
         <a ng-href="#/sites" class="btn"><i class="icon-remove"></i>&nbsp; Cancel</a>
-        <button ng-click="save(site)" class="btn btn-primary" type="submit"><i class="icon-ok icon-white"></i>&nbsp; Save</button>
+        <button ng-click="save(site)" ng-disabled="!siteForm.$valid"
+                class="btn btn-primary" type="submit">
+            <i class="icon-ok icon-white"></i>&nbsp; Save
+        </button>
     </div>
 
     <fieldset>
@@ -19,7 +22,12 @@
         <div class="control-group">
             <label class="control-label">Name *</label>
             <div class="controls">
-                <input ng-model="site.name" class="input-xxlarge" required />
+                <input name="name" ng-model="site.name"
+                       ng-unique-slug="{{ { 'id': site.id, 'objectsVarName': 'sites', 'type': 'sites' } }}"
+                       required
+                       class="input-xxlarge" />
+                <span class="text-error" ng-show="siteForm.name.$error.required">Required</span>
+                <span class="text-error" ng-show="siteForm.name.$error.unique">Slug '{{site.slug}}' already exists</span>
             </div>
         </div>
         <div class="control-group">
@@ -164,7 +172,10 @@
 
     <div class="form-actions">
         <a ng-href="#/sites" class="btn"><i class="icon-remove"></i>&nbsp; Cancel</a>
-        <button ng-click="save(site)" class="btn btn-primary" type="submit"><i class="icon-ok icon-white"></i>&nbsp; Save</button>
+        <button ng-click="save(site)" ng-disabled="!siteForm.$valid"
+                class="btn btn-primary" type="submit">
+            <i class="icon-ok icon-white"></i>&nbsp; Save
+        </button>
     </div>
 
     <fieldset>

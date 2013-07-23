@@ -30,8 +30,8 @@
                         <td>{{site.slug}}</td>
                         <td class="span6">{{site.url}}</td>
                         <td>
-                            <button class="btn btn-success" ng-show="site.enabled">Enabled</button>
-                            <button class="btn btn-danger" ng-show="!site.enabled">Disabled</button>
+                            <span class="text-success"><i class="icon-ok-circle icon-large" ng-show="site.enabled"></i></span>
+                            <span class="text-error"><i class="icon-ban-circle icon-large" ng-show="!site.enabled"></i></span>
                         </td>
                         <td>
                             <div class="btn-group">

@@ -7,48 +7,53 @@
 #--------------
 
 # Index
-GET         /                                           tumblr.controllers.TumblrController.index
+GET         /                                                     tumblr.controllers.TumblrController.index
 
 # Sites
-GET         /api/tumblr/sites                           tumblr.controllers.TumblrController.sites
-GET         /api/tumblr/sites/:slug                     tumblr.controllers.TumblrController.getSiteFirstPage(slug: String)
-GET         /api/tumblr/sites/:slug/page/total          tumblr.controllers.TumblrController.getSiteTotalPages(slug: String)
-GET         /api/tumblr/sites/:slug/page/:pageNumber    tumblr.controllers.TumblrController.getSitePageByPageNumber(slug: String, pageNumber: Int)
+GET         /api/tumblr/sites                                     tumblr.controllers.TumblrController.sites
+GET         /api/tumblr/sites/:slug                               tumblr.controllers.TumblrController.getSiteFirstPage(slug: String)
+GET         /api/tumblr/sites/:slug/page/total                    tumblr.controllers.TumblrController.getSiteTotalPages(slug: String)
+GET         /api/tumblr/sites/:slug/page/:pageNumber              tumblr.controllers.TumblrController.getSitePageByPageNumber(slug: String, pageNumber: Int)
 
 # Tumblr stats
-GET         /api/tumblr/stats                           tumblr.controllers.TumblrController.stats
+GET         /api/tumblr/stats                                     tumblr.controllers.TumblrController.stats
 
 # Tumblr administration
-GET         /tumblr/administration                      tumblr.controllers.admin.TumblrAdminController.index
+GET         /tumblr/administration                                tumblr.controllers.admin.TumblrAdminController.index
+
+# Tumblr administration slugs
+GET         /api/tumblr/admin/site-types/slug/exists/:slug        tumblr.controllers.admin.SiteTypeController.existsSlug(slug)
+GET         /api/tumblr/admin/sites/slug/exists/:slug             tumblr.controllers.admin.SiteController.existsSlug(slug)
+
 
 # Tumblr administration autosource
-->          /api/tumblr/admin/site-types                tumblr.controllers.admin.SiteTypeController
-->          /api/tumblr/admin/sites                     tumblr.controllers.admin.SiteController
+->          /api/tumblr/admin/site-types                          tumblr.controllers.admin.SiteTypeController
+->          /api/tumblr/admin/sites                               tumblr.controllers.admin.SiteController
 
 #--------------
 # Twitter
 #--------------
 
-GET         /api/tweets/:query                          twitter.controllers.TweetsController.index(query: String)
-GET         /api/tweets/stream/:query                   twitter.controllers.TweetsController.stream(query: String)
+GET         /api/tweets/:query                                    twitter.controllers.TweetsController.index(query: String)
+GET         /api/tweets/stream/:query                             twitter.controllers.TweetsController.stream(query: String)
 
 #--------------
 # Secure social
 #--------------
 
 # Login
-GET         /login                                      securesocial.controllers.LoginPage.login
-GET         /logout                                     securesocial.controllers.LoginPage.logout
+GET         /login                                                securesocial.controllers.LoginPage.login
+GET         /logout                                               securesocial.controllers.LoginPage.logout
 
 # User Registration and password handling
 # Keep registration GET routes to avoid: play.api.Application$$anon$1: Execution exception[[ClassNotFoundException: securesocial.controllers.ReverseRegistration]]
-GET         /signup                                     securesocial.controllers.Registration.startSignUp
-GET         /reset                                      securesocial.controllers.Registration.startResetPassword
+GET         /signup                                               securesocial.controllers.Registration.startSignUp
+GET         /reset                                                securesocial.controllers.Registration.startResetPassword
 
 # Providers entry points
-GET         /authenticate/:provider                     securesocial.controllers.ProviderController.authenticate(provider)
-POST        /authenticate/:provider                     securesocial.controllers.ProviderController.authenticateByPost(provider)
-GET         /not-authorized                             securesocial.controllers.ProviderController.notAuthorized
+GET         /authenticate/:provider                               securesocial.controllers.ProviderController.authenticate(provider)
+POST        /authenticate/:provider                               securesocial.controllers.ProviderController.authenticateByPost(provider)
+GET         /not-authorized                                       securesocial.controllers.ProviderController.notAuthorized
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                               controllers.Assets.at(path="/public", file)
+GET         /assets/*file                                         controllers.Assets.at(path="/public", file)

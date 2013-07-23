@@ -8,6 +8,10 @@ body {
     background-color: #d4d4d4;
 }
 
+.admin-edit-site-types.table {
+    margin-bottom: 0;
+}
+
 .form-actions {
     margin-top: 0;
 }

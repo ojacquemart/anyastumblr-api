@@ -3,10 +3,7 @@ angular.module("tumblrServices", ["ngResource"])
         return $resource("/api/tumblr/admin/site-types/:id", {
             id: "@id"
         }, {
-            "update": { method: "PUT" },
-            "test": {
-
-            }
+            "update": { method: "PUT" }
         });
     })
     .factory("Site", function ($resource) {
@@ -14,6 +11,12 @@ angular.module("tumblrServices", ["ngResource"])
             id: "@id"
         }, {
             "update": { method: "PUT" }
+        });
+    })
+    .factory("SlugChecker", function ($resource) {
+        return $resource("/api/tumblr/admin/:type/slug/exists/:value", {
+        }, {
+            "notExistsSlug": { method: "GET" }
         });
     })
     .factory("SiteLoader", ["Site", "$route", "$q",

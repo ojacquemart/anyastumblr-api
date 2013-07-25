@@ -1,7 +1,9 @@
 <div id="admin-sites" class="row-fluid">
     <div class="span7">
         <fieldset>
-            <legend>{{sites.length}} Sites</legend>
+            <legend>
+                <span ng-show="sites.length > 0">{{sites.length}}</span> Sites
+            </legend>
 
             <div class="form-actions">
                 <a ng-href="#/sites/new" class="btn pull-right">

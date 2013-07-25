@@ -1,7 +1,9 @@
 <div id="admin-site-types" class="row-fluid">
     <div class="span6">
         <fieldset>
-            <legend>{{siteTypes.length}} Site types</legend>
+            <legend>
+               <span ng-show="siteTypes.length > 0">{{siteTypes.length}}</span> Site types
+            </legend>
 
             <form name="newSiteTypeForm">
                 <table class="admin-site-types-table table table-striped">

@@ -19,7 +19,7 @@
                     <!-- Nsew item -->
                     <tr class="new-site-type">
                         <td>
-                            <input type="text" name="name" ng-model="newSiteType.name"
+                            <input name="name" ng-model="newSiteType.name"
                                    ng-unique-slug="{{ { 'id': newSiteType.id, 'objectsVarName': 'siteTypes', 'type': 'site-types' } }}"
                                    required />
                             <span class="text-error" ng-show="newSiteTypeForm.name.$error.required">Required</span>

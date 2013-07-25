@@ -23,6 +23,10 @@ import tumblr.CacheKeys
 import tumblr.dao.SiteDao
 import tumblr.dao.SiteTypeDao
 
+/**
+ * Trait to check if a slug exists in a given collection.
+ * TODO: clean up when mixing MongoDao with AutoSource.
+ */
 trait SlugChecker extends Controller {
 
   def res(): ReactiveMongoAutoSource[_ <: Slugifiable]
@@ -43,7 +47,6 @@ trait SlugChecker extends Controller {
 
 object SiteTypeController extends ReactiveMongoAutoSourceController[SiteType] with SlugChecker {
   val coll = db.collection[JSONCollection](SiteTypeDao.collectionName)
-
 
   override def update(id: BSONObjectID) = Action(parse.json){ request =>
     Json.fromJson[SiteType](request.body)(reader).map { newSiteTpe =>
@@ -77,6 +80,8 @@ object SiteTypeController extends ReactiveMongoAutoSourceController[SiteType] wi
 }
 
 object SiteController extends ReactiveMongoAutoSourceController[Site] with SlugChecker {
+  val cacheKeysToClear = List(CacheKeys.Sites, CacheKeys.ActionSites)
+
   val coll = db.collection[JSONCollection](SiteDao.collectionName)
 
   /**
@@ -123,7 +128,6 @@ object SiteController extends ReactiveMongoAutoSourceController[Site] with SlugC
     super.delete(id)
   }
 
-
   override def batchInsert: EssentialAction = clearCache() {
     super.batchInsert
   }
@@ -132,9 +136,9 @@ object SiteController extends ReactiveMongoAutoSourceController[Site] with SlugC
     super.batchUpdate
   }
 
-  def clearCache()(f: EssentialAction): EssentialAction = {
-    Cache.remove(CacheKeys.Sites)
-    Cache.remove(CacheKeys.ActionSites)
+  def clearCache()(f: => EssentialAction): EssentialAction = {
+    Logger.debug(s"Clear caches $cacheKeysToClear")
+    cacheKeysToClear.foreach(Cache.remove(_))
     f
   }
 

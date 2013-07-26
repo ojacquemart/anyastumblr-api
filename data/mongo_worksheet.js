@@ -278,8 +278,9 @@ db.sites.insert(
             },
             "name":"Failbog.fr",
             "slug": "faiblog",
-            "url":"http://forum.hardware.fr/tumblr/Discussions/Loisirs/chutes-warning-moderation-sujet_27848_1.htm",
-            "ordinal":-1,"ordinal":-1,"enabled": true,
+            "url":"http://failblog.fr/fail/page-1.html",
+            "ordinal":-1,
+            "enabled": true,
             "configuration":{
                 "cssSelectors":{
                     "images":{
@@ -489,12 +490,16 @@ db.sites.insert(
             "name":"Sportballsreplacedwithcats",
             "slug": "sportballsreplacedwithcats",
             "url":"http://sportballsreplacedwithcats.tumblr.com/page/1",
-            "ordinal":-1,"enabled": true,
+            "ordinal":-1,
+            "enabled": true,
             "configuration":{
                 "cssSelectors":{
                     "images":{
-                        "cssQuery":".photo_post img",
+                        "cssQuery":".photo a img",
                         "htmlAttribute":"src"
+                    },
+                    "text":{
+                        "cssQuery":".caption p:last-child"
                     }
                 },
                 "lastPageByCss":false,

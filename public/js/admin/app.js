@@ -1,22 +1,22 @@
 'use strict';
 
-angular.module('adminTumblr', [  "ui", "slugifier", 'tumblrDirectives', 'tumblrServices' ])
+angular.module('adminTumblr', [ "httpInterceptor",  "$strap.directives", "ui", "slugifier", "tumblrDirectives", "tumblrServices" ])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.
             when('/site-types', {
-                controller: SiteTypeController,
+                controller: "SiteTypeController",
                 templateUrl: "/assets/partials/admin/site-types.html"
             })
             .when('/sites', {
-                controller: SiteController,
+                controller: "SiteController",
                 templateUrl: "/assets/partials/admin/sites.html"
             })
             .when('/sites/new', {
-                controller: NewSiteController,
+                controller: "NewSiteController",
                 templateUrl: "/assets/partials/admin/sites-form.html"
             })
             .when('/sites/edit/:id', {
-                controller: EditSiteController,
+                controller: "EditSiteController",
                 resolve: {
                     site: function(SiteLoader) {
                         return SiteLoader();
@@ -24,6 +24,9 @@ angular.module('adminTumblr', [  "ui", "slugifier", 'tumblrDirectives', 'tumblrS
                 },
                 templateUrl: "/assets/partials/admin/sites-form.html"
             })
+            .when('/caches', {
+                controller: "CachesController",
+                templateUrl: "/assets/partials/admin/caches.html"
+            })
             .otherwise({redirectTo: '/site-types'});
     }]);
-

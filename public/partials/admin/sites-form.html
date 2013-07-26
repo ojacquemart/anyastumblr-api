@@ -22,7 +22,7 @@
         <div class="control-group">
             <label class="control-label">Name *</label>
             <div class="controls">
-                <input name="name" ng-model="site.name"
+                <input type="text" name="name" ng-model="site.name"
                        ng-unique-slug="{{ { 'id': site.id, 'objectsVarName': 'sites', 'type': 'sites' } }}"
                        required
                        class="input-xxlarge" />
@@ -34,7 +34,7 @@
             <label class="control-label">Slug *</label>
             <div class="controls">
                 <slug from="site.name" to="site.slug">
-                    <input ng-model="site.slug" ng-disabled="true" class="input-xxlarge" required />
+                    <input type="text" ng-model="site.slug" ng-disabled="true" class="input-xxlarge" required />
                 </slug>
             </div>
         </div>
@@ -42,14 +42,14 @@
         <div class="control-group">
             <label class="control-label">Url *</label>
             <div class="controls">
-                <input ng-model="site.url" class="input-xxlarge" required />
+                <input type="text" ng-model="site.url" class="input-xxlarge" required />
             </div>
         </div>
 
         <div class="control-group">
             <label class="control-label">Ordinal *</label>
             <div class="controls">
-                <input ng-model="site.ordinal" type="number" class="span2" required />
+                <input type="number" ng-model="site.ordinal" class="span2" required />
             </div>
         </div>
         <div class="control-group">
@@ -82,13 +82,13 @@
             <div class="control-group">
                 <label class="control-label">Css selector *</label>
                 <div class="controls">
-                    <input ng-model="site.configuration.cssSelectors.images.cssQuery" class="input-xxlarge" required />
+                    <input type="text" ng-model="site.configuration.cssSelectors.images.cssQuery" class="input-xxlarge" required />
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Html attribute *</label>
                 <div class="controls">
-                    <input ng-model="site.configuration.cssSelectors.images.htmlAttribute" class="input-xxlarge" required />
+                    <input type="text" ng-model="site.configuration.cssSelectors.images.htmlAttribute" class="input-xxlarge" required />
                 </div>
             </div>
 
@@ -99,13 +99,13 @@
             <div class="control-group">
                 <label class="control-label">Css selector</label>
                 <div class="controls">
-                    <input ng-model="site.configuration.cssSelectors.text.cssQuery" class="input-xxlarge" />
+                    <input type="text" ng-model="site.configuration.cssSelectors.text.cssQuery" class="input-xxlarge" />
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Html attribute</label>
                 <div class="controls">
-                    <input ng-model="site.configuration.cssSelectors.text.htmlAttribute" class="input-xxlarge" />
+                    <input type="text" ng-model="site.configuration.cssSelectors.text.htmlAttribute" class="input-xxlarge" />
                 </div>
             </div>
         </fieldset>
@@ -115,13 +115,13 @@
             <div class="control-group">
                 <label class="control-label">Regex *</label>
                 <div class="controls">
-                    <input ng-model="site.configuration.pageResolver.changePageDescriptor.regex" class="input-xxlarge" required />
+                    <input type="text" ng-model="site.configuration.pageResolver.changePageDescriptor.regex" class="input-xxlarge" required />
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Replacement *</label>
                 <div class="controls">
-                    <input ng-model="site.configuration.pageResolver.changePageDescriptor.replacement" class="input-xxlarge" required />
+                    <input type="text" ng-model="site.configuration.pageResolver.changePageDescriptor.replacement" class="input-xxlarge" required />
                 </div>
             </div>
         </fieldset>
@@ -131,19 +131,19 @@
             <div class="control-group">
                 <label class="control-label">Css selector</label>
                 <div class="controls">
-                    <input ng-model="site.configuration.pageResolver.pageNumberDescriptor.cssSelector.cssQuery" class="input-xxlarge" />
+                    <input type="text" ng-model="site.configuration.pageResolver.pageNumberDescriptor.cssSelector.cssQuery" class="input-xxlarge" />
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Html attribute</label>
                 <div class="controls">
-                    <input ng-model="site.configuration.pageResolver.pageNumberDescriptor.cssSelector.htmlAttribute" class="input-xxlarge" />
+                    <input type="text" ng-model="site.configuration.pageResolver.pageNumberDescriptor.cssSelector.htmlAttribute" class="input-xxlarge" />
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Regex</label>
                 <div class="controls">
-                    <input ng-model="site.configuration.pageResolver.pageNumberDescriptor.regex" class="input-xxlarge" />
+                    <input type="text" ng-model="site.configuration.pageResolver.pageNumberDescriptor.regex" class="input-xxlarge" />
                 </div>
             </div>
 
@@ -154,7 +154,7 @@
             <div class="control-group">
                 <label class="control-label">Exclude urls starting by</label>
                 <div class="controls">
-                    <input ng-model="site.configuration.imageRule.exclude" class="input-xxlarge" />
+                    <input type="text" ng-model="site.configuration.imageRule.exclude" class="input-xxlarge" />
                 </div>
             </div>
             <div class="control-group">
@@ -162,7 +162,7 @@
                 <div class="controls">
                     <button ng-click="addImageRuleException()" class="btn">Add</button>
                     <div ng-repeat="object in site.configuration.imageRule.startsWith">
-                        <input ng-model="object.value" class="input-xxlarge" />
+                        <input type="text" ng-model="object.value" class="input-xxlarge" />
                         <button ng-click="removeImageRuleException($index)" class="btn">Remove</button>
                     </div>
                 </div>

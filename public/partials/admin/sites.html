@@ -26,7 +26,9 @@
                 </thead>
 
                 <tbody>
-                    <tr ng-repeat="site in sites | filter:search" >
+                    <tr ng-repeat="site in sites | filter:search"
+                        ng-class="{'success': site.enabled, 'error': !site.enabled }"
+                    >
                         <td>{{site.siteType.name}}</td>
                         <td class="span3"><b>{{site.name}}</b></td>
                         <td>{{site.slug}}</td>

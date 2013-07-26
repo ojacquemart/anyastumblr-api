@@ -8,6 +8,8 @@ import ExecutionContext.Implicits.global
 import play.api.Play.current
 import play.api.Logger
 
+import play.api.test.Helpers._
+
 import play.modules.reactivemongo.ReactiveMongoPlugin
 import reactivemongo.api.collections.default.BSONCollection
 import reactivemongo.bson.BSONDocument
@@ -24,14 +26,15 @@ trait FakeDaoApp extends SimpleFakeApp {
     Logger.debug("Running test ==================================")
     Logger.debug("Clear test database ===========================")
 
-    def clearCollections(collectionsNames: String*) = {
-      collectionsNames.foreach(collectionName => {
+
+    def clearCollections() = {
+      await(ReactiveMongoPlugin.db.collectionNames).foreach(collectionName => {
         Logger.debug(s"\tClear collection: $collectionName")
         val futureRemove = ReactiveMongoPlugin.db.collection[BSONCollection](collectionName).remove(BSONDocument())
         Await.ready(futureRemove, Duration.create(1, "min"))
       })
     }
 
-    clearCollections(PageDao.collectionName, SiteTypeDao.collectionName, UserDao.collectionName)
+    clearCollections()
   }
 }

@@ -32,7 +32,7 @@
                             <span class="text-error" ng-show="newSiteTypeForm.name.$error.unique">Slug '{{newSiteType.slug}}' already exists</span>
                         </td>
                         <td>
-                            <input type="text" name="ordinal" ng-model="newSiteType.ordinal" type="number" required />
+                            <input type="number" name="ordinal" ng-model="newSiteType.ordinal" required />
                             <span class="text-error" ng-show="newSiteTypeForm.ordinal.$error.required">Required</span>
                         </td>
                         <td>
@@ -67,7 +67,7 @@
                                 </slug>
                             </td>
                             <td>
-                                <input type="text" name="ordinal" ng-model="siteType.ordinal" type="number" required/>
+                                <input type="number" name="ordinal" ng-model="siteType.ordinal" required/>
                                 <span class="text-error" ng-show="editSiteTypeForm.ordinal.$error.required">Required</span>
                             </td>
                             <td>

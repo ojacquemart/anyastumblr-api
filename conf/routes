@@ -22,8 +22,8 @@ GET         /api/tumblr/stats                                       tumblr.contr
 GET         /tumblr/administration                                  tumblr.controllers.admin.TumblrAdminController.index
 
 GET         /api/tumblr/admin/caches                                tumblr.controllers.admin.CachesController.get
-DELETE      /api/tumblr/admin/caches                                tumblr.controllers.admin.CachesController.deleteAll
-DELETE      /api/tumblr/admin/caches/:cacheKey                      tumblr.controllers.admin.CachesController.delete(cacheKey: String)
+DELETE      /api/tumblr/admin/caches                                tumblr.controllers.admin.CachesController.removeAll
+DELETE      /api/tumblr/admin/caches/:cacheKey                      tumblr.controllers.admin.CachesController.remove(cacheKey: String)
 
 # Tumblr administration slugs
 GET         /api/tumblr/admin/site-types/slug/exists/:slug          tumblr.controllers.admin.SiteTypeController.existsSlug(slug)

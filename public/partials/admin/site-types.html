@@ -19,20 +19,20 @@
                     <!-- Nsew item -->
                     <tr class="new-site-type">
                         <td>
-                            <input name="name" ng-model="newSiteType.name"
+                            <input type="text" name="name" ng-model="newSiteType.name"
                                    ng-unique-slug="{{ { 'id': newSiteType.id, 'objectsVarName': 'siteTypes', 'type': 'site-types' } }}"
                                    required />
                             <span class="text-error" ng-show="newSiteTypeForm.name.$error.required">Required</span>
                         </td>
                         <td>
                             <slug from="newSiteType.name" to="newSiteType.slug" >
-                                <input name="slug" ng-model="newSiteType.slug" ng-disabled="true" required />
+                                <input type="text" name="slug" ng-model="newSiteType.slug" ng-disabled="true" required />
                             </slug>
                             <span class="text-error" ng-show="newSiteTypeForm.slug.$error.required">Required</span>
                             <span class="text-error" ng-show="newSiteTypeForm.name.$error.unique">Slug '{{newSiteType.slug}}' already exists</span>
                         </td>
                         <td>
-                            <input name="ordinal" ng-model="newSiteType.ordinal" type="number" required />
+                            <input type="text" name="ordinal" ng-model="newSiteType.ordinal" type="number" required />
                             <span class="text-error" ng-show="newSiteTypeForm.ordinal.$error.required">Required</span>
                         </td>
                         <td>
@@ -54,20 +54,20 @@
                         <!-- Editable items -->
                         <tr>
                             <td>
-                                <input name="name" ng-model="siteType.name"
+                                <input type="text" name="name" ng-model="siteType.name"
                                        ng-unique-slug="{{ { 'id': siteType.id, 'objectsVarName': 'siteTypes', 'type': 'site-types' } }}"
                                        required />
                                 <span class="text-error" ng-show="editSiteTypeForm.name.$error.required">Required</span>
                             </td>
                             <td>
                                 <slug from="siteType.name" to="siteType.slug">
-                                    <input name="slug" ng-model="siteType.slug" ng-disabled="true" required />
+                                    <input type="text" name="slug" ng-model="siteType.slug" ng-disabled="true" required />
                                     <span class="text-error" ng-show="editSiteTypeForm.slug.$error.required">Required</span>
                                     <span class="text-error" ng-show="editSiteTypeForm.name.$error.unique">Slug '{{siteType.slug}}' already exists</span>
                                 </slug>
                             </td>
                             <td>
-                                <input name="ordinal" ng-model="siteType.ordinal" type="number" required/>
+                                <input type="text" name="ordinal" ng-model="siteType.ordinal" type="number" required/>
                                 <span class="text-error" ng-show="editSiteTypeForm.ordinal.$error.required">Required</span>
                             </td>
                             <td>

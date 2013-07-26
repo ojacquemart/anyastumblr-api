@@ -13,6 +13,14 @@ angular.module("tumblrServices", ["ngResource"])
             "update": { method: "PUT" }
         });
     })
+    .factory("Caches", function ($resource) {
+        return $resource("/api/tumblr/admin/caches/:key", {
+            key: "@key"
+        }, {
+            'removeAll':    { method: 'DELETE' },
+            'remove':       { method: 'DELETE' }
+        });
+    })
     .factory("SlugChecker", function ($resource) {
         return $resource("/api/tumblr/admin/:type/slug/exists/:value", {
         }, {

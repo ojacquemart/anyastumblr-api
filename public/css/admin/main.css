@@ -4,6 +4,10 @@ body {
     background-image:  url("../../img/striped-bg.png")
 }
 
+a {
+    cursor: pointer;
+}
+
 .admin-site-types-table.table-striped tr.new-site-type>td {
     background-color: #d4d4d4;
 }

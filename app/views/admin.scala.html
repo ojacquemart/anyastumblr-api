@@ -9,6 +9,7 @@
     <script src="@routes.Assets.at("js/admin/directives.js")"></script>
     <script src="@routes.Assets.at("js/admin/services.js")"></script>
     <script src="@routes.Assets.at("js/admin/app.js")"></script>
+    <script src="@routes.Assets.at("js/admin/controllers/CachesController.js")"></script>
     <script src="@routes.Assets.at("js/admin/controllers/SiteTypeController.js")"></script>
     <script src="@routes.Assets.at("js/admin/controllers/SiteController.js")"></script>
 } {
@@ -25,7 +26,13 @@
                     <ul class="nav">
                         <li data-match-route="/site-types"><a href="#/site-types">Site types</a></li>
                         <li data-match-route="/sites.*"><a href="#/sites">Sites</a></li>
+                        <li data-match-route="/caches"><a href="#/caches">Caches</a></li>
                     </ul>
+                </div>
+                <div id="loading" class="message-information hide">
+                    <p>
+                        <i class="icon-large icon-spinner icon-spin"></i>
+                    </p>
                 </div>
             </div>
         </div>

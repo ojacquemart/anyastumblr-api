@@ -1,13 +1,10 @@
 package tumblr.model
 
-import play.api.Logger
-
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
 
 import play.modules.reactivemongo.json.BSONFormats._
 import reactivemongo.bson._
-
 
 import tumblr.model.SiteType.writes
 import tumblr.model.SiteType.formats
@@ -40,32 +37,26 @@ case class Site(_id: Option[BSONObjectID],
                 url: String,
                 ordinal: Int,
                 enabled: Boolean,
-                configuration: Configuration) extends GenericMongoModel with Slugifiable with Sortable with Enabled
+                configuration: Configuration)
+  extends GenericMongoModel
+    with Slugifiable
+    with Sortable
+    with Enabled
 
 object Site {
 
   implicit object SimpleWrites extends Writes[Site] {
 
     def writes(site: Site): JsValue = {
-      JsObject(
-        List(
-          "type" -> JsString(site.siteType.name),
-          "id" -> JsString(site.slug),
-          "name" -> JsString(site.name)
-        ))
+      Json.obj(
+        "type" -> site.siteType.name,
+        "id" -> site.slug,
+        "name" -> site.name
+      )
     }
 
   }
 
-  def get(siteType: SiteType, name: String, slug: String, url: String, order: Int, configuration: Configuration) = {
-    // Id in sha1...
-    // TODO: use mongodb on another nosql collectionImages to store sites and maybe more... like every images loaded...
-    val md = java.security.MessageDigest.getInstance("SHA-1")
-    val id = new sun.misc.BASE64Encoder().encode(md.digest((url + name).getBytes)).replace("/", "").replace("+", "")
-
-    Logger.info(s"Site slug=$id for $name")
-    new Site(Some(BSONObjectID.generate), siteType, name, slug, url, -1, true, configuration)
-  }
 }
 
 object AdminSiteJSON {

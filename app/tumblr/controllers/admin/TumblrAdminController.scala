@@ -8,5 +8,4 @@ object TumblrAdminController extends Controller with securesocial.core.SecureSoc
       Ok(views.html.admin())
   }
 
-
 }

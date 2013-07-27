@@ -1,9 +1,9 @@
-// Mongo worksheet
-// Run with "mongo hfr mongo_worksheet.js"
+// Tumblr worksheet
+// Run with "mongo hfr tumblr.js"
 
 // Site types
 db.site_types.remove()
-//db.site_types.ensureIndex({ name: 1 }, { unique: true })
+db.site_types.ensureIndex({ slug: 1 }, { unique: true })
 db.site_types.insert([
     { "name": "Hfr", "slug": "hfr","ordinal": 1, "enabled": true },
     { "name": "Les joies", "slug": "les-joies","ordinal": 2, "enabled": true },
@@ -12,7 +12,7 @@ db.site_types.insert([
 
 // Sites
 db.sites.remove()
-
+db.sites.ensureIndex({ slug: 1 }, { unique: true })
 db.sites.insert(
     [
         {
@@ -520,3 +520,23 @@ db.sites.insert(
         }
     ]
 )
+
+db.users.remove()
+db.users.insert({
+    "id" : {
+        "id" : "admin",
+        "providerId" : "userpass"
+    },
+    "firstName" : "root",
+    "lastName" : "",
+    "fullName" : "",
+    "email" : "any@tumblr.fr",
+    "authMethod" : {
+        "value" : "userPassword"
+    },
+    "passwordInfo" : {
+        "hasher" : "bcrypt",
+        "password" : "$2a$10$5ol6OmcFcmlky/obbawAHedzn92oXmAE9yNy/KWjiCvFNQ1iRDbUy"
+    },
+    "_id" : ObjectId("51f3763b5bd11b010039f2cc")
+})

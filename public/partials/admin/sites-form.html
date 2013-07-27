@@ -5,8 +5,8 @@
 
     <div class="form-actions">
         <a ng-href="#/sites" class="btn"><i class="icon-remove"></i>&nbsp; Cancel</a>
-        <button ng-click="save(site)" ng-disabled="!siteForm.$valid"
-                class="btn btn-primary" type="submit">
+        <button ng-click="save(site)" ng-disabled="siteForm.$invalid"
+            class="btn btn-primary" type="submit">
             <i class="icon-ok icon-white"></i>&nbsp; Save
         </button>
     </div>
@@ -34,7 +34,8 @@
             <label class="control-label">Slug *</label>
             <div class="controls">
                 <slug from="site.name" to="site.slug">
-                    <input type="text" ng-model="site.slug" ng-disabled="true" class="input-xxlarge" required />
+                    <input type="text" name="slug" ng-model="site.slug" ng-disabled="true" class="input-xxlarge" required />
+                    <span class="text-error" ng-show="siteForm.slug.$error.required">Required</span>
                 </slug>
             </div>
         </div>
@@ -42,14 +43,16 @@
         <div class="control-group">
             <label class="control-label">Url *</label>
             <div class="controls">
-                <input type="text" ng-model="site.url" class="input-xxlarge" required />
+                <input type="text" name="url" ng-model="site.url" class="input-xxlarge" required />
+                <span class="text-error" ng-show="siteForm.url.$error.required">Required</span>
             </div>
         </div>
 
         <div class="control-group">
             <label class="control-label">Ordinal *</label>
             <div class="controls">
-                <input type="number" ng-model="site.ordinal" class="span2" required />
+                <input type="number" name="ordinal" ng-model="site.ordinal" class="span2" required />
+                <span class="text-error" ng-show="siteForm.ordinal.$error.required">Required</span>
             </div>
         </div>
         <div class="control-group">
@@ -82,13 +85,15 @@
             <div class="control-group">
                 <label class="control-label">Css selector *</label>
                 <div class="controls">
-                    <input type="text" ng-model="site.configuration.cssSelectors.images.cssQuery" class="input-xxlarge" required />
+                    <input type="text" name="imagesCcssQuery" ng-model="site.configuration.cssSelectors.images.cssQuery" class="input-xxlarge" required />
+                    <span class="text-error" ng-show="siteForm.imagesCcssQuery.$error.required">Required</span>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Html attribute *</label>
                 <div class="controls">
-                    <input type="text" ng-model="site.configuration.cssSelectors.images.htmlAttribute" class="input-xxlarge" required />
+                    <input type="text" name="imagesHtmlAttr" ng-model="site.configuration.cssSelectors.images.htmlAttribute" class="input-xxlarge" required />
+                    <span class="text-error" ng-show="siteForm.imagesHtmlAttr.$error.required">Required</span>
                 </div>
             </div>
 
@@ -115,13 +120,15 @@
             <div class="control-group">
                 <label class="control-label">Regex *</label>
                 <div class="controls">
-                    <input type="text" ng-model="site.configuration.pageResolver.changePageDescriptor.regex" class="input-xxlarge" required />
+                    <input type="text" name="pageRegex" ng-model="site.configuration.pageResolver.changePageDescriptor.regex" class="input-xxlarge" required />
+                    <span class="text-error" ng-show="siteForm.pageRegex.$error.required">Required</span>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Replacement *</label>
                 <div class="controls">
-                    <input type="text" ng-model="site.configuration.pageResolver.changePageDescriptor.replacement" class="input-xxlarge" required />
+                    <input type="text" name="pageRegexReplace" ng-model="site.configuration.pageResolver.changePageDescriptor.replacement" class="input-xxlarge" required />
+                    <span class="text-error" ng-show="siteForm.pageRegexReplace.$error.required">Required</span>
                 </div>
             </div>
         </fieldset>
@@ -172,8 +179,8 @@
 
     <div class="form-actions">
         <a ng-href="#/sites" class="btn"><i class="icon-remove"></i>&nbsp; Cancel</a>
-        <button ng-click="save(site)" ng-disabled="!siteForm.$valid"
-                class="btn btn-primary" type="submit">
+        <button ng-click="save(site)" ng-disabled="siteForm.$invalid"
+            class="btn btn-primary" type="submit">
             <i class="icon-ok icon-white"></i>&nbsp; Save
         </button>
     </div>

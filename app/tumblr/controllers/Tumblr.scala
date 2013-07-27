@@ -13,14 +13,9 @@ import tumblr._
 import tumblr.dao._
 import tumblr.model.Link
 
-object TumblrController extends Controller {
+object Tumblr extends Controller {
 
-  def index = Action {
-    request =>
-      Ok(views.html.index())
-  }
-
-  def sites = Cached(CacheKeys.ActionSites) {
+  def getSites = Cached(CacheKeys.ActionSites) {
     Action {
       Async {
         Logger.info("Getting sites...")
@@ -29,14 +24,6 @@ object TumblrController extends Controller {
         SiteDao.findAll().map { sites =>
           Ok(Json.toJson(sites)(Writes.seq(tumblr.model.Site.SimpleWrites))).as("application/json")
         }
-      }
-    }
-  }
-
-  def stats = Action {
-    Async {
-      PageDao.count().map { pagesCount =>
-        Ok(Json.obj("count" -> pagesCount))
       }
     }
   }

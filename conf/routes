@@ -7,16 +7,16 @@
 #--------------
 
 # Index
-GET         /                                                       tumblr.controllers.TumblrController.index
+GET         /                                                       tumblr.controllers.Application.index
 
-# Sites
-GET         /api/tumblr/sites                                       tumblr.controllers.TumblrController.sites
-GET         /api/tumblr/sites/:slug                                 tumblr.controllers.TumblrController.getSiteFirstPage(slug: String)
-GET         /api/tumblr/sites/:slug/page/total                      tumblr.controllers.TumblrController.getSiteTotalPages(slug: String)
-GET         /api/tumblr/sites/:slug/page/:pageNumber                tumblr.controllers.TumblrController.getSitePageByPageNumber(slug: String, pageNumber: Int)
+# Tumblr
+GET         /api/tumblr/sites                                       tumblr.controllers.Tumblr.getSites
+GET         /api/tumblr/sites/:slug                                 tumblr.controllers.Tumblr.getSiteFirstPage(slug: String)
+GET         /api/tumblr/sites/:slug/page/total                      tumblr.controllers.Tumblr.getSiteTotalPages(slug: String)
+GET         /api/tumblr/sites/:slug/page/:pageNumber                tumblr.controllers.Tumblr.getSitePageByPageNumber(slug: String, pageNumber: Int)
 
 # Tumblr stats
-GET         /api/tumblr/stats                                       tumblr.controllers.TumblrController.stats
+GET         /api/tumblr/stats                                       tumblr.controllers.TumblrStats.index
 
 # Tumblr administration
 GET         /tumblr/administration                                  tumblr.controllers.admin.TumblrAdminController.index

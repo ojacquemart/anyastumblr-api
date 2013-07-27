@@ -37,7 +37,7 @@ case class PageContentFinder(site: Site, pageNumber: Option[Int])  {
     Logger.debug(s"Content Site => [pageNumber=$currentPageNumber,imagesSize=$allImagesSize]")
 
     val link = Link.get(currentUrl, site.name, currentPageNumber)
-    val page = new Page(site._id.get.toString(), currentPageNumber, allImages._1, allImages._2, link)
+    val page = new Page(site.slug, currentPageNumber, allImages._1, allImages._2, link)
 
     page
   }

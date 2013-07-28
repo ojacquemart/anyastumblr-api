@@ -33,7 +33,7 @@ object PageDao extends MongoDao[Page, BSONObjectID] {
   }
 
   def update(page: Page): Future[reactivemongo.core.commands.LastError] = {
-    Logger.debug("update page " + page)
+    Logger.debug(s"$collectionName - Update page " + page)
 
     val selector = Json.obj("siteId" -> page.siteId, "pageNumber" -> page.pageNumber)
     val modifier = Json.obj(
@@ -50,11 +50,26 @@ object PageDao extends MongoDao[Page, BSONObjectID] {
   def find(page: Page): Future[Option[Page]] = findBySlugAndPageNumber(page.siteId, page.pageNumber)
 
   def findBySlugAndPageNumber(siteId: String, pageNumber: Int): Future[Option[Page]] = {
-    Logger.debug(s"find head for $siteId and $pageNumber")
+    Logger.debug(s"Find head for $siteId and $pageNumber")
 
     collection
       .find(Json.obj("siteId" -> siteId, "pageNumber" -> pageNumber))
       .one[Page]
+  }
+
+  def changeSiteId(oldSiteId: String, newSiteId: String) = {
+    Logger.debug(s"Change siteId from $oldSiteId to $newSiteId")
+
+    val selector = Json.obj("siteId" -> oldSiteId)
+    val modifier = Json.obj(
+      "$set" -> Json.obj("siteId" -> newSiteId)
+    )
+    collection.update(selector, modifier, multi = true)
+  }
+
+  def deleteBySiteId(siteId: String) = {
+    Logger.debug(s"$collectionName - deletePageBySiteId($siteId)")
+    collection.remove(Json.obj("siteId" -> siteId))
   }
 
   def statsBySiteId() = {

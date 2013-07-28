@@ -16,12 +16,10 @@ import play.modules.reactivemongo.json.collection.JSONCollection
 
 import reactivemongo.bson.BSONObjectID
 
+import tumblr.CacheKeys
 import tumblr.model._
 import tumblr.model.AdminSiteJSON._
-
-import tumblr.CacheKeys
-import tumblr.dao.SiteDao
-import tumblr.dao.SiteTypeDao
+import tumblr.dao._
 
 /**
  * Trait to check if a slug exists in a given collection.
@@ -48,7 +46,7 @@ trait SlugChecker extends Controller {
 object SiteTypeController extends ReactiveMongoAutoSourceController[SiteType] with SlugChecker {
   val coll = db.collection[JSONCollection](SiteTypeDao.collectionName)
 
-  override def update(id: BSONObjectID) = Action(parse.json){ request =>
+  override def update(id: BSONObjectID) = Action(parse.json) { request =>
     Json.fromJson[SiteType](request.body)(reader).map { newSiteTpe =>
         Async {
           // Gets the old site type object.
@@ -116,8 +114,21 @@ object SiteController extends ReactiveMongoAutoSourceController[Site] with SlugC
     super.insert
   }
 
-  override def update(id: BSONObjectID): EssentialAction = clearCache() {
-    super.update(id)
+  override def update(id: BSONObjectID) =  Action(parse.json) { request =>
+    Json.fromJson[Site](request.body)(reader).map { toUpdate =>
+      Async {
+        // Change site id from pages.
+        res.get(id).map(maybeTupleSiteTypeAndId => {
+          val oldSite = maybeTupleSiteTypeAndId.get._1
+          PageDao.changeSiteId(oldSite.slug, toUpdate.slug)
+        })
+
+        res.update(id, toUpdate).map( _ => {
+          doClearCache()
+          Ok(Json.toJson(id)(idWriter))
+        })
+      }
+    }.recoverTotal { e => BadRequest(JsError.toFlatJson(e)) }
   }
 
   override def updatePartial(id: BSONObjectID): EssentialAction = clearCache() {
@@ -125,6 +136,10 @@ object SiteController extends ReactiveMongoAutoSourceController[Site] with SlugC
   }
 
   override def delete(id: BSONObjectID): EssentialAction = clearCache() {
+    res.get(id).map(maybeSite => {
+      val site = maybeSite.get._1
+      PageDao.deleteBySiteId(site.slug)
+    })
     super.delete(id)
   }
 
@@ -137,9 +152,13 @@ object SiteController extends ReactiveMongoAutoSourceController[Site] with SlugC
   }
 
   def clearCache()(f: => EssentialAction): EssentialAction = {
+    doClearCache()
+    f
+  }
+
+  def doClearCache() {
     Logger.debug(s"Clear caches $cacheKeysToClear")
     cacheKeysToClear.foreach(Cache.remove(_))
-    f
   }
 
 

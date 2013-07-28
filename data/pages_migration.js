@@ -139,7 +139,7 @@ db.pages.update(
     {
         siteId: "N8HXKR1MIW0ZrPUXfsvN5QdoIg=" },
     {
-        $set: { 'siteId': 'failblog' }
+        $set: { 'siteId': 'failblogfr' }
     },
     {
         multi: true

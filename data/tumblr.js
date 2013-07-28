@@ -277,7 +277,7 @@ db.sites.insert(
                 "enabled":true
             },
             "name":"Failbog.fr",
-            "slug": "faiblog",
+            "slug": "failblogfr",
             "url":"http://failblog.fr/fail/page-1.html",
             "ordinal":-1,
             "enabled": true,

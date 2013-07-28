@@ -10,4 +10,7 @@ angular.module("tumblrServices", ["ngResource"])
             }
         );
     })
+    .factory("TumblrStats", function ($resource) {
+        return $resource("/api/tumblr/stats", {}, { });
+    })
 ;

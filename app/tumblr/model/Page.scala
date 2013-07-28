@@ -16,12 +16,12 @@ case class Page(_id: Option[BSONObjectID],
                 link: Link,
                 createdAt: Option[DateTime]) extends GenericMongoModel {
   def this(topicId: String,
-           offset: Int,
+           pageNumber: Int,
            nbViews: Int,
            icons: List[Image],
            images: List[Image],
            link: Link) =
-    this(Some(BSONObjectID.generate), topicId, offset, nbViews, icons, images, link, Some(DateTime.now()))
+    this(Some(BSONObjectID.generate), topicId, pageNumber, nbViews, icons, images, link, Some(DateTime.now()))
 
   def this(topicId: String,
            pageNumber: Int,
@@ -31,7 +31,7 @@ case class Page(_id: Option[BSONObjectID],
     this(topicId, pageNumber, 1, icons, images, link)
 
   override def toString =
-    s"Page=[$id,slug=$siteId,pageNumber=$pageNumber,nbViews=$nbViews,iconsSize=${images_1.size},imagesSize=${images_2.size},createdAt=$createdAt]"
+    s"Page=[$id,slug=$siteId,pageNumber=$pageNumber,sumNbViws=$nbViews,iconsSize=${images_1.size},imagesSize=${images_2.size},createdAt=$createdAt]"
 
 }
 
@@ -51,10 +51,10 @@ object Page {
     }
 
     Json.obj(
-    "link" -> page.link,
-    "pageNumber" -> page.pageNumber,
-    "images_1" -> getImagesAsListOfJsValue(page.images_1),
-    "images_2" -> getImagesAsListOfJsValue(page.images_2)
+      "link" -> page.link,
+      "pageNumber" -> page.pageNumber,
+      "images_1" -> getImagesAsListOfJsValue(page.images_1),
+      "images_2" -> getImagesAsListOfJsValue(page.images_2)
     )
   }
 

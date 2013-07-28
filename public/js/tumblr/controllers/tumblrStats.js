@@ -3,11 +3,7 @@
 /**
  * Tumblr Stats Controller.
  */
-function TumblrStatsController($scope, $http) {
+function TumblrStatsController($scope, TumblrStats) {
 
-    $scope.nbDocuments = 0;
-
-    $http.get("api/tumblr/stats").success(function(data) {
-        $scope.nbDocuments = data.count;
-    });
+    $scope.stats = TumblrStats.get();
 }

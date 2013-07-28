@@ -6,16 +6,15 @@ import ExecutionContext.Implicits.global
 import play.api.libs.json._
 import play.api.mvc._
 
-import tumblr.dao._
+import tumblr.PageStats
 
 object TumblrStats extends Controller {
 
   def index = Action {
     Async {
-      PageDao.count().map { pagesCount =>
-        Ok(Json.obj("count" -> pagesCount)).as("application/json")
-      }
+      PageStats.generate.map(stat => {
+        Ok(Json.toJson(stat)).as("application/json")
+      }).recover { case e => BadRequest(e.getMessage) }
     }
   }
-
 }

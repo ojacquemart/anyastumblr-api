@@ -12,6 +12,7 @@ import reactivemongo.bson._
 
 import tumblr.model._
 import tumblr.model.Page.{format, writes}
+import reactivemongo.core.commands._
 
 object PageDao extends MongoDao[Page, BSONObjectID] {
 
@@ -21,7 +22,7 @@ object PageDao extends MongoDao[Page, BSONObjectID] {
   implicit val writesImage: Writes[Image] = Json.writes[Image]
 
   def saveOrUpdate(page: Page) {
-    val futurePage = findHead(page)
+    val futurePage = find(page)
 
     futurePage onSuccess { case result =>
       result match {
@@ -46,14 +47,26 @@ object PageDao extends MongoDao[Page, BSONObjectID] {
     collection.update(selector, modifier)
   }
 
-  def findHead(page: Page): Future[Option[Page]] = findHeadByTopicIdAndPageOffset(page.siteId, page.pageNumber)
+  def find(page: Page): Future[Option[Page]] = findBySlugAndPageNumber(page.siteId, page.pageNumber)
 
-  def findHeadByTopicIdAndPageOffset(siteId: String, pageNumber: Int): Future[Option[Page]] = {
+  def findBySlugAndPageNumber(siteId: String, pageNumber: Int): Future[Option[Page]] = {
     Logger.debug(s"find head for $siteId and $pageNumber")
 
     collection
       .find(Json.obj("siteId" -> siteId, "pageNumber" -> pageNumber))
       .one[Page]
+  }
+
+  def statsBySiteId() = {
+    Logger.debug("Count pages by siteId aka slug.")
+
+    val cmd = Aggregate(collectionName,
+      Seq(
+        GroupField("siteId")(("nbDocs" -> SumValue(1)), ("nbViews" -> SumField("nbViews"))),
+        Sort(Seq(Descending("nbDocs")))
+      )
+    )
+    db.command(cmd)
   }
 
 }

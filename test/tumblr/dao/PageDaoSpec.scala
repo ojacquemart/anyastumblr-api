@@ -23,7 +23,7 @@ class PageDaoSpec extends Specification {
       PageDao.save(newPage)
 
       Logger.debug("Check save")
-      val optionPage = await(PageDao.findHeadByTopicIdAndPageOffset("foo", 1))
+      val optionPage = await(PageDao.findBySlugAndPageNumber("foo", 1))
 
       Logger.debug("Item found!")
 
@@ -42,7 +42,7 @@ class PageDaoSpec extends Specification {
       await(PageDao.save(newPage))
 
       Logger.debug("Check save")
-      val optionPage = await(PageDao.findHeadByTopicIdAndPageOffset("foo2", 2))
+      val optionPage = await(PageDao.findBySlugAndPageNumber("foo2", 2))
       optionPage must not be equalTo(None)
       Logger.debug("Item found!")
 
@@ -58,7 +58,7 @@ class PageDaoSpec extends Specification {
 
       Logger.debug("Check update")
 
-      val optionPageUpdated = await(PageDao.findHeadByTopicIdAndPageOffset("foo2", 2))
+      val optionPageUpdated = await(PageDao.findBySlugAndPageNumber("foo2", 2))
       optionPageUpdated must not be equalTo(None)
       val pageUpdated = optionPageUpdated.get
       pageUpdated.images_1 must be equalTo (images_1ToUpdate)

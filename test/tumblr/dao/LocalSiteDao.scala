@@ -9,19 +9,19 @@ object LocalSiteDao {
   private val hfrConfiguration: Configuration = HfrConfiguration.get()
 
   val LocalSites = List(
-    get(SiteType.HFR, "Images étonnantes", "", "http://forum.hardware.fr/tumblr/Discussions/Loisirs/images-etonnantes-cons-sujet_78667_1.htm", 1, hfrConfiguration),
-    get(SiteType.HFR, "Gifs: Femmes, Caca, Chutes&Co", "", "http://forum.hardware.fr/tumblr/Discussions/Loisirs/chutes-warning-moderation-sujet_27848_1.htm", 1, hfrConfiguration),
-    get(SiteType.LESJOIES, "Joiesducode", "", "http://lesjoiesducode.tumblr.com/page/1", 1, JoiesDuCodeConfiguration.get),
-    get(SiteType.LESJOIES, "Joiesdusysadmin", "", "http://lesjoiesdusysadmin.tumblr.com/page/1", 1, JoiesDuSysadminConfiguration.get),
-    get(SiteType.LESJOIES, "Joiesdutest", "", "http://lesjoiesdutest.tumblr.com/page/1", 1, JoiesDuTestConfiguration.get),
-    get(SiteType.LESJOIES, "Joiesduscrum", "", "http://lesjoiesduscrum.tumblr.com/page/1", 1, JoiesDuScrumConfiguration.get),
-    get(SiteType.MISC, "ActressesWithoutTeeth", "", "http://actresseswithoutteeth.net/page/1", 1, ActressesWithoutTeeth.get),
-    get(SiteType.MISC, "ChersVoisins", "", "http://chersvoisins.tumblr.com/page/1", 1, ChersVoisinsConfiguration.get),
-    get(SiteType.MISC, "CommitStrip", "", "http://www.commitstrip.com/page/1", 1, CommitStripConfiguration.get),
-    get(SiteType.MISC, "DataAnxiety", "", "http://dataanxiety.tumblr.com/page/1", 1, DataAnxietyConfiguration.get),
-    get(SiteType.MISC, "Failbog.fr", "", "http://failblog.fr/fail/page-1.html", 1, FailBlogFrConfiguration.get),
-    get(SiteType.MISC, "N'oubliez jamais la capote", "", "http://noubliezjamaislacapote.tumblr.com/page/1/", 1, DontForgetCondomConfiguration.get),
-    get(SiteType.MISC, "Sportballsreplacedwithcats", "", "http://sportballsreplacedwithcats.tumblr.com/page/1", 1, SportBallsReplacedWithCatsConfiguration.get)
+    get(SiteType.HFR, "Images étonnantes", "hfr", "http://forum.hardware.fr/tumblr/Discussions/Loisirs/images-etonnantes-cons-sujet_78667_1.htm", 1, hfrConfiguration),
+    get(SiteType.HFR, "Gifs: Femmes, Caca, Chutes&Co", "hfr", "http://forum.hardware.fr/tumblr/Discussions/Loisirs/chutes-warning-moderation-sujet_27848_1.htm", 1, hfrConfiguration),
+    get(SiteType.LESJOIES, "Joiesducode", "joiesducode", "http://lesjoiesducode.tumblr.com/page/1", 1, JoiesDuCodeConfiguration.get),
+    get(SiteType.LESJOIES, "Joiesdusysadmin", "joisdusysadmin", "http://lesjoiesdusysadmin.tumblr.com/page/1", 1, JoiesDuSysadminConfiguration.get),
+    get(SiteType.LESJOIES, "Joiesdutest", "joiesdutest", "http://lesjoiesdutest.tumblr.com/page/1", 1, JoiesDuTestConfiguration.get),
+    get(SiteType.LESJOIES, "Joiesduscrum", "joiesduscrum", "http://lesjoiesduscrum.tumblr.com/page/1", 1, JoiesDuScrumConfiguration.get),
+    get(SiteType.MISC, "ActressesWithoutTeeth", "actresseswithoutteeth", "http://actresseswithoutteeth.net/page/1", 1, ActressesWithoutTeeth.get),
+    get(SiteType.MISC, "ChersVoisins", "chersvoisins", "http://chersvoisins.tumblr.com/page/1", 1, ChersVoisinsConfiguration.get),
+    get(SiteType.MISC, "CommitStrip", "commitstrip", "http://www.commitstrip.com/page/1", 1, CommitStripConfiguration.get),
+    get(SiteType.MISC, "DataAnxiety", "dataanxiety", "http://dataanxiety.tumblr.com/page/1", 1, DataAnxietyConfiguration.get),
+    get(SiteType.MISC, "Failbog.fr", "failbogfr", "http://failblog.fr/fail/page-1.html", 1, FailBlogFrConfiguration.get),
+    get(SiteType.MISC, "N'oubliez jamais la capote", "noubliez-jamais-la-capote", "http://noubliezjamaislacapote.tumblr.com/page/1/", 1, DontForgetCondomConfiguration.get),
+    get(SiteType.MISC, "Sportballsreplacedwithcats", "sportballsreplacedwithcats", "http://sportballsreplacedwithcats.tumblr.com/page/1", 1, SportBallsReplacedWithCatsConfiguration.get)
   )
 
   def get(siteType: SiteType, name: String, slug: String, url: String, order: Int, configuration: Configuration) = {

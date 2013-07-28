@@ -4,9 +4,14 @@ function SiteController($scope, Site) {
     $scope.sites = Site.query();
 
     $scope.delete = function(site) {
-        site.$remove(function() {
-           $scope.sites = Site.query();
-        });
+        // TODO: use angular-strap and popover: http://mgcrea.github.io/angular-strap/#/popover
+        var deleteSite = confirm("Are you sure to delete the site '" + site.name + "'?");
+
+        if (deleteSite) {
+            site.$remove(function() {
+                $scope.sites = Site.query();
+            });
+        }
     }
 }
 

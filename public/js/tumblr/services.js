@@ -14,3 +14,13 @@ angular.module("tumblrServices", ["ngResource"])
         return $resource("/api/tumblr/stats", {}, { });
     })
 ;
+
+angular.module("tumblrAnimations", [])
+    .factory('Animations', function() {
+        return {
+            toTop : function() {
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+            }
+        };
+    })
+;

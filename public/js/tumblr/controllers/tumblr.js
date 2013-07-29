@@ -3,22 +3,11 @@
 /**
  * Tumblr Controller.
  */
-function TumblrController($scope, Tumblr, $modal) {
+function TumblrController($scope, Tumblr, Animations) {
 
     $scope.currentSiteIndex = 0;
     $scope.page = null;
     $scope.pageTotal = null;
-
-    $scope.modal = {content: 'Hello Modal', saved: false};
-    $scope.viaService = function() {
-        // do something
-        var modal = $modal({
-            template: 'modal.html',
-            show: true,
-            backdrop: 'static',
-            scope: $scope
-        });
-    }
 
     $scope.setCurrentSiteIndex = function() {
 
@@ -57,13 +46,9 @@ function TumblrController($scope, Tumblr, $modal) {
 
     };
 
-    $scope.animateToTop = function() {
-        $("html, body").animate({ scrollTop: 0 }, "slow");
-    }
-
     $scope.getPageByNumber = function(pageNumber) {
         Tumblr.getPageByNumber({ "id" : $scope.siteId, "pageParam" : pageNumber }, function (data) {
-            $scope.animateToTop();
+            Animations.toTop();
 
             $scope.page = data;
         });
@@ -105,7 +90,6 @@ function TumblrController($scope, Tumblr, $modal) {
 
     $scope.refreshPage = function() {
         $scope.getImagesFromSite();
-        $("#error").hide();
     };
 
 
@@ -161,6 +145,3 @@ function TumblrController($scope, Tumblr, $modal) {
         $(document).unbind("keydown");
     });
 }
-
-
-

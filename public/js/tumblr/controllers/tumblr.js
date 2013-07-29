@@ -3,11 +3,22 @@
 /**
  * Tumblr Controller.
  */
-function TumblrController($scope, Tumblr) {
+function TumblrController($scope, Tumblr, $modal) {
 
     $scope.currentSiteIndex = 0;
     $scope.page = null;
     $scope.pageTotal = null;
+
+    $scope.modal = {content: 'Hello Modal', saved: false};
+    $scope.viaService = function() {
+        // do something
+        var modal = $modal({
+            template: 'modal.html',
+            show: true,
+            backdrop: 'static',
+            scope: $scope
+        });
+    }
 
     $scope.setCurrentSiteIndex = function() {
 
@@ -128,10 +139,6 @@ function TumblrController($scope, Tumblr) {
                 $scope.refreshPage();
                 break;
         }
-    };
-
-    $scope.showModalShortcuts = function() {
-        $("#tumblr-sites-modal-shortcuts").modal();
     };
 
     /**

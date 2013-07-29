@@ -30,6 +30,25 @@ class TweetFetcher(query: String, sinceId: String)  {
 
   val responsePerPage = if (sinceId.isEmpty) "" else "100"
 
+
+  val responseToSeqTweets = (jsValue: JsValue) => {
+    val tweets = jsValue.asOpt[Seq[Tweet]].getOrElse(Nil)
+    Logger.debug(s"Tweets fetched: ${tweets.size}")
+    TweetCacheHandler.put(query, tweets)
+    tweets
+  }
+
+  val responseToCount = (jsValue: JsValue) => {
+    val results = (jsValue \ "statuses").as[List[JsObject]]
+    val count = results.size
+    Logger.debug(s"Tweets count: $count")
+    count
+  }
+
+  def fetch(): Future[Seq[Tweet]] = getResponse[Seq[Tweet]](responseToSeqTweets, Nil)
+
+  def count(): Future[Int] = getResponse[Int](responseToCount, 0)
+
   def getResponse[T](mapJsValue: JsValue => T, valueOnFail: T): Future[T] = {
     val futureResults: Future[T] = fetchResponse().map(response => {
       response.status match {
@@ -60,24 +79,6 @@ class TweetFetcher(query: String, sinceId: String)  {
     WS.url(TwitterV1JsonApi + parameters)
       .sign(OAuthCalculator(consumerKey, accessToken))
       .get()
-  }
-
-  def fetch(): Future[Seq[Tweet]] = getResponse[Seq[Tweet]](responseToSeqTweets, Nil)
-
-  def count(): Future[Int] = getResponse[Int](responseToCount, 0)
-
-  val responseToSeqTweets = (jsValue: JsValue) => {
-    val tweets = jsValue.asOpt[Seq[Tweet]].getOrElse(Nil)
-    Logger.debug(s"Tweets fetched: ${tweets.size}")
-    TweetCacheHandler.put(query, tweets)
-    tweets
-  }
-
-  val responseToCount = (jsValue: JsValue) => {
-    val results = (jsValue \ "statuses").as[List[JsObject]]
-    val count = results.size
-    Logger.debug(s"Tweets count: $count")
-    count
   }
 
 }

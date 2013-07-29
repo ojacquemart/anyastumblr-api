@@ -12,10 +12,10 @@ object ConfigurationKeys {
 
 object ConfigurationReader {
 
-  def consumerKey = read(ConfigurationKeys.TwConsumerKey)
-  def consumerSecret = read(ConfigurationKeys.TwConsumerSecret)
-  def accessToken = read(ConfigurationKeys.TwAccessToken)
-  def accessTokenSecret = read(ConfigurationKeys.TwAccessTokenSecret)
+  val consumerKey = read(ConfigurationKeys.TwConsumerKey)
+  val consumerSecret = read(ConfigurationKeys.TwConsumerSecret)
+  val accessToken = read(ConfigurationKeys.TwAccessToken)
+  val accessTokenSecret = read(ConfigurationKeys.TwAccessTokenSecret)
 
   def read(key: String): String = {
     configuration.getString(key).getOrElse {

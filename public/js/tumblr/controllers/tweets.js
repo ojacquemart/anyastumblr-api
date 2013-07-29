@@ -10,15 +10,6 @@ function TweetsController($scope, $http) {
     $scope.stream = null;
     $scope.nbNewTweets = 0;
 
-    $scope.loadTweets();
-
-    /**
-     * On destroy, close active stream.
-     */
-    $scope.$on('$destroy', function(){
-        $scope.closeIfStreamActive();
-    });
-
     $scope.espaceQuery = function() {
         return encodeURIComponent($scope.query);
     }
@@ -57,4 +48,14 @@ function TweetsController($scope, $http) {
             });
         })
     }
+
+    $scope.loadTweets();
+
+    /**
+     * On destroy, close active stream.
+     */
+    $scope.$on('$destroy', function(){
+        $scope.closeIfStreamActive();
+    });
+
 }

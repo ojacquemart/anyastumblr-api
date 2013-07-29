@@ -20,7 +20,7 @@ case class SiteStat(name: String, nbDocuments: Int, nbViews: Int) extends Viewab
 
 object Stats {
 
-  implicit val siteStatwWites = Json.writes[SiteStat]
+  implicit val siteStatWrites = Json.writes[SiteStat]
   implicit val writes = Json.writes[Stats]
 
 }

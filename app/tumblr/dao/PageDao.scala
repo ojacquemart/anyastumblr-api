@@ -26,9 +26,19 @@ object PageDao extends MongoDao[Page, BSONObjectID] {
 
     futurePage onSuccess { case result =>
       result match {
-        case None => save(page)
-        case Some(p: Page) => update(p)
+        case None => {
+          Logger.debug("Save the page, no existing one")
+          save(page)
+        }
+        case Some(p: Page) => {
+          Logger.debug(s"Page found: $p")
+          update(p)
+        }
       }
+    }
+
+    futurePage.onFailure { case failure =>
+      Logger.warn("Failed to retrieve page " + page, failure)
     }
   }
 

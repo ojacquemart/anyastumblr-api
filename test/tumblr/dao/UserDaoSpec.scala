@@ -24,7 +24,7 @@ class UserDaoSpec extends Specification {
           AuthenticationMethod.UserPassword,
           None,
           None,
-          "67T5sk85keSnC8p"
+          "test"
         )
       UserDao.save(newUser)
 

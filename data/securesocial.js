@@ -17,6 +17,6 @@ db.users.insert({
     },
     "passwordInfo" : {
         "hasher" : "bcrypt",
-        "password" : "$2a$10$RDqo.MqxkD2n6uXC.TwCTuDHHvXA3ustOCA1uepBY6k980J74l3Y6"
+        "password" : "$2a$10$J2MsM.fIYLK5.JJ.Xz3/wemmY6adsRcYlTs7EK5vXY4Ks7cKpwZNW"
     }
 })

@@ -7,11 +7,11 @@ import securesocial.core.Identity
 import securesocial.core.OAuth1Info
 import securesocial.core.OAuth2Info
 import securesocial.core.PasswordInfo
-import securesocial.core.UserId
+import securesocial.core.IdentityId
 import securesocial.core.providers.utils.PasswordHasher
 import org.mindrot.jbcrypt.BCrypt
 
-case class User(id: UserId,
+case class User(identityId: IdentityId,
                 firstName: String,
                 lastName: String,
                 fullName: String,
@@ -24,7 +24,7 @@ case class User(id: UserId,
 
 object User {
 
-  def get(id: UserId,
+  def get(id: IdentityId,
           firstName: String,
           lastName: String,
           fullName: String,
@@ -48,7 +48,7 @@ object User {
     )
   }
 
-  implicit val userIdFormat = Json.format[UserId]
+  implicit val userIdFormat = Json.format[IdentityId]
   implicit val oAuth1InfoFormat = Json.format[OAuth1Info]
   implicit val oAuth2InfoFormat = Json.format[OAuth2Info]
   implicit val passwordInfoFormat = Json.format[PasswordInfo]

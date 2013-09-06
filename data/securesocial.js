@@ -4,8 +4,8 @@
 // Users
 db.users.remove()
 db.users.insert({
-    "id" : {
-        "id" : "admin",
+    "identityId" : {
+        "userId" : "admin",
         "providerId" : "userpass"
     },
     "firstName" : "root",
@@ -17,6 +17,6 @@ db.users.insert({
     },
     "passwordInfo" : {
         "hasher" : "bcrypt",
-        "password" : "$2a$10$5ol6OmcFcmlky/obbawAHedzn92oXmAE9yNy/KWjiCvFNQ1iRDbUy"
+        "password" : "$2a$10$RDqo.MqxkD2n6uXC.TwCTuDHHvXA3ustOCA1uepBY6k980J74l3Y6"
     }
 })

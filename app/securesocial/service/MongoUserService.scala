@@ -9,7 +9,7 @@ import play.api._
 
 import securesocial.core._
 import securesocial.core.providers.Token
-import securesocial.core.UserId
+import securesocial.core.IdentityId
 
 import tumblr.dao.UserDao
 
@@ -18,12 +18,12 @@ import tumblr.dao.UserDao
  */
 class MongoUserService(application: Application) extends UserServicePlugin(application) {
 
-  def generateCacheKey(id: UserId) = s"user.${id.id}.${id.providerId}"
+  def generateCacheKey(id: IdentityId) = s"user.${id.userId}.${id.providerId}"
 
   /**
    * Finds the user matching the id and the provider id.
    */
-  def find(id: UserId): Option[Identity] = {
+  def find(id: IdentityId): Option[Identity] = {
     val cacheKey = generateCacheKey(id)
     Cache.getOrElse[Option[Identity]](cacheKey) {
       // User service doesn't return futures, needs to use Await.result...

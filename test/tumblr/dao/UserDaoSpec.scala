@@ -15,7 +15,7 @@ class UserDaoSpec extends Specification {
 
     "save and find*" in new FakeDaoApp {
         val newUser =  User.get(
-          UserId("testtest", "userpass"),
+          IdentityId("testtest", "userpass"),
           "testtest",
           "testtest",
           "testtest",
@@ -24,7 +24,7 @@ class UserDaoSpec extends Specification {
           AuthenticationMethod.UserPassword,
           None,
           None,
-          "test"
+          "67T5sk85keSnC8p"
         )
       UserDao.save(newUser)
 
@@ -33,7 +33,7 @@ class UserDaoSpec extends Specification {
       val foundUser: User = await(UserDao.findAll()).head
       newUser == foundUser must beTrue
 
-      val maybeByIdUser = await(UserDao.findById(newUser.id))
+      val maybeByIdUser = await(UserDao.findById(newUser.identityId))
       maybeByIdUser must not be equalTo(None)
       newUser == maybeByIdUser.get must beTrue
     }

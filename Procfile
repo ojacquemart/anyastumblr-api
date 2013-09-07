@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS target/start -Dhttp.port=$PORT -Dmongodb.uri=$MONGOHQ_URL
+web: target/start -Dhttp.port=$PORT -Dmongodb.uri=$MONGOHQ_URL $JAVA_OPTS 

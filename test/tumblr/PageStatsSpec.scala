@@ -9,7 +9,7 @@ import tumblr.dao._
 
 object PageStatsSpec extends Specification {
 
-  def saveSites(sites: Site *) {
+  def saveSites(sites: List[Site]) {
     import tumblr.model.AdminSiteJSON.writes
     sites.foreach(SiteDao.save(_))
   }
@@ -22,6 +22,12 @@ object PageStatsSpec extends Specification {
     new Page(slug, pageNumber, nbViews, List(), List(), Link.get("???", "foo", 1))
   }
 
+  def assertSiteSite(siteStat: SiteStat, expectedName: String, tupleNbDocsAndViews: (Int, Int)) = {
+    siteStat.name must be equalTo(expectedName)
+    siteStat.nbDocuments must be equalTo(tupleNbDocsAndViews._1)
+    siteStat.nbViews must be equalTo(tupleNbDocsAndViews._2)
+  }
+
   "Page Stats" should {
 
     "generate stats" in new FakeDaoApp {
@@ -29,40 +35,34 @@ object PageStatsSpec extends Specification {
       val site1: model.Site = LocalSiteDao.LocalSites(0)
       // Joiesducode
       val site2: model.Site = LocalSiteDao.LocalSites(2)
+      // Joiesdusysadmin
+      val site3: model.Site = LocalSiteDao.LocalSites(3)
 
-      saveSites(site1, site2)
-
-      // 6 pages for 81 views
-      // Site 1 with 3 pages and 32 views
-      // Site 2 with 2 pages and 48 views
-      // ??? with 1 page and 1 view
+      val sitesToSave = List(site1, site2, site3)
+      saveSites(sitesToSave)
 
       val pages: List[model.Page] = List(
         getPage(site1.slug, 1, 2),
         getPage(site1.slug, 2, 10),
         getPage(site1.slug, 3, 20),
         getPage(site2.slug, 1, 4),
-        getPage(site2.slug, 2, 44),
-        getPage("???", 1, 1)
+        getPage(site2.slug, 2, 44)
       )
       savePages(pages)
 
       val stats = await(PageStats.generate())
+      stats.sitesStats.size must be equalTo(sitesToSave.size)
       stats.nbDocuments must be equalTo(pages.size)
-      stats.nbViews must be equalTo(81)
-      stats.sitesStats.size must be equalTo(3)
-      // Hfr images étonnantes : 3 docs
-      stats.sitesStats(0).name must be equalTo(site1.name)
-      stats.sitesStats(0).nbDocuments must be equalTo(3)
-      stats.sitesStats(0).nbViews must be equalTo(32)
-      // Joiesducode : 2 docs
-      stats.sitesStats(1).name must be equalTo(site2.name)
-      stats.sitesStats(1).nbDocuments must be equalTo(2)
-      stats.sitesStats(1).nbViews must be equalTo(48)
-      // ???
-      stats.sitesStats(2).name must be equalTo("??? ???")
-      stats.sitesStats(2).nbDocuments must be equalTo(1)
-      stats.sitesStats(2).nbViews must be equalTo(1)
+      stats.nbViews must be equalTo(pages.map(_.nbViews).sum)
+
+      // Map by site name with nb docs and nb views
+      val pagesStatsBySiteName = pages.groupBy(page => {
+        sitesToSave.find(site => site.slug == page.siteId).get.name
+      }).mapValues(pages => (pages.size, pages.map(_.nbViews).sum))
+
+      assertSiteSite(stats.sitesStats(0), site1.name, pagesStatsBySiteName.get(site1.name).get)
+      assertSiteSite(stats.sitesStats(1), site2.name, pagesStatsBySiteName.get(site2.name).get)
+      assertSiteSite(stats.sitesStats(2), site3.name, (0, 0))
     }
   }
 

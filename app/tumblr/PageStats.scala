@@ -43,17 +43,20 @@ object PageStats {
     } yield Stats(nbDocs, nbViews, sitesStats)
   }
 
-  def compute(sites: List[Site], docs: Stream[BSONDocument]) = {
-    docs.map(doc => {
-      val slug = doc.getAs[BSONString]("_id").get.value
-      val siteName = sites.find(_.slug == slug).map(_.name).getOrElse("??? " + slug)
+  def compute(sites: List[Site], stats: Stream[BSONDocument]) = {
+    sites.map(site => {
+      val maybeStat = stats.find(doc => doc.getAs[BSONString]("_id").get.value == site.slug)
+      maybeStat match {
+        case None => SiteStat(site.name, 0, 0)
+        case Some(doc) => {
+          val nbDocs = bsonNumberLikeReader.read(doc.get("nbDocs").get).toInt
+          val nbViews = bsonNumberLikeReader.read(doc.get("nbViews").get).toInt
+          Logger.debug(s"Computed site ${site.name} with $nbDocs docs and $nbViews views")
 
-      val nbDocs = bsonNumberLikeReader.read(doc.get("nbDocs").get).toInt
-      val nbViews = bsonNumberLikeReader.read(doc.get("nbViews").get).toInt
-      Logger.debug(s"Computed site $siteName with $nbDocs docs and $nbViews views")
-
-      SiteStat(siteName, nbDocs, nbViews)
-    }).toList
+          SiteStat(site.name, nbDocs, nbViews)
+        }
+      }
+    })
   }
 
   def sumNbDocuments(l: List[SiteStat]): Int = l.map(_.nbDocuments).sum

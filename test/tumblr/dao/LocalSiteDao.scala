@@ -88,7 +88,7 @@ object JoiesDuScrumConfiguration extends TumblrConfiguraiton {
 object JoiesDuTestConfiguration extends TumblrConfiguraiton {
   override def getCssSelectors() = new CssSelectors(new CssSelector(".post p img", Some("src")), Some(new CssSelector(".post h3 a", Some("href"))))
 
-  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector(".page-number"), regexLastPage))
+  def getPageNumberDescriptor() = Some(new PageNumberDescriptor(new CssSelector(".count"), regexLastPage))
 }
 
 object ChersVoisinsConfiguration extends TumblrConfiguraiton {

@@ -205,11 +205,11 @@ db.sites.insert(
             "configuration":{
                 "cssSelectors":{
                     "images":{
-                        "cssQuery":".post p img",
+                        "cssQuery":".right p img",
                         "htmlAttribute":"src"
                     },
                     "text":{
-                        "cssQuery":".post h3 a",
+                        "cssQuery":".right .title",
                         "htmlAttribute":"href"
                     }
                 },
@@ -218,7 +218,7 @@ db.sites.insert(
                 "pageResolver":{
                     "pageNumberDescriptor":{
                         "cssSelector":{
-                            "cssQuery":".page-number"
+                            "cssQuery":".count"
                         },
                         "regex":"([0-9]+)$"
                     },

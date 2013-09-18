@@ -43,7 +43,9 @@ case class Site(_id: Option[BSONObjectID],
     with Sortable
     with Enabled
 
-object Site {
+case class SitesByType(name: String, sites: List[Site])
+
+object SitesByType {
 
   implicit object SimpleWrites extends Writes[Site] {
 
@@ -56,6 +58,8 @@ object Site {
     }
 
   }
+
+  implicit val writes = Json.writes[SitesByType]
 
 }
 
@@ -114,4 +118,5 @@ object AdminSiteJSON {
 
   implicit val format: Format[Site] = Json.format[Site]
   implicit val writes: Writes[Site] = Json.writes[Site]
+
 }

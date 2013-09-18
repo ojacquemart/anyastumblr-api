@@ -12,13 +12,13 @@ case class SiteType(name: String, slug: String, ordinal:  Int, enabled: Boolean)
 
 object SiteType {
 
-  def get(name: String) = new SiteType(name, "???", 1, true)
+  def get(name: String, slug: String) = new SiteType(name, slug, 1, true)
 
   implicit val formats: Format[SiteType] = Json.format[SiteType]
   implicit val writes: Writes[SiteType] = Json.writes[SiteType]
 
-  val HFR = SiteType.get("Hfr")
-  val LESJOIES = SiteType.get("Les joies")
-  val MISC = SiteType.get("Divers")
+  val HFR = SiteType.get("Hfr", "hfr")
+  val LESJOIES = SiteType.get("Les joies", "lesjoies")
+  val MISC = SiteType.get("Divers", "divers")
 
 }

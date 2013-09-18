@@ -16,7 +16,7 @@ class SiteTypeDaoSpec extends Specification {
   "The SiteTypeDao" should {
 
     def saveItem() = {
-      val newType = SiteType.get("foo")
+      val newType = SiteType.get("foo", "foo")
       Logger.debug("Save new type")
       SiteTypeDao.save(newType)
 

@@ -16,11 +16,17 @@
                         {{currentSite.name}}
                         <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu">
-                        <li ng-repeat="site in sites">
-                            <a href="#sites/{{site.id}}">{{site.name}}</a>
+                    <ul id="tumblr-sites-list-types" class="dropdown-menu">
+                        <li class="dropdown-header" ng-repeat="siteType in sitesBySiteType">
+                            {{siteType.name}}
+                            <ul id="tumblr-sites-list-sites">
+                                <li ng-repeat="site in siteType.sites">
+                                    <a href="#sites/{{site.id}}">{{site.name}}</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
+
                 </div>
             </div>
 

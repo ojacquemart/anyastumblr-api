@@ -38,6 +38,7 @@ function TumblrController($scope, $routeParams, $location, Tumblr, Animations) {
     };
 
     $scope.getImagesFromSite = function() {
+        console.log($scope.siteId);
         $scope.pageTotal = null;
 
         $scope.page = Tumblr.get({ "id": $scope.siteId }, function () {
@@ -144,7 +145,14 @@ function TumblrController($scope, $routeParams, $location, Tumblr, Animations) {
     }
 
     Tumblr.query(function (data) {
-        $scope.sites = data;
+        $scope.sitesBySiteType = data;
+
+        var tempSites = [];
+        for (var i = 0; i < $scope.sitesBySiteType.length; i++) {
+            tempSites = tempSites.concat($scope.sitesBySiteType[i].sites);
+        }
+        $scope.sites = tempSites;
+        console.log($scope.sites);
 
         $scope.initDefaultImages();
     });

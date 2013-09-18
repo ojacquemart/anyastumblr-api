@@ -18,11 +18,10 @@ object Tumblr extends Controller {
   def getSites = Cached(CacheKeys.ActionSites) {
     Action {
       Async {
-        Logger.info("Getting sites...")
+        Logger.info("Getting sites grouped by site type...")
 
-        import tumblr.model.AdminSiteJSON.format
-        SiteDao.findAll().map { sites =>
-          Ok(Json.toJson(sites)(Writes.seq(tumblr.model.Site.SimpleWrites))).as("application/json")
+        SiteDao.findAllGroupedBySiteType().map { sites =>
+          Ok(Json.toJson(sites)(Writes.seq(tumblr.model.SitesByType.writes))).as("application/json")
         }
       }
     }

@@ -87,6 +87,28 @@ header #loading {
     border-bottom: 1px solid #ccc;
 }
 
+ul {
+    list-style:  none;
+}
+
+#tumblr-sites-list-types .dropdown-header  {
+    display: block;
+    padding: 3px 20px;
+    font-size: 14px;
+    line-height: 1.40;
+    color: #999999;
+}
+
+#tumblr-sites-list-sites li {
+    margin: 0 0 0 -45px;
+    padding: 0;
+}
+
+.dropdown-menu li>a:hover {
+    width: 92%;
+    background-image: linear-gradient(to bottom,#435561,#315064);
+}
+
 #tumblr-sites-list {
     position: absolute;
     left: 5px;

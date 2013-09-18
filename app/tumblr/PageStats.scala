@@ -43,7 +43,7 @@ object PageStats {
     } yield Stats(nbDocs, nbViews, sitesStats)
   }
 
-  def compute(sites: List[Site], stats: Stream[BSONDocument]) = {
+  def compute(sites: List[Site], stats: Stream[BSONDocument]): List[SiteStat] = {
     sites.map(site => {
       val maybeStat = stats.find(doc => doc.getAs[BSONString]("_id").get.value == site.slug)
       maybeStat match {
@@ -56,7 +56,7 @@ object PageStats {
           SiteStat(site.name, nbDocs, nbViews)
         }
       }
-    })
+    }).sortBy(- _.nbDocuments)
   }
 
   def sumNbDocuments(l: List[SiteStat]): Int = l.map(_.nbDocuments).sum

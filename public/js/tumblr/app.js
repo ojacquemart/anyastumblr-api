@@ -1,9 +1,13 @@
 'use strict';
 
-angular.module('AnyAsTumblr', [ "httpInterceptor", "$strap.directives", "tumblrAnimations", "tumblrServices"])
+angular.module('AnyAsTumblr', [ "httpInterceptor", "$strap.directives", "tumblrDirectives", "tumblrAnimations", "tumblrServices"])
     .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
-        $routeProvider.
-            when('/', {
+        $routeProvider
+            .when('/', {
+                templateUrl: "assets/partials/tumblr/main.html",
+                controller: TumblrController
+            })
+            .when('/sites/:siteId', {
                 templateUrl: "assets/partials/tumblr/main.html",
                 controller: TumblrController
             })

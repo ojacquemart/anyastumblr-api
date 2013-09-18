@@ -9,12 +9,20 @@
     <div id="tumblr-sites-bar" class="nav-collapse collapse">
         <div id="tumblr-sites-list">
             <!-- Sites list -->
-            <select
-                    id="sites-select"
-                    ng-model="siteId"
-                    ng-options="site.id as site.name group by site.type for site in sites"
-                    ng-change="getImagesFromSite();">
-            </select>
+            <div class="btn-group">
+                <div class="btn-group">
+                    <button open-parent
+                            type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        {{currentSite.name}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="site in sites">
+                            <a href="#sites/{{site.id}}">{{site.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
             <!-- Current page / Total pages -->
             <span ng-show="page" class="page-title">

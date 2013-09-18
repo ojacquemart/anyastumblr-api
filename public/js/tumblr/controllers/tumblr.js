@@ -3,11 +3,12 @@
 /**
  * Tumblr Controller.
  */
-function TumblrController($scope, Tumblr, Animations) {
+function TumblrController($scope, $routeParams, $location, Tumblr, Animations) {
 
     $scope.currentSiteIndex = 0;
     $scope.page = null;
     $scope.pageTotal = null;
+    $scope.currentSite = null;
 
     $scope.setCurrentSiteIndex = function() {
 
@@ -25,6 +26,7 @@ function TumblrController($scope, Tumblr, Animations) {
         }
 
         $scope.currentSiteIndex = searchSiteIndex();
+        $scope.currentSite = $scope.sites[$scope.currentSiteIndex];
     };
 
     $scope.hasNotEmptyTotalPage = function() {
@@ -35,8 +37,9 @@ function TumblrController($scope, Tumblr, Animations) {
         $scope.pageTotal = Tumblr.getTotalPage({ id: $scope.siteId });
     };
 
-    $scope.getImagesFromSite = function () {
+    $scope.getImagesFromSite = function() {
         $scope.pageTotal = null;
+
         $scope.page = Tumblr.get({ "id": $scope.siteId }, function () {
             $("#sites-select").blur();
 
@@ -80,11 +83,11 @@ function TumblrController($scope, Tumblr, Animations) {
     $scope.checkSiteIndexAndGetImages = function(siteIndex) {
         var nextIndex = $scope.currentSiteIndex + siteIndex;
         if (nextIndex >= 0 && nextIndex < $scope.sites.length) {
-            $scope.currentSiteIndex = nextIndex;
+            var nextSiteId = $scope.sites[nextIndex].id;
 
-            // to bind site in select.
-            $scope.siteId = $scope.sites[nextIndex].id;
-            $scope.getImagesFromSite();
+            $scope.$apply(function() {
+                $location.path("/sites/" + nextSiteId);
+            });
         }
     };
 
@@ -98,6 +101,7 @@ function TumblrController($scope, Tumblr, Animations) {
      * @param key the keycode.
      */
     $scope.handleKeypress = function(key) {
+        console.log(key);
         // left = 37, right = 39, q = 81, d = 68, z = 90, s = 83, r = 82
         switch (key) {
             // Previous page = left | q
@@ -129,9 +133,20 @@ function TumblrController($scope, Tumblr, Animations) {
      * @OnLoad...
      */
 
+    $scope.initDefaultImages = function() {
+        $scope.siteId = $routeParams.siteId;
+        if ($scope.siteId == null) {
+            $scope.siteId = $scope.sites[0].id;
+        }
+
+        $scope.setCurrentSiteIndex();
+        $scope.getImagesFromSite();
+    }
+
     Tumblr.query(function (data) {
         $scope.sites = data;
-        $scope.checkSiteIndexAndGetImages(0);
+
+        $scope.initDefaultImages();
     });
 
     // FIXME: see to use angularjs directive

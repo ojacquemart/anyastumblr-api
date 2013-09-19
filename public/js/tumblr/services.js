@@ -5,6 +5,7 @@ angular.module("tumblrServices", ["ngResource"])
         return $resource("/api/tumblr/sites/:id/:page/:pageParam", {
                 id: "@id", page: "@page", pageParam: "@pageParam"
             }, {
+                "query": { method: "GET", isArray: false },
                 "getTotalPage": { method: "GET", params: { page: "page", pageParam: "total" } },
                 "getPageByNumber": { method: "GET", params: { page: "page" } }
             }

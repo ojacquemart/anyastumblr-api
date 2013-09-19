@@ -13,20 +13,21 @@
                 <div class="btn-group">
                     <button open-parent
                             type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        {{currentSite.name}}
+                        <favicon-site site="currentSite"></favicon-site>
                         <span class="caret"></span>
                     </button>
                     <ul id="tumblr-sites-list-types" class="dropdown-menu">
-                        <li class="dropdown-header" ng-repeat="siteType in sitesBySiteType">
-                            {{siteType.name}}
+                        <li class="dropdown-header" ng-repeat="siteType in sitesByType">
+                            {{siteType.type}}
                             <ul id="tumblr-sites-list-sites">
                                 <li ng-repeat="site in siteType.sites">
-                                    <a href="#sites/{{site.id}}">{{site.name}}</a>
+                                    <a href="#sites/{{site.id}}">
+                                        <favicon-site site="site"></favicon-site>
+                                    </a>
                                 </li>
                             </ul>
                         </li>
                     </ul>
-
                 </div>
             </div>
 

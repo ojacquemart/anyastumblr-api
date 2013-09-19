@@ -102,7 +102,6 @@ function TumblrController($scope, $routeParams, $location, Tumblr, Animations) {
      * @param key the keycode.
      */
     $scope.handleKeypress = function(key) {
-        console.log(key);
         // left = 37, right = 39, q = 81, d = 68, z = 90, s = 83, r = 82
         switch (key) {
             // Previous page = left | q
@@ -145,14 +144,8 @@ function TumblrController($scope, $routeParams, $location, Tumblr, Animations) {
     }
 
     Tumblr.query(function (data) {
-        $scope.sitesBySiteType = data;
-
-        var tempSites = [];
-        for (var i = 0; i < $scope.sitesBySiteType.length; i++) {
-            tempSites = tempSites.concat($scope.sitesBySiteType[i].sites);
-        }
-        $scope.sites = tempSites;
-        console.log($scope.sites);
+        $scope.sitesByType = data.sitesByType;
+        $scope.sites = data.sites;
 
         $scope.initDefaultImages();
     });

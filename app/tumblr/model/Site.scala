@@ -43,23 +43,37 @@ case class Site(_id: Option[BSONObjectID],
     with Sortable
     with Enabled
 
-case class SitesByType(name: String, sites: List[Site])
+case class SitesByType(siteType: SiteType, sites: List[Site])
+
+case class SitesInfo(sitesByType: List[SitesByType], sites: List[Site])
 
 object SitesByType {
 
-  implicit object SimpleWrites extends Writes[Site] {
+  implicit object SiteSimpleWrites extends Writes[Site] {
 
     def writes(site: Site): JsValue = {
       Json.obj(
         "type" -> site.siteType.name,
         "id" -> site.slug,
-        "name" -> site.name
+        "name" -> site.name,
+        "favicon" -> s"http://www.google.com/s2/favicons?domain=${site.url}"
       )
     }
 
   }
 
-  implicit val writes = Json.writes[SitesByType]
+  implicit object SitesByTypeSimpleWrites extends Writes[SitesByType] {
+
+    def writes(sitesBySiteType: SitesByType): JsValue = {
+      Json.obj(
+        "type" -> sitesBySiteType.siteType.name,
+        "sites" -> sitesBySiteType.sites
+      )
+    }
+
+  }
+
+  implicit val sitesInfoWrites = Json.writes[SitesInfo]
 
 }
 

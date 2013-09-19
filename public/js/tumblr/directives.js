@@ -11,4 +11,16 @@ directives
                 });
             }
         };
+    })
+    .directive('faviconSite', function () {
+        return {
+            restrict: "E",
+            scope: {
+                site: '=site'
+            },
+            link: function (scope) {
+
+            },
+            template: '<img src="{{site.favicon}}" />{{site.name}}'
+        };
     });

@@ -21,7 +21,7 @@ object Tumblr extends Controller {
         Logger.info("Getting sites grouped by site type...")
 
         SiteDao.findAllGroupedBySiteType().map { sites =>
-          Ok(Json.toJson(sites)(Writes.seq(tumblr.model.SitesByType.writes))).as("application/json")
+          Ok(Json.toJson(sites)(Writes.of(tumblr.model.SitesByType.sitesInfoWrites))).as("application/json")
         }
       }
     }

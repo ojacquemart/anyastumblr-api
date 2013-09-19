@@ -26,7 +26,6 @@ angular.module("tumblrServices", ["ngResource"])
 angular.module("tumblrAnimations", [])
     .factory('Animations', function() {
         return {
-            hello: function() { return "hello2"; },
             toTop : function() {
                 $("html, body").animate({ scrollTop: 0 }, "slow");
             }

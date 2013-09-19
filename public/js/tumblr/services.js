@@ -11,6 +11,13 @@ angular.module("tumblrServices", ["ngResource"])
             }
         );
     })
+    .factory("TumblrPagination", function () {
+        return {
+            getSites: function() {
+                return [ { "..." : "..." } ];
+            }
+        }
+    })
     .factory("TumblrStats", function ($resource) {
         return $resource("/api/tumblr/stats", {}, { });
     })
@@ -19,6 +26,7 @@ angular.module("tumblrServices", ["ngResource"])
 angular.module("tumblrAnimations", [])
     .factory('Animations', function() {
         return {
+            hello: function() { return "hello2"; },
             toTop : function() {
                 $("html, body").animate({ scrollTop: 0 }, "slow");
             }

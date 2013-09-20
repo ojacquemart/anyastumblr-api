@@ -6,7 +6,6 @@ angular.module("tumblrServices", ["ngResource"])
                 id: "@id", page: "@page", pageParam: "@pageParam"
             }, {
                 "query": { method: "GET", isArray: false },
-                "getTotalPage": { method: "GET", params: { page: "page", pageParam: "total" } },
                 "getPageByNumber": { method: "GET", params: { page: "page" } }
             }
         );

@@ -12,7 +12,6 @@ GET         /                                                       tumblr.contr
 # Tumblr
 GET         /api/tumblr/sites                                       tumblr.controllers.Tumblr.getSites
 GET         /api/tumblr/sites/:slug                                 tumblr.controllers.Tumblr.getSiteFirstPage(slug: String)
-GET         /api/tumblr/sites/:slug/page/total                      tumblr.controllers.Tumblr.getSiteTotalPages(slug: String)
 GET         /api/tumblr/sites/:slug/page/:pageNumber                tumblr.controllers.Tumblr.getSitePageByPageNumber(slug: String, pageNumber: Int)
 
 # Tumblr stats

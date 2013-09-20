@@ -35,7 +35,7 @@
             <span ng-show="page" class="page-title">
                 <a href="{{page.link.url}}" title="{{page.link.title}}" target="_blank">{{page.link.label}}</a> {{pageTotal.length}}
                 <span id="last-page-infos" ng-show="hasNotEmptyTotalPage()" ng-cloak>
-                    / <a href="{{pageTotal.url}}" title="{{pageTotal.title}}" target="_blank">{{pageTotal.label}}</a>
+                    / <a href="{{page.linkLastPage.url}}" title="{{page.linkLastPage.title}}" target="_blank">{{page.linkLastPage.label}}</a>
                 </span>
             </span>
         </div>

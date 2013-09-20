@@ -11,7 +11,7 @@ import cache.Cached
 
 import tumblr._
 import tumblr.dao._
-import tumblr.model.Link
+import tumblr.model.{PageWithTotal, Link}
 
 object Tumblr extends Controller {
 
@@ -27,21 +27,6 @@ object Tumblr extends Controller {
     }
   }
 
-  def getSiteTotalPages(siteId: String) = Action {
-    Async {
-      import Link.writes
-      SiteLastPageInfos.get(siteId).map(maybeLink => {
-        // The site may not permit to give the last page. In that case, an empty json object is returned.
-        val jsValue = maybeLink match {
-          case Some(link) => Json.toJson(link)
-          case None       => Json.obj()
-        }
-
-        Ok(jsValue).as("application/json")
-      })
-    }
-  }
-
   def getSiteFirstPage(siteId: String) = getSitePage(siteId)
 
   def getSitePageByPageNumber(siteId: String, pageNumber: Int) = getSitePage(siteId, Some(pageNumber))
@@ -49,13 +34,14 @@ object Tumblr extends Controller {
   def getSitePage(slug: String, pageNumber: Option[Int] = None) = Action {
     Async {
       Logger.debug(s"Get page $pageNumber for site $slug")
-      val futurePage = for {
+      val futurePageWithTotal = for {
         finder <- PageContentFinder.get(slug, pageNumber)
         content <- finder.getContent()
-      } yield content
+        totalPage <- SiteLastPageInfos.get(slug)
+      } yield PageWithTotal(content.get, totalPage)
 
-      futurePage.map { optionPage =>
-        Ok(Json.toJson(optionPage.get)(Writes.of(tumblr.model.Page.simpleWriter))).as("application/json")
+      futurePageWithTotal.map { optionPageWithTotal =>
+        Ok(Json.toJson(optionPageWithTotal)(Writes.of(tumblr.model.Page.simplePageWithTotalWriter))).as("application/json")
       }
     }
   }

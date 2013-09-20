@@ -35,23 +35,37 @@ case class Page(_id: Option[BSONObjectID],
 
 }
 
+case class PageWithTotal(page: Page, totalPage: Option[Link])
+
 object Page {
   implicit val format: Format[Page] = Json.format[Page]
   implicit val writes: Writes[Page] = Json.writes[Page]
 
+  def getImagesAsListOfJsValue(images: List[Image]): List[JsValue] = {
+    val imageWriter = Writes[Image] { image =>
+      Json.obj("src" -> image.src, "text" -> JsString(image.text))
+    }
+
+    images.map(image => imageWriter.writes(image))
+  }
+
   // Simple writer to hide some informations (bsonObjectId, nbViews...)
   val simpleWriter = Writes[Page] { page =>
 
-    def getImagesAsListOfJsValue(images: List[Image]): List[JsValue] = {
-      val imageWriter = Writes[Image] { image =>
-        Json.obj("src" -> image.src, "text" -> JsString(image.text))
-      }
-
-      images.map(image => imageWriter.writes(image))
-    }
 
     Json.obj(
       "link" -> page.link,
+      "pageNumber" -> page.pageNumber,
+      "images_1" -> getImagesAsListOfJsValue(page.images_1),
+      "images_2" -> getImagesAsListOfJsValue(page.images_2)
+    )
+  }
+
+  val simplePageWithTotalWriter = Writes[PageWithTotal] { pageWithTotal =>
+    val page = pageWithTotal.page
+    Json.obj(
+      "link" -> page.link,
+      "linkLastPage" -> pageWithTotal.totalPage,
       "pageNumber" -> page.pageNumber,
       "images_1" -> getImagesAsListOfJsValue(page.images_1),
       "images_2" -> getImagesAsListOfJsValue(page.images_2)

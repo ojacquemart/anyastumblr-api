@@ -21,6 +21,6 @@ directives
             link: function (scope) {
 
             },
-            template: '<img class="tumblr-site-favicon" src="{{site.favicon}}" />{{site.name}}'
+            template: '<img class="tumblr-site-favicon" ng-src="{{site.favicon}}" />{{site.name}}'
         };
     });

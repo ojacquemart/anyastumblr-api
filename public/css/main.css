@@ -87,6 +87,10 @@ header #loading {
     border-bottom: 1px solid #ccc;
 }
 
+img.tumblr-site-favicon {
+    padding: 0 5px 0 0 !important;
+}
+
 ul {
     list-style:  none;
 }

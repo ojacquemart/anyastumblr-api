@@ -12,6 +12,10 @@ angular.module('AnyAsTumblr', [ "httpInterceptor", "$strap.directives",
                 templateUrl: "assets/partials/tumblr/main.html",
                 controller: TumblrController
             })
+            .when('/sites/:siteId/page/:pageNumber', {
+                templateUrl: "assets/partials/tumblr/main.html",
+                controller: TumblrController
+            })
             .when('/stats', {
                 templateUrl: "assets/partials/tumblr/stats.html",
                 controller: TumblrStatsController

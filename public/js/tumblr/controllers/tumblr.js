@@ -10,6 +10,17 @@ function TumblrController($scope, $routeParams, $location, Tumblr, sitesNavigato
     $scope.page = null;
     $scope.site = null;
 
+    $scope.initPage = function(data) {
+        $scope.sitesByType = data.sitesByType;
+        $scope.site = sitesNavigator.init(data.sites, $routeParams.siteId);
+        var pageNumber = $routeParams.pageNumber;
+        if (pageNumber == null) {
+            $scope.loadImages();
+        } else {
+            $scope.loadImagesByPageNumber(pageNumber);
+        }
+    };
+
     $scope.loadImages = function() {
         $scope.page = Tumblr.get({ "id": sitesNavigator.getCurrentSiteId() });
     };
@@ -26,12 +37,20 @@ function TumblrController($scope, $routeParams, $location, Tumblr, sitesNavigato
         }
     };
 
+    $scope.goToPage = function(pageNumber) {
+        if (pageNumber != -1 && !isNaN(pageNumber)) {
+            return $location.path("/sites/" + sitesNavigator.getCurrentSiteId() + "/page/" + pageNumber);
+        }
+
+        return null;
+    };
+
     $scope.goToPreviousPage = function () {
-        $scope.loadImagesByPageNumber(pagesNavigator.getPreviousPageNumber($scope.page));
+        return $scope.goToPage(pagesNavigator.getPreviousPageNumber($scope.page));
     };
 
     $scope.goToNextPage = function () {
-        $scope.loadImagesByPageNumber(pagesNavigator.getNextPageNumber($scope.page));
+        return $scope.goToPage(pagesNavigator.getNextPageNumber($scope.page));
     };
 
     /**
@@ -40,10 +59,10 @@ function TumblrController($scope, $routeParams, $location, Tumblr, sitesNavigato
     $scope.loadSiteByIndex = function(index) {
         var nextSiteId = sitesNavigator.getSiteByIndex(index);
         if (nextSiteId != null) {
-            $scope.$apply(function() {
-                $location.path("/sites/" + nextSiteId);
-            });
+            return $location.path("/sites/" + nextSiteId);
         }
+
+        return null;
     };
 
     $scope.refreshPage = function() {
@@ -56,6 +75,8 @@ function TumblrController($scope, $routeParams, $location, Tumblr, sitesNavigato
 
     /**
      * Keyboard navigation, FPS like and left/right arrows.
+     * $scope.$apply is used because we need to change the $location.path outside an angular expression.
+     *
      * @param key the keycode.
      */
     $scope.handleKeypress = function(key) {
@@ -64,20 +85,20 @@ function TumblrController($scope, $routeParams, $location, Tumblr, sitesNavigato
             // Previous page = left | q
             case 37:
             case 81:
-                $scope.goToPreviousPage();
+                $scope.$apply($scope.goToPreviousPage());
                 break;
             // Next page = right | d
             case 39:
             case 68:
-                $scope.goToNextPage();
+                $scope.$apply($scope.goToNextPage());
                 break;
             // Previous site = up | z
             case 90:
-                $scope.loadSiteByIndex(-1);
+                $scope.$apply($scope.loadSiteByIndex(-1));
                 break;
             // Next site = down | s
             case 83:
-                $scope.loadSiteByIndex(1);
+                $scope.$apply($scope.loadSiteByIndex(1));
                 break;
             // Refresh = r
             case 82:
@@ -91,9 +112,7 @@ function TumblrController($scope, $routeParams, $location, Tumblr, sitesNavigato
      */
 
     Tumblr.query(function (data) {
-        $scope.sitesByType = data.sitesByType;
-        $scope.site = sitesNavigator.init(data.sites, $routeParams.siteId);
-        $scope.loadImages();
+        $scope.initPage(data);
     });
 
     // FIXME: see to use angularjs directive

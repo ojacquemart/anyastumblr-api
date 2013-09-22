@@ -32,7 +32,7 @@ function TumblrController($scope, $routeParams, $location, Tumblr, sitesNavigato
 
     $scope.goToNextPage = function () {
         $scope.loadImagesByPageNumber(pagesNavigator.getNextPageNumber($scope.page));
-    }
+    };
 
     /**
      * Change site by index, used by the keyboard navigation.
@@ -52,7 +52,7 @@ function TumblrController($scope, $routeParams, $location, Tumblr, sitesNavigato
 
     $scope.canDisplayLastPageInfos = function() {
         return pagesNavigator.hasLastPageInfos($scope.page);
-    }
+    };
 
     /**
      * Keyboard navigation, FPS like and left/right arrows.

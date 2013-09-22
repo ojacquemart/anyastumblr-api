@@ -3,82 +3,43 @@
 /**
  * Tumblr Controller.
  */
-function TumblrController($scope, $routeParams, $location, Tumblr, Animations) {
+function TumblrController($scope, $routeParams, $location, Tumblr, sitesNavigator, pagesNavigator, Animations) {
 
-    $scope.currentSiteIndex = 0;
+    $scope.sitesByType = null;
+
     $scope.page = null;
-    $scope.currentSite = null;
+    $scope.site = null;
 
-    $scope.setCurrentSiteIndex = function() {
-
-        function searchSiteIndex() {
-            var sitesSize = $scope.sites.length;
-
-            for (var i = 0; i < sitesSize; i++) {
-                var site = $scope.sites[i];
-                if (site.id == $scope.siteId) {
-                    return i;
-                }
-            }
-
-            return 0;
-        }
-
-        $scope.currentSiteIndex = searchSiteIndex();
-        $scope.currentSite = $scope.sites[$scope.currentSiteIndex];
+    $scope.loadImages = function() {
+        $scope.page = Tumblr.get({ "id": sitesNavigator.getCurrentSiteId() });
     };
 
-    $scope.hasNotEmptyTotalPage = function() {
-        return $scope.page != null
-            && $scope.page.linkLastPage != null
-            && $scope.page.linkLastPage["url"] != null;
+    $scope.loadImagesByPageNumber = function(pageNumber) {
+        if (pageNumber !== -1) {
+            var params = {
+                "id":        sitesNavigator.getCurrentSiteId(),
+                "pageParam": pageNumber
+            }
+            $scope.page = Tumblr.getPageByNumber(params, function () {
+                Animations.toTop();
+            });
+        }
+    };
+
+    $scope.goToPreviousPage = function () {
+        $scope.loadImagesByPageNumber(pagesNavigator.getPreviousPageNumber($scope.page));
+    };
+
+    $scope.goToNextPage = function () {
+        $scope.loadImagesByPageNumber(pagesNavigator.getNextPageNumber($scope.page));
     }
 
-    $scope.getImagesFromSite = function() {
-        $scope.page = Tumblr.get({ "id": $scope.siteId }, function () {
-            $("#sites-select").blur();
-
-            $scope.setCurrentSiteIndex();
-        });
-
-    };
-
-    $scope.getPageByNumber = function(pageNumber) {
-        Tumblr.getPageByNumber({ "id" : $scope.siteId, "pageParam" : pageNumber }, function (data) {
-            Animations.toTop();
-
-            $scope.page = data;
-        });
-    };
-
-    $scope.getNextPage = function () {
-        var nextPageNumber = $scope.page.pageNumber + 1;
-
-        function canGoToNextPage() {
-            if (!$scope.hasNotEmptyTotalPage()) {
-                return true;
-            }
-
-            return nextPageNumber <= $scope.page.linkLastPage.pageNumber;
-        }
-
-        if (canGoToNextPage()) {
-            $scope.getPageByNumber(nextPageNumber);
-        }
-    }
-
-    $scope.getPreviousPage = function () {
-        var pageNumber = $scope.page.pageNumber - 1;
-        if (pageNumber !== 0) {
-            $scope.getPageByNumber(pageNumber);
-        }
-    };
-
-    $scope.checkSiteIndexAndGetImages = function(siteIndex) {
-        var nextIndex = $scope.currentSiteIndex + siteIndex;
-        if (nextIndex >= 0 && nextIndex < $scope.sites.length) {
-            var nextSiteId = $scope.sites[nextIndex].id;
-
+    /**
+     * Change site by index, used by the keyboard navigation.
+     */
+    $scope.loadSiteByIndex = function(index) {
+        var nextSiteId = sitesNavigator.getSiteByIndex(index);
+        if (nextSiteId != null) {
             $scope.$apply(function() {
                 $location.path("/sites/" + nextSiteId);
             });
@@ -86,9 +47,12 @@ function TumblrController($scope, $routeParams, $location, Tumblr, Animations) {
     };
 
     $scope.refreshPage = function() {
-        $scope.getImagesFromSite();
+        $scope.loadImages();
     };
 
+    $scope.canDisplayLastPageInfos = function() {
+        return pagesNavigator.hasLastPageInfos($scope.page);
+    }
 
     /**
      * Keyboard navigation, FPS like and left/right arrows.
@@ -100,20 +64,20 @@ function TumblrController($scope, $routeParams, $location, Tumblr, Animations) {
             // Previous page = left | q
             case 37:
             case 81:
-                $scope.getPreviousPage();
+                $scope.goToPreviousPage();
                 break;
             // Next page = right | d
             case 39:
             case 68:
-                $scope.getNextPage();
+                $scope.goToNextPage();
                 break;
             // Previous site = up | z
             case 90:
-                $scope.checkSiteIndexAndGetImages(-1);
+                $scope.loadSiteByIndex(-1);
                 break;
             // Next site = down | s
             case 83:
-                $scope.checkSiteIndexAndGetImages(1);
+                $scope.loadSiteByIndex(1);
                 break;
             // Refresh = r
             case 82:
@@ -126,21 +90,10 @@ function TumblrController($scope, $routeParams, $location, Tumblr, Animations) {
      * @OnLoad...
      */
 
-    $scope.initDefaultImages = function() {
-        $scope.siteId = $routeParams.siteId;
-        if ($scope.siteId == null) {
-            $scope.siteId = $scope.sites[0].id;
-        }
-
-        $scope.setCurrentSiteIndex();
-        $scope.getImagesFromSite();
-    }
-
     Tumblr.query(function (data) {
         $scope.sitesByType = data.sitesByType;
-        $scope.sites = data.sites;
-
-        $scope.initDefaultImages();
+        $scope.site = sitesNavigator.init(data.sites, $routeParams.siteId);
+        $scope.loadImages();
     });
 
     // FIXME: see to use angularjs directive

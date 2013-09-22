@@ -13,7 +13,7 @@
                 <div class="btn-group">
                     <button open-parent
                             type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <favicon-site site="currentSite"></favicon-site>
+                        <favicon-site site="site"></favicon-site>
                         <span class="caret"></span>
                     </button>
                     <ul id="tumblr-sites-list-types" class="dropdown-menu">
@@ -34,7 +34,7 @@
             <!-- Current page / Total pages -->
             <span ng-show="page" class="page-title">
                 <a href="{{page.link.url}}" title="{{page.link.title}}" target="_blank">{{page.link.label}}</a> {{pageTotal.length}}
-                <span id="last-page-infos" ng-show="hasNotEmptyTotalPage()" ng-cloak>
+                <span id="last-page-infos" ng-show="canDisplayLastPageInfos()" ng-cloak>
                     / <a href="{{page.linkLastPage.url}}" title="{{page.linkLastPage.title}}" target="_blank">{{page.linkLastPage.label}}</a>
                 </span>
             </span>
@@ -42,8 +42,8 @@
 
         <!-- Previous / next | refresh -->
         <div id="tumblr-sites-navigation" ng-show="page">
-            <i class="btn icon-arrow-left icon-large" ng-click="getPreviousPage();"></i>
-            <i class="btn icon-arrow-right icon-large" ng-click="getNextPage();"></i>
+            <i class="btn icon-arrow-left icon-large" ng-click="goToPreviousPage();"></i>
+            <i class="btn icon-arrow-right icon-large" ng-click="goToNextPage();"></i>
             <i class="btn icon-refresh icon-large" ng-click="refreshPage();"></i>
         </div>
 

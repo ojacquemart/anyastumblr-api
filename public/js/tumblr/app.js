@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('AnyAsTumblr', [ "httpInterceptor", "$strap.directives", "tumblrDirectives", "tumblrAnimations", "tumblrServices"])
+angular.module('AnyAsTumblr', [ "httpInterceptor", "$strap.directives",
+        "tumblrDirectives", "tumblrAnimations", "tumblrServices", "tumblrNavigation"])
     .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
         $routeProvider
             .when('/', {

@@ -3,15 +3,10 @@ import sbt._
 import Keys._
 import play.Project._
 
-import de.johoop.jacoco4sbt._
-import JacocoPlugin._
-
 object ApplicationBuild extends Build {
 
   val appName = "hfrtumlbr"
   val appVersion = "1.1.0-SNAPSHOT"
-
-  lazy val s = Defaults.defaultSettings ++ Seq(jacoco.settings: _*)
 
   val mandubianRepo = Seq(
     "Mandubian repository snapshots" at "https://github.com/mandubian/mandubian-mvn/raw/master/snapshots/",
@@ -22,19 +17,21 @@ object ApplicationBuild extends Build {
   )
 
   val appDependencies = Seq(
-    "com.newrelic.agent.java" % "newrelic-agent" % "2.21.3",
-    "org.jsoup" % "jsoup" % "1.7.2",
-    "org.reactivemongo" %% "play2-reactivemongo" % "0.9",
-    "play-autosource" %% "reactivemongo" % "0.1-SNAPSHOT",
-    "securesocial" %% "securesocial" % "master-SNAPSHOT"
+    "com.newrelic.agent.java" % "newrelic-agent"        % "2.21.3",
+    "org.jsoup"               % "jsoup"                 % "1.7.2",
+    ("org.reactivemongo"       %% "play2-reactivemongo"  % "0.10.0-SNAPSHOT")
+      .exclude("play", "play"),
+    ("play-autosource"         %% "reactivemongo"        % "0.11-SNAPSHOT")
+      .exclude("org.scala-stm", "scala-stm_2.10.0")
+      .exclude("play", "play"),
+    ("securesocial"            %% "securesocial"         % "master-SNAPSHOT")
+      .exclude("org.scala-stm", "scala-stm_2.10.0")
+      .exclude("play", "play")
   )
 
-  val main = play.Project(appName, appVersion, appDependencies, settings = s).settings(
+  val main = play.Project(appName, appVersion, appDependencies).settings(
     resolvers ++= mandubianRepo,
-    resolvers ++= secureSocialRepo,
-    parallelExecution in jacoco.Config := false,
-    jacoco.reportFormats in jacoco.Config := Seq(XMLReport("utf-8"), HTMLReport("utf-8")),
-    jacoco.excludes in jacoco.Config := Seq("views.*", "controllers.Reverse*", "controllers.javascript.*", "controllers.ref.*", "Routes*")
+    resolvers ++= secureSocialRepo
   )
 
 }

@@ -1,5 +1,8 @@
 package tumblr.filters
 
+import scala.concurrent.ExecutionContext
+import ExecutionContext.Implicits.global
+
 import play.api.mvc._
 import play.api.libs.iteratee.Iteratee
 
@@ -16,7 +19,7 @@ object TumblrAdminFilter extends EssentialFilter {
 
   def apply(next: EssentialAction) = new EssentialAction {
 
-    def apply(request: RequestHeader): Iteratee[Array[Byte], Result] = {
+    def apply(request: RequestHeader): Iteratee[Array[Byte], SimpleResult] = {
       def isForbidden(): Boolean = request.path.startsWith(PathApiTumblrAdmin) && !SecureSocial.currentUser(request).isDefined
 
       if (isForbidden()) Iteratee.ignore[Array[Byte]].map(_ => Results.Forbidden)

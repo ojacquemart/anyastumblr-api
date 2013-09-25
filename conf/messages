@@ -1,9 +1,13 @@
 # tumblr
 tumblr.main.title=any.asTumblr()
+
+# tumblr admin
 tumblr.admin.title=Tumblr Administration
+tumblr.admin.label=Administration
+tumblr.admin.form.username=Username
+tumblr.admin.form.password=Password
+
+tumblr.admin.signin=Sign in
 
 # commons
 page.label=Page
-
-# secure social
-securesocial.appName=Tumblr Administration

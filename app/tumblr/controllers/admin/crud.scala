@@ -44,7 +44,7 @@ trait SlugChecker extends Controller {
 }
 
 object SiteTypeController extends ReactiveMongoAutoSourceController[SiteType] with SlugChecker {
-  val coll = db.collection[JSONCollection](SiteTypeDao.collectionName)
+  def coll = db.collection[JSONCollection](SiteTypeDao.collectionName)
 
   override def update(id: BSONObjectID) = Action(parse.json) { request =>
     Json.fromJson[SiteType](request.body)(reader).map { newSiteTpe =>
@@ -80,7 +80,7 @@ object SiteTypeController extends ReactiveMongoAutoSourceController[SiteType] wi
 object SiteController extends ReactiveMongoAutoSourceController[Site] with SlugChecker {
   val cacheKeysToClear = List(CacheKeys.Sites, CacheKeys.ActionSites)
 
-  val coll = db.collection[JSONCollection](SiteDao.collectionName)
+  def coll = db.collection[JSONCollection](SiteDao.collectionName)
 
   /**
    * Changes the site type of sites, replacing the old site type by the new one.

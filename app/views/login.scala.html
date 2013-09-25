@@ -1,0 +1,42 @@
+@(form: Form[(String,String)])(implicit flash: Flash)
+
+<html>
+    <head>
+        <title>@Messages("tumblr.admin.title")</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap.min.nr.css" rel="stylesheet">
+        <link href="@routes.Assets.at("css/login.css")" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            @helper.form(action = tumblr.controllers.admin.routes.TumblrAdminController.authenticate, 'class -> "form-signin") {
+
+                @flash.get("error").map { msg =>
+                    <div class="alert alert-error">
+                        @msg
+                    </div>
+                }
+                @form.globalError.map { error =>
+                    <div class="alert alert-error">
+                        @error.message
+                    </div>
+                }
+                @flash.get("success").map { msg =>
+                    <div class="alert alert-info">
+                        @msg
+                    </div>
+                }
+
+                <h2 class="form-signin-heading">@Messages("tumblr.admin.label")</h2>
+                <input type="text" name="name"
+                    class="input-block-level"
+                    placeholder="@Messages("tumblr.admin.form.username")" >
+                <input type="password" name="password"
+                    class="input-block-level"
+                    placeholder="@Messages("tumblr.admin.form.password")" >
+                <button class="btn btn-large btn-primary" type="submit">@Messages("tumblr.admin.signin")</button>
+            }
+        </div>
+    </body>
+</html>
+
+

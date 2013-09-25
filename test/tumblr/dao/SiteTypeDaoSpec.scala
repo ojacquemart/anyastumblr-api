@@ -3,7 +3,8 @@ package tumblr.dao
 import org.specs2.mutable._
 
 import play.api.Logger
-import play.api.test.Helpers._
+
+import play.api.test.Helpers.defaultAwaitTimeout
 
 import reactivemongo.bson.BSONObjectID
 import play.modules.reactivemongo.json.BSONFormats._
@@ -26,7 +27,7 @@ class SiteTypeDaoSpec extends Specification {
     def saveItemAndGetPK() = saveItem().slug
 
     def findByPK(id: String) = {
-      val maybeItem: Option[SiteType] = await(SiteTypeDao.findByPK(id))
+      val maybeItem: Option[SiteType] = play.api.test.Helpers.await(SiteTypeDao.findByPK(id))
       maybeItem must not be equalTo(None)
       maybeItem.get
     }
@@ -35,11 +36,11 @@ class SiteTypeDaoSpec extends Specification {
       val newItem = saveItem()
 
       Logger.debug("Check count > 0")
-      val count = await(SiteTypeDao.count())
+      val count = play.api.test.Helpers.await(SiteTypeDao.count())
       count must be > (0)
 
       Logger.debug("Check name is retrievable")
-      val types = await(SiteTypeDao.findAll())
+      val types = play.api.test.Helpers.await(SiteTypeDao.findAll())
       types must not be empty
       types.head.name must be equalTo (newItem.name)
     }

@@ -4,7 +4,8 @@ import org.specs2.mutable._
 
 import play.api.Logger
 import play.modules.reactivemongo.json.BSONFormats._
-import play.api.test.Helpers._
+
+import play.api.test.Helpers.defaultAwaitTimeout
 
 import tumblr.model._
 import tumblr.dao._
@@ -23,7 +24,7 @@ class PageDaoSpec extends Specification {
       PageDao.save(newPage)
 
       Logger.debug("Check save")
-      val optionPage = await(PageDao.findBySlugAndPageNumber("foo", 1))
+      val optionPage = play.api.test.Helpers.await(PageDao.findBySlugAndPageNumber("foo", 1))
 
       Logger.debug("Item found!")
 
@@ -39,10 +40,10 @@ class PageDaoSpec extends Specification {
       val images_2 = List(Image.get("d"))
       val newPage = new Page("foo2", 2, images_1, images_2, FooLink)
       Logger.debug("Save")
-      await(PageDao.save(newPage))
+      play.api.test.Helpers.await(PageDao.save(newPage))
 
       Logger.debug("Check save")
-      val optionPage = await(PageDao.findBySlugAndPageNumber("foo2", 2))
+      val optionPage = play.api.test.Helpers.await(PageDao.findBySlugAndPageNumber("foo2", 2))
       optionPage must not be equalTo(None)
       Logger.debug("Item found!")
 
@@ -54,11 +55,11 @@ class PageDaoSpec extends Specification {
       val images_2ToUpdate = List(Image.get("d"), Image.get("e"), Image.get("g"))
       val pageToUpdate = new Page("foo2", 2, images_1ToUpdate, images_2ToUpdate, FooLink)
       Logger.debug("Update...")
-      await(PageDao.update(pageToUpdate))
+      play.api.test.Helpers.await(PageDao.update(pageToUpdate))
 
       Logger.debug("Check update")
 
-      val optionPageUpdated = await(PageDao.findBySlugAndPageNumber("foo2", 2))
+      val optionPageUpdated = play.api.test.Helpers.await(PageDao.findBySlugAndPageNumber("foo2", 2))
       optionPageUpdated must not be equalTo(None)
       val pageUpdated = optionPageUpdated.get
       pageUpdated.images_1 must be equalTo (images_1ToUpdate)
@@ -73,7 +74,7 @@ class PageDaoSpec extends Specification {
       Logger.debug("Save one item")
       PageDao.save(newPage)
 
-      val count = await(PageDao.count())
+      val count = play.api.test.Helpers.await(PageDao.count())
       count must be equalTo (1)
       Logger.debug("Found one item!")
     }

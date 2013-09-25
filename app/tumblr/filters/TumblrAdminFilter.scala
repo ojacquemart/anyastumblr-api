@@ -5,8 +5,7 @@ import ExecutionContext.Implicits.global
 
 import play.api.mvc._
 import play.api.libs.iteratee.Iteratee
-
-import securesocial.core.SecureSocial
+import tumblr.UserService
 
 /**
  * Tumblr admin filter avoid access to json api to not authetnicated users.
@@ -20,7 +19,7 @@ object TumblrAdminFilter extends EssentialFilter {
   def apply(next: EssentialAction) = new EssentialAction {
 
     def apply(request: RequestHeader): Iteratee[Array[Byte], SimpleResult] = {
-      def isForbidden(): Boolean = request.path.startsWith(PathApiTumblrAdmin) && !SecureSocial.currentUser(request).isDefined
+      def isForbidden(): Boolean = request.path.startsWith(PathApiTumblrAdmin) && !UserService.hasCurrentUser(request)
 
       if (isForbidden()) Iteratee.ignore[Array[Byte]].map(_ => Results.Forbidden)
       else next(request)

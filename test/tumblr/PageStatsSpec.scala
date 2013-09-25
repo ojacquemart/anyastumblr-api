@@ -2,7 +2,8 @@ package tumblr
 
 import org.specs2.mutable.Specification
 
-import play.api.test.Helpers._
+import play.api.test.Helpers.defaultAwaitTimeout
+import play.api.test.Helpers.await
 
 import tumblr.model._
 import tumblr.dao._
@@ -50,7 +51,7 @@ object PageStatsSpec extends Specification {
       )
       savePages(pages)
 
-      val stats = await(PageStats.generate())
+      val stats: Stats = play.api.test.Helpers.await(PageStats.generate())
       stats.sitesStats.size must be equalTo(sitesToSave.size)
       stats.nbDocuments must be equalTo(pages.size)
       stats.nbViews must be equalTo(pages.map(_.nbViews).sum)

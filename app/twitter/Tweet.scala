@@ -47,7 +47,7 @@ object Tweet {
     new TweetFetcher(query, sinceId).count()
   }
 
-  def streamCountRecents(query: String): Enumerator[String] = {
+  def chunckCountRecents(query: String): Enumerator[String] = {
     val countRecents = Enumerator.repeatM[Int]({
       count(query, TweetCacheHandler.get(query))
     })

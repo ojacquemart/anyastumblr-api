@@ -29,18 +29,14 @@ trait SlugChecker extends Controller {
 
   def res(): ReactiveMongoAutoSource[_ <: Slugifiable]
 
-  def existsSlug(slug: String) = Action { request =>
-    Async {
-      val futureSlugs = res.find(Json.obj("slug" -> slug))
-      futureSlugs.map(slugs => {
-        val exists = slugs.size > 0
-        val id = slugs.headOption.map(head => head._2.stringify).getOrElse("")
-        Ok(Json.obj("exists" -> exists, "id" -> id)).as("application/json")
-      })
-    }
-
+  def existsSlug(slug: String) = Action.async { request =>
+    val futureSlugs = res.find(Json.obj("slug" -> slug))
+    futureSlugs.map(slugs => {
+      val exists = slugs.size > 0
+      val id = slugs.headOption.map(head => head._2.stringify).getOrElse("")
+      Ok(Json.obj("exists" -> exists, "id" -> id)).as("application/json")
+    })
   }
-
 }
 
 object SiteTypeController extends ReactiveMongoAutoSourceController[SiteType] with SlugChecker {
@@ -62,16 +58,14 @@ object SiteTypeController extends ReactiveMongoAutoSourceController[SiteType] wi
     }.recoverTotal { e => BadRequest(JsError.toFlatJson(e)) }
   }
 
-  override def delete(id: BSONObjectID) = Action{
-    Async {
-      // Remove the site types from sites.
-      res.get(id).map { t =>
-        SiteController.removeBySiteType(t.get._1)
-      }
+  override def delete(id: BSONObjectID) = Action.async {
+    // Remove the site types from sites.
+    res.get(id).map { t =>
+      SiteController.removeBySiteType(t.get._1)
+    }
 
-      res.delete(id).map{ le =>
-        Ok(Json.toJson(id)(idWriter))
-      }
+    res.delete(id).map{ le =>
+      Ok(Json.toJson(id)(idWriter))
     }
   }
 

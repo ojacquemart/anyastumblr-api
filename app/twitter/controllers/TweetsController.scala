@@ -10,18 +10,15 @@ import twitter._
 
 object TweetsController extends Controller {
 
-  def index(query: String) = Action {
-    implicit request =>
-      Async {
-        val futureTweets = Tweet.fetch(query)
-        futureTweets map {
-          tweets => Ok(Json.toJson(tweets)).as("application/json")
-        }
-      }
+  def index(query: String) = Action.async { request =>
+    val futureTweets = Tweet.fetch(query)
+    futureTweets map {
+      tweets => Ok(Json.toJson(tweets)).as("application/json")
+    }
   }
 
   def stream(query: String) = Action {
-    Ok.stream(Tweet.streamCountRecents(query)).as("text/event-stream")
+    Ok.chunked(Tweet.chunckCountRecents(query)).as("text/event-stream")
   }
 
 }

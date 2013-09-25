@@ -10,11 +10,9 @@ import tumblr.PageStats
 
 object TumblrStats extends Controller {
 
-  def index = Action {
-    Async {
-      PageStats.generate.map(stat => {
-        Ok(Json.toJson(stat)).as("application/json")
-      }).recover { case e => BadRequest(e.getMessage) }
-    }
+  def index = Action.async {
+    PageStats.generate.map(stat => {
+      Ok(Json.toJson(stat)).as("application/json")
+    }).recover { case e => BadRequest(e.getMessage) }
   }
 }

@@ -44,6 +44,8 @@ GET           /api/tumblr/admin/sites/slug/exists/:slug             tumblr.contr
 GET           /api/tweets/:query                                    twitter.controllers.TweetsController.index(query: String)
 GET           /api/tweets/stream/:query                             twitter.controllers.TweetsController.stream(query: String)
 
+->  /admin      admin.Routes
+
 #--------------
 # Secure social
 #--------------

@@ -1,4 +1,4 @@
-package tumblr.controllers.admin
+package controllers.admin
 
 import play.api.cache.Cache
 import play.api.Logger
@@ -6,15 +6,13 @@ import play.api.Play.current
 import play.api.libs.json.Json
 import play.api.mvc._
 
-import tumblr.CacheKeys
-import tumblr.CacheKey.writes
-
+import common.CacheKeys
 
 object CachesController extends Controller {
 
   def get = Action { request =>
     Logger.debug("Get all cache keys")
-    Ok(Json.toJson(CacheKeys.keys)).as("application/json")
+    Ok(Json.toJson(CacheKeys.Keys)).as("application/json")
   }
 
   def remove(cacheKey: String) = Action { request =>
@@ -25,7 +23,7 @@ object CachesController extends Controller {
 
   def removeAll() = Action { request =>
     Logger.debug(s"Remove all cache keys")
-    CacheKeys.keys.foreach(cacheKey => Cache.remove(cacheKey.key))
+    CacheKeys.Keys.foreach(cacheKey => Cache.remove(cacheKey.key))
     NoContent
   }
 

@@ -1,0 +1,11 @@
+#--------------
+# Admin routes
+#--------------
+
+GET             /index                                            controllers.admin.AdminController.index
+
+GET             /api/tumblr/caches                                controllers.admin.CachesController.get
+DELETE          /api/tumblr/caches                                controllers.admin.CachesController.removeAll
+DELETE          /api/tumblr/caches/:cacheKey                      controllers.admin.CachesController.remove(cacheKey: String)
+
+GET             /assets/*file        controllers.Assets.at(path="/public", file)

@@ -1,4 +1,4 @@
-package tumblr
+package common
 
 import play.api.libs.json.{Json}
 
@@ -15,7 +15,7 @@ object CacheKeys {
   val Sites = "tumblr.sites"
 
 
-  val keys = List(
+  val Keys = List(
     CacheKey(Sites, "Sites"),
     CacheKey(ActionSites, "Action sites")
   )

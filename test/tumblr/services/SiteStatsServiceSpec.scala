@@ -7,20 +7,18 @@ import play.api.test.Helpers.await
 
 import tumblr.model._
 import tumblr.dao._
-import tumblr.services.SiteStats
-import tumblr.model
 
-object SiteStatsSpec extends Specification {
+object SiteStatsServiceSpec extends Specification {
 
   // Hfr images étonnantes
-  val site1: model.Site = LocalSiteDao.LocalSites(0)
+  val site1: Site = LocalSiteDao.LocalSites(0)
   // Joiesducode
-  val site2: model.Site = LocalSiteDao.LocalSites(2)
+  val site2: Site = LocalSiteDao.LocalSites(2)
   // Joiesdusysadmin
-  val site3: model.Site = LocalSiteDao.LocalSites(3)
+  val site3: Site = LocalSiteDao.LocalSites(3)
 
   val sites = List(site1, site2, site3)
-  val pages: List[model.Page] = List(
+  val pages: List[Page] = List(
     getPage(site1.slug, 1, 2),
     getPage(site1.slug, 2, 10),
     getPage(site1.slug, 3, 20),
@@ -53,7 +51,7 @@ object SiteStatsSpec extends Specification {
       saveSites(sites)
       savePages(pages)
 
-      val stats: Stats = play.api.test.Helpers.await(SiteStats.generate())
+      val stats: Stats = play.api.test.Helpers.await(SiteStatsService.generate())
       stats.sitesStats.size must be equalTo(sites.size)
       stats.nbDocuments must be equalTo(pages.size)
       stats.nbViews must be equalTo(pages.map(_.nbViews).sum)

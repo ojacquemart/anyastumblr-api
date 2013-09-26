@@ -1,4 +1,4 @@
-package tumblr
+package tumblr.content
 
 import org.specs2.mutable._
 
@@ -7,7 +7,7 @@ import tumblr._
 
 import tumblr.dao.LocalSiteDao._
 
-class TotalPageInformationsSpec extends Specification {
+object SiteLastPageResolverSpec extends Specification {
 
   def getSiteByNameLowerCase(name: String): Site = {
     val maybeSite = LocalSites.find(site => site.name.toLowerCase() == name)
@@ -26,12 +26,12 @@ class TotalPageInformationsSpec extends Specification {
     lastPageNumber
   }
 
-  "The SiteLastPageInfosJson class" should {
+  "The SiteLastPageResolver class" should {
 
     "returns None when the site doesn't expose its total page number" in {
       val site = getSiteByNameLowerCase("commitstrip")
 
-      SiteLastPageInfos.getLink(site) must be equalTo(None)
+      SiteLastPageResolver.getLink(site) must be equalTo(None)
     }
   }
 

@@ -1,10 +1,10 @@
-package tumblr
+package tumblr.content
 
 import collection.mutable.ListBuffer
 
 import tumblr.model._
 
-import jsoup.DocumentWrapper
+import tumblr.jsoup.DocumentWrapper
 
 case class ImagesFinder(url: String, configuration: Configuration) {
 
@@ -50,7 +50,7 @@ case class ImagesFinder(url: String, configuration: Configuration) {
       case Some(rule: ImageRule) => {
         val rearrange = distinct
           .filterNot(_.src.startsWith(rule.exclude))
-            .partition(i => rule.startsWith.exists(simpleValue => i.src.startsWith(simpleValue.value)))
+          .partition(i => rule.startsWith.exists(simpleValue => i.src.startsWith(simpleValue.value)))
 
         (rearrange._1, rearrange._2.reverse)
       }

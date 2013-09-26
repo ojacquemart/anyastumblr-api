@@ -1,8 +1,8 @@
-package tumblr
+package tumblr.content
 
 import tumblr.model._
 
-import jsoup.DocumentWrapper
+import tumblr.jsoup.DocumentWrapper
 
 case class PageNumberResolver(site: Site, pageNumber: Option[Int] = None) {
 
@@ -38,7 +38,6 @@ case class PageNumberResolver(site: Site, pageNumber: Option[Int] = None) {
         val selector: CssSelector = pageNumberDesc.cssSelector
 
         val elements = wrapper.list(selector.cssQuery, selector.htmlAttribute)
-
         if (elements.isEmpty) 1
         else {
           val url = elements(0)

@@ -22,24 +22,6 @@ object SiteDao extends MongoDao[Site, BSONObjectID] {
   override val sorter = Json.obj("siteType.ordinal" -> 1, "ordinal" -> 1, "name:" -> 1)
   override val finder = Json.obj("siteType.enabled" -> true, "enabled" -> true)
 
-  def findAllGroupedBySiteType(): Future[SitesInfo] = {
-    Cache.getOrElse[Future[SitesInfo]](CacheKeys.Sites) {
-      import tumblr.model.AdminSiteJSON.format
-
-      Logger.info("Reading sites content...")
-
-      for {
-        sites <- findAll()
-        sitesByType = compute(sites)
-      } yield SitesInfo(sitesByType, sites)
-    }
-  }
-
-  def compute(sites: List[Site]): List[SitesByType] = {
-    val group = sites.groupBy(_.siteType)
-    group.map(g => SitesByType(g._1, g._2)).toList.sortBy(_.siteType.ordinal)
-  }
-
   def findBySlug(slug: String): Future[Option[Site]] = {
     debug(s"findBySlug($slug)")
 

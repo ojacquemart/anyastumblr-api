@@ -15,7 +15,7 @@ import tumblr.model.Stats._
 
 import tumblr.dao.{PageDao, SiteDao}
 
-object SiteStats {
+object SiteStatsService {
 
   /**
    * Reader to read BSONNumberLike as Int.
@@ -27,9 +27,9 @@ object SiteStats {
     for {
       sites <- SiteDao.findAll()
       stats <- PageDao.statsBySiteId()
-      sitesStats = compute(sites, stats)
-      nbDocs = sumNbDocuments(sitesStats)
-      nbViews = sumNbViews(sitesStats)
+      sitesStats  = compute(sites, stats)
+      nbDocs      = sumNbDocuments(sitesStats)
+      nbViews     = sumNbViews(sitesStats)
     } yield Stats(nbDocs, nbViews, sitesStats)
   }
 

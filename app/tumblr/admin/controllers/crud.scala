@@ -1,4 +1,4 @@
-package tumblr.controllers.admin
+package tumblr.admin.controllers
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global

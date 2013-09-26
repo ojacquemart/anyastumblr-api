@@ -1,18 +1,18 @@
-package tumblr.filters
+package tumblr.admin.filters
 
 import scala.concurrent.ExecutionContext
 import ExecutionContext.Implicits.global
 
 import play.api.mvc._
 import play.api.libs.iteratee.Iteratee
-import tumblr.UserService
+import tumblr.admin.service.UserService
 
 /**
- * Tumblr admin filter avoid access to json api to not authetnicated users.
+ * A filter to avoid access to json api to not authenticated users.
  * The json api starts with /api/tumblr/admin.
  * Secure social allows to get the current user by the method SecureSocial#current(request).
  */
-object TumblrAdminFilter extends EssentialFilter {
+object AdminFilter extends EssentialFilter {
 
   val PathApiTumblrAdmin = "/api/tumblr/admin"
 

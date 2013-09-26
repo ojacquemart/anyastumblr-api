@@ -1,8 +1,8 @@
 import play.api._
 import play.api.mvc._
 
-import tumblr.filters._
+import tumblr.admin.filters.AdminFilter
 
-object Global extends WithFilters(TumblrAdminFilter) with GlobalSettings {
+object Global extends WithFilters(AdminFilter) with GlobalSettings {
 
 }

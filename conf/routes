@@ -18,24 +18,24 @@ GET           /api/tumblr/sites/:slug/page/:pageNumber              tumblr.contr
 GET           /api/tumblr/stats                                     tumblr.controllers.TumblrStats.index
 
 # Tumblr administration
-GET           /tumblr/administration                                tumblr.controllers.admin.TumblrAdminController.index
+GET           /tumblr/administration                                tumblr.admin.controllers.TumblrAdminController.index
 
 # Authentication
-GET           /tumblr/administration/login                          tumblr.controllers.admin.TumblrAdminController.login
-POST          /tumblr/administration/login                          tumblr.controllers.admin.TumblrAdminController.authenticate
-GET           /tumblr/administration/logout                         tumblr.controllers.admin.TumblrAdminController.logout
+GET           /tumblr/administration/login                          tumblr.admin.controllers.TumblrAdminController.login
+POST          /tumblr/administration/login                          tumblr.admin.controllers.TumblrAdminController.authenticate
+GET           /tumblr/administration/logout                         tumblr.admin.controllers.TumblrAdminController.logout
 
-GET           /api/tumblr/admin/caches                              tumblr.controllers.admin.CachesController.list
-DELETE        /api/tumblr/admin/caches                              tumblr.controllers.admin.CachesController.removeAll
-DELETE        /api/tumblr/admin/caches/:cacheKey                    tumblr.controllers.admin.CachesController.remove(cacheKey: String)
+GET           /api/tumblr/admin/caches                              tumblr.admin.controllers.CachesController.list
+DELETE        /api/tumblr/admin/caches                              tumblr.admin.controllers.CachesController.removeAll
+DELETE        /api/tumblr/admin/caches/:cacheKey                    tumblr.admin.controllers.CachesController.remove(cacheKey: String)
 
 # Tumblr administration slugs
-GET           /api/tumblr/admin/site-types/slug/exists/:slug        tumblr.controllers.admin.SiteTypeController.existsSlug(slug)
-GET           /api/tumblr/admin/sites/slug/exists/:slug             tumblr.controllers.admin.SiteController.existsSlug(slug)
+GET           /api/tumblr/admin/site-types/slug/exists/:slug        tumblr.admin.controllers.SiteTypeController.existsSlug(slug)
+GET           /api/tumblr/admin/sites/slug/exists/:slug             tumblr.admin.controllers.SiteController.existsSlug(slug)
 
 # Tumblr administration autosource
-->            /api/tumblr/admin/site-types                          tumblr.controllers.admin.SiteTypeController
-->            /api/tumblr/admin/sites                               tumblr.controllers.admin.SiteController
+->            /api/tumblr/admin/site-types                          tumblr.admin.controllers.SiteTypeController
+->            /api/tumblr/admin/sites                               tumblr.admin.controllers.SiteController
 
 ->  /twitter    twitter.Routes
 

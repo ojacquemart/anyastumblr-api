@@ -1,4 +1,4 @@
-package tumblr
+package tumblr.admin.service
 
 import scala.concurrent.ExecutionContext
 import ExecutionContext.Implicits.global

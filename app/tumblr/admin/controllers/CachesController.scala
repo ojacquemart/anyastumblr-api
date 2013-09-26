@@ -1,4 +1,4 @@
-package tumblr.controllers.admin
+package tumblr.admin.controllers
 
 import play.api.cache.Cache
 import play.api.Logger
@@ -8,7 +8,6 @@ import play.api.mvc._
 
 import tumblr.CacheKeys
 import tumblr.CacheKey.writes
-
 
 object CachesController extends Controller {
 

@@ -1,4 +1,4 @@
-package tumblr.controllers.admin
+package tumblr.admin.controllers
 
 import scala.concurrent.ExecutionContext
 import ExecutionContext.Implicits.global
@@ -7,9 +7,9 @@ import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
 
-import tumblr.UserService
 
 import views._
+import tumblr.admin.service.UserService
 
 object TumblrAdminController extends Controller  {
 

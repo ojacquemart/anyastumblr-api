@@ -12,7 +12,7 @@ import cache.Cached
 import tumblr.CacheKeys
 import tumblr.services.SiteService
 
-object Tumblr extends Controller {
+object TumblrController extends Controller {
 
   def getSites = Cached(CacheKeys.ActionSites) {
     Action.async {

@@ -8,11 +8,12 @@ import play.api.mvc._
 
 import tumblr.services.SiteStatsService
 
-object TumblrStats extends Controller {
+object TumblrStatsController extends Controller {
 
   def index = Action.async {
     SiteStatsService.generate.map(stats => {
       Ok(Json.toJson(stats)).as("application/json")
     }).recover { case e => BadRequest(e.getMessage) }
   }
+
 }

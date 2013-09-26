@@ -6,12 +6,12 @@ import ExecutionContext.Implicits.global
 import play.api.libs.json._
 import play.api.mvc._
 
-import tumblr.PageStats
+import tumblr.services.SiteStats
 
 object TumblrStats extends Controller {
 
   def index = Action.async {
-    PageStats.generate.map(stat => {
+    SiteStats.generate.map(stat => {
       Ok(Json.toJson(stat)).as("application/json")
     }).recover { case e => BadRequest(e.getMessage) }
   }

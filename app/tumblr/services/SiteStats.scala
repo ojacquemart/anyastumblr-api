@@ -1,4 +1,4 @@
-package tumblr
+package tumblr.services
 
 import scala.concurrent.{Future, ExecutionContext}
 import ExecutionContext.Implicits.global
@@ -7,25 +7,15 @@ import play.api.Logger
 import play.api.libs.json._
 
 import reactivemongo.bson._
+
 import tumblr.model.Site
+import tumblr.model.Stats
+import tumblr.model.SiteStat
+import tumblr.model.Stats._
+
 import tumblr.dao.{PageDao, SiteDao}
 
-trait ViewableStats {
-  def nbDocuments: Int
-  def nbViews: Int
-}
-
-case class Stats(nbDocuments: Int, nbViews: Int, sitesStats: List[SiteStat]) extends ViewableStats
-case class SiteStat(name: String, nbDocuments: Int, nbViews: Int) extends ViewableStats
-
-object Stats {
-
-  implicit val siteStatWrites = Json.writes[SiteStat]
-  implicit val writes = Json.writes[Stats]
-
-}
-
-object PageStats {
+object SiteStats {
 
   /**
    * Reader to read BSONNumberLike as Int.

@@ -17,15 +17,11 @@ object ApplicationBuild extends Build {
   )
 
   val cacheDeps = Seq(cache)
-
-  lazy val common = play.Project(appName + "-common", appVersion, Seq(), path = file("common"))
-  lazy val admin = play.Project(appName + "-admin", appVersion, cacheDeps, path = file("modules/admin")).dependsOn(common)
-
   lazy val twitter = play.Project(appName + "-twitter", appVersion, cacheDeps, path = file("modules/twitter"))
 
   lazy  val main = play.Project(appName, appVersion, mainDeps).settings(
     resolvers += "Mandubian repository snapshots" at "https://github.com/mandubian/mandubian-mvn/raw/master/snapshots/",
     resolvers += "Mandubian repository releases" at "https://github.com/mandubian/mandubian-mvn/raw/master/releases/"
-  ).dependsOn(admin, twitter).aggregate(admin, twitter)
+  ).dependsOn(twitter).aggregate(twitter)
 
 }

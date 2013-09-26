@@ -1,4 +1,4 @@
-package services
+package twitter.services
 
 import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
@@ -14,8 +14,8 @@ import play.api.libs.ws.{WS, Response}
 
 import play.api.Logger
 
-import models.Tweet
-import utils.ConfigurationReader
+import twitter.models.Tweet
+import twitter.utils.ConfigurationReader
 
 class TweetFetcher(query: String, sinceId: String)  {
 

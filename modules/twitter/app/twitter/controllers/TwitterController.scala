@@ -1,4 +1,4 @@
-package controllers
+package twitter.controllers
 
 import scala.concurrent.ExecutionContext
 import ExecutionContext.Implicits.global
@@ -6,7 +6,7 @@ import ExecutionContext.Implicits.global
 import play.api.mvc._
 import play.api.libs.json.Json
 
-import services.TweetFetcher
+import twitter.services.TweetFetcher
 
 object TwitterController extends Controller {
 

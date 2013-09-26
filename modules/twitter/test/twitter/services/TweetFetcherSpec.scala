@@ -1,16 +1,15 @@
-package services
+package twitter.services
 
 import org.specs2.mutable._
 
 import play.api.test.Helpers.defaultAwaitTimeout
-
-import utils.SimpleFakeApp
+import play.api.test.WithApplication
 
 object TweetFetcherSpec extends Specification {
 
   "The Tweet class" should {
 
-    "fetch tweets" in new SimpleFakeApp {
+    "fetch tweets" in new WithApplication {
       val tweets = play.api.test.Helpers.await(TweetFetcher.fetch("#java, #scala"))
 
       tweets must not be equalTo(Nil)

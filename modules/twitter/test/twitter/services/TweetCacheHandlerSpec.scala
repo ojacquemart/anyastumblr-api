@@ -1,21 +1,22 @@
-package services
+package twitter.services
 
 import org.specs2.mutable._
 
-import models.{TwitterUser, Tweet}
-import utils.SimpleFakeApp
+import play.api.test.WithApplication
+
+import twitter.models.{TwitterUser, Tweet}
 
 object TweetCacheHandlerSpec extends Specification {
 
   "The TweetCacheHandler class" should {
 
-    "generate different cache keys according to query parameter" in new SimpleFakeApp {
+    "generate different cache keys according to query parameter" in new WithApplication {
       val javaCacheKey = TweetCacheHandler.getCacheKey("java")
       val scalaCacheKey = TweetCacheHandler.getCacheKey("scala")
       javaCacheKey must not be equalTo(scalaCacheKey)
     }
 
-    "put in cache the first tweet id, used to query since_id" in new SimpleFakeApp {
+    "put in cache the first tweet id, used to query since_id" in new WithApplication {
       val tweet1 = new Tweet("1", "foo", "bar", TwitterUser("avatar", "source"))
       val tweet2 = new Tweet("2", "foo", "bar", TwitterUser("avatar", "source"))
 

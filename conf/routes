@@ -25,7 +25,7 @@ GET           /tumblr/administration/login                          tumblr.contr
 POST          /tumblr/administration/login                          tumblr.controllers.admin.TumblrAdminController.authenticate
 GET           /tumblr/administration/logout                         tumblr.controllers.admin.TumblrAdminController.logout
 
-GET           /api/tumblr/admin/caches                              tumblr.controllers.admin.CachesController.get
+GET           /api/tumblr/admin/caches                              tumblr.controllers.admin.CachesController.list
 DELETE        /api/tumblr/admin/caches                              tumblr.controllers.admin.CachesController.removeAll
 DELETE        /api/tumblr/admin/caches/:cacheKey                    tumblr.controllers.admin.CachesController.remove(cacheKey: String)
 
@@ -37,7 +37,6 @@ GET           /api/tumblr/admin/sites/slug/exists/:slug             tumblr.contr
 ->            /api/tumblr/admin/site-types                          tumblr.controllers.admin.SiteTypeController
 ->            /api/tumblr/admin/sites                               tumblr.controllers.admin.SiteController
 
-->  /admin      admin.Routes
 ->  /twitter    twitter.Routes
 
 # Map static resources from the /public folder to the /assets URL path

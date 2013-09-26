@@ -12,7 +12,7 @@ import tumblr.CacheKey.writes
 
 object CachesController extends Controller {
 
-  def get = Action { request =>
+  def list = Action { request =>
     Logger.debug("Get all cache keys")
     Ok(Json.toJson(CacheKeys.keys)).as("application/json")
   }

@@ -1,4 +1,4 @@
-package utils
+package twitter.utils
 
 import play.api.Logger
 

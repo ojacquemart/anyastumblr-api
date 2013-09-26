@@ -1,11 +1,11 @@
-package services
+package twitter.services
 
 import play.api.Play.current
 import play.api.cache.Cache
 
 import play.api.Logger
 
-import models.Tweet
+import twitter.models.Tweet
 
 /**
  * Handler to cache the last since_id from twitter.

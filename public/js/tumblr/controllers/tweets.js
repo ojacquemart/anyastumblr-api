@@ -10,12 +10,12 @@ function TweetsController($scope, $http) {
     $scope.stream = null;
     $scope.nbNewTweets = 0;
 
-    $scope.espaceQuery = function() {
+    $scope.escapeQuery = function() {
         return encodeURIComponent($scope.query);
     }
 
     $scope.loadTweets = function () {
-        $http.get( "api/tweets/" + $scope.espaceQuery()).success(function (data) {
+        $http.get( "twitter/api/tweets/" + $scope.escapeQuery()).success(function (data) {
             $scope.tweets = data;
             $scope.openStream();
         });
@@ -31,7 +31,7 @@ function TweetsController($scope, $http) {
         $scope.closeIfStreamActive();
 
         $scope.nbNewTweets = 0;
-        $scope.stream = new EventSource("api/tweets/stream/" + $scope.espaceQuery());
+        $scope.stream = new EventSource("twitter/api/tweets/stream/" + $scope.escapeQuery());
         $($scope.stream).on('message', function(e) {
             var json = JSON.parse(e.originalEvent.data);
 

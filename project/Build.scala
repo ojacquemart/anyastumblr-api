@@ -16,15 +16,16 @@ object ApplicationBuild extends Build {
     "play-autosource"           %% "reactivemongo"          % "1.0-SNAPSHOT"
   )
 
-  val adminDeps = Seq(cache)
+  val cacheDeps = Seq(cache)
 
-  lazy val common = play.Project(appName + "-common", appVersion, adminDeps, path = file("common"))
-  lazy val admin = play.Project(appName + "-admin", appVersion, Seq(), path = file("modules/admin")).dependsOn(common)
+  lazy val common = play.Project(appName + "-common", appVersion, Seq(), path = file("common"))
+  lazy val admin = play.Project(appName + "-admin", appVersion, cacheDeps, path = file("modules/admin")).dependsOn(common)
 
+  lazy val twitter = play.Project(appName + "-twitter", appVersion, cacheDeps, path = file("modules/twitter"))
 
   lazy  val main = play.Project(appName, appVersion, mainDeps).settings(
     resolvers += "Mandubian repository snapshots" at "https://github.com/mandubian/mandubian-mvn/raw/master/snapshots/",
     resolvers += "Mandubian repository releases" at "https://github.com/mandubian/mandubian-mvn/raw/master/releases/"
-  ).dependsOn(admin).aggregate(admin)
+  ).dependsOn(admin, twitter).aggregate(admin, twitter)
 
 }

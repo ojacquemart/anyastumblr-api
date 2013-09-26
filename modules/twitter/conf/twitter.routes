@@ -1,0 +1,6 @@
+#--------------
+# Twitter routes
+#--------------
+
+GET        /api/tweets/:query               controllers.TwitterController.index(query: String)
+GET        /api/tweets/stream/:query        controllers.TwitterController.stream(query: String)

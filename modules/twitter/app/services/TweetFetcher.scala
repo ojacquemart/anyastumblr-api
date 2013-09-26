@@ -1,22 +1,28 @@
-package twitter
+package services
+
+import java.net.URLEncoder
+import java.util.concurrent.TimeUnit
 
 import scala.concurrent._
 import ExecutionContext.Implicits.global
-import java.net.URLEncoder
 
-import play.api.Logger
+import play.api.libs.EventSource
+import play.api.libs.iteratee.{Enumeratee, Enumerator}
 import play.api.libs.oauth._
 import play.api.libs.json._
 import play.api.libs.ws.{WS, Response}
 
-import ConfigurationReader._
+import play.api.Logger
+
+import models.Tweet
+import utils.ConfigurationReader
 
 class TweetFetcher(query: String, sinceId: String)  {
 
   /**
    * The consumer key.
    */
-  val consumerKey = ConsumerKey(ConfigurationReader.consumerKey,ConfigurationReader.consumerSecret)
+  val consumerKey = ConsumerKey(ConfigurationReader.consumerKey, ConfigurationReader.consumerSecret)
 
   /**
    * The access token.
@@ -26,7 +32,7 @@ class TweetFetcher(query: String, sinceId: String)  {
   /**
    * The Json Twitter API.
    */
-  val TwitterV1JsonApi: String = "https://api.twitter.com/1.1/search/tweets.json"
+  val TwitterApi: String = "https://api.twitter.com/1.1/search/tweets.json"
 
   val responsePerPage = if (sinceId.isEmpty) "" else "100"
 
@@ -76,9 +82,34 @@ class TweetFetcher(query: String, sinceId: String)  {
       .mkString("?", "&", "")
     Logger.debug(s"Parameters $parameters")
 
-    WS.url(TwitterV1JsonApi + parameters)
+    WS.url(TwitterApi + parameters)
       .sign(OAuthCalculator(consumerKey, accessToken))
       .get()
   }
 
+}
+
+object TweetFetcher {
+
+  def fetch(query: String, sinceId: String = ""): Future[Seq[Tweet]] = {
+    new TweetFetcher(query, sinceId).fetch()
+  }
+
+  def count(query: String, sinceId: String = ""): Future[Int] = {
+    new TweetFetcher(query, sinceId).count()
+  }
+
+  def chunckCountRecents(query: String): Enumerator[String] = {
+    val countRecents = Enumerator.repeatM[Int]({
+      count(query, TweetCacheHandler.get(query))
+    })
+
+    val schedule = Enumeratee.mapM[Int](t => play.api.libs.concurrent.Promise.timeout(t, 10, TimeUnit.SECONDS))
+
+    val countRecentsAsJson: Enumeratee[Int, JsValue] = Enumeratee.map {
+      case t => Json.obj("recents" -> t)
+    }
+
+    countRecents &> schedule &> countRecentsAsJson &> EventSource()
+  }
 }

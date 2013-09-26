@@ -1,11 +1,8 @@
-package twitter
+package services
 
 import org.specs2.mutable._
 
-import play.api.test.Helpers._
-
-import twitter._
-
+import models.{TwitterUser, Tweet}
 import utils.SimpleFakeApp
 
 object TweetCacheHandlerSpec extends Specification {

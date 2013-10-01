@@ -4,21 +4,25 @@
 
 describe('services.tumblrNavigation.sitesNavigator', function () {
     var _sitesNavigator = null;
-    var sites = [
-        { "id": "images-tonnantes" },
-        { "id": "joiesducode" },
-        { "id": "joiesduscrum" }
-    ];
+    var sites = {
+        sitesByType: [],
+        sites: [
+            { "id": "images-tonnantes" },
+            { "id": "joiesducode" },
+            { "id": "joiesduscrum" } ]
+        };
 
     beforeEach(module('tumblrNavigation'));
 
     beforeEach(inject(function (sitesNavigator) {
         expect(sitesNavigator).toBeDefined();
         _sitesNavigator = sitesNavigator;
+
+        _sitesNavigator.init(sites);
     }));
 
     it('checks navigation from a middle site position', function () {
-        _sitesNavigator.init(sites, "joiesducode");
+        _sitesNavigator.storeSite("joiesducode");
 
         expect(_sitesNavigator.canNavigateToIndex(-1)).toBe(true);
         expect(_sitesNavigator.canNavigateToIndex(1)).toBe(true)
@@ -26,7 +30,7 @@ describe('services.tumblrNavigation.sitesNavigator', function () {
         expect(_sitesNavigator.getSiteByIndex(1)).toBe("joiesduscrum");
     });
     it('checks navigation from the first site', function () {
-        _sitesNavigator.init(sites, "images-tonnantes");
+        _sitesNavigator.storeSite("images-tonnantes");
 
         expect(_sitesNavigator.canNavigateToIndex(-1)).toBe(false);
         expect(_sitesNavigator.canNavigateToIndex(1)).toBe(true)
@@ -34,7 +38,7 @@ describe('services.tumblrNavigation.sitesNavigator', function () {
         expect(_sitesNavigator.getSiteByIndex(1)).toBe("joiesducode");
     });
     it('checks navigation from the last site', function () {
-        _sitesNavigator.init(sites, "joiesduscrum");
+        _sitesNavigator.storeSite("joiesduscrum");
 
         expect(_sitesNavigator.canNavigateToIndex(-1)).toBe(true);
         expect(_sitesNavigator.canNavigateToIndex(1)).toBe(false)

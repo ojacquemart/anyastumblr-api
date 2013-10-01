@@ -1,29 +1,35 @@
 "use strict";
 
+
 angular.module('httpInterceptor', [])
-    .config(function ($httpProvider) {
-        $httpProvider.responseInterceptors.push('loadingHttpInterceptor');
-        var spinnerFunction = function (data, headersGetter) {
-            $('#loading').show();
+    .factory('httpBroadcaster', function ($q, $rootScope, $log) {
 
-            return data;
-        };
-        $httpProvider.defaults.transformRequest.push(spinnerFunction);
-    })
-    // register the interceptor as a service, intercepts ALL angular ajax http calls
-    .factory('loadingHttpInterceptor', function ($q, $window) {
-        return function (promise) {
-            return promise.then(function (response) {
-                $('#loading').hide();
-                $('#error').hide();
+        var nbLoadings = 0;
 
-                return response;
+        return {
+            request: function (config) {
+                nbLoadings++;
+                $rootScope.$broadcast("loader_show");
+                return config || $q.when(config)
 
-            }, function (response) {
-                $('#error').show();
-                $('#loading').hide();
+            },
+            response: function (response) {
+                if ((--nbLoadings) === 0) {
+                    $rootScope.$broadcast("loader_hide");
+                }
+
+                return response || $q.when(response);
+
+            },
+            responseError: function (response) {
+                if (!(--nbLoadings)) {
+                    $rootScope.$broadcast("loader_hide");
+                }
 
                 return $q.reject(response);
-            });
+            }
         };
+    })
+    .config(function ($httpProvider) {
+        $httpProvider.interceptors.push('httpBroadcaster');
     });

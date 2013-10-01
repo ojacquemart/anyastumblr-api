@@ -10,9 +10,14 @@ function TumblrController($scope, $routeParams, $location, Tumblr, sitesNavigato
     $scope.page = null;
     $scope.site = null;
 
-    $scope.initPage = function(data) {
-        $scope.sitesByType = data.sitesByType;
-        $scope.site = sitesNavigator.init(data.sites, $routeParams.siteId);
+    $scope.init = function(data) {
+        sitesNavigator.init(data);
+    };
+
+    $scope.initPage = function() {
+        $scope.sitesByType = sitesNavigator.getSitesByType();
+        $scope.site = sitesNavigator.storeSite($routeParams.siteId);
+
         var pageNumber = $routeParams.pageNumber;
         if (pageNumber == null) {
             $scope.loadImages();
@@ -111,9 +116,14 @@ function TumblrController($scope, $routeParams, $location, Tumblr, sitesNavigato
      * @OnLoad...
      */
 
-    Tumblr.query(function (data) {
-        $scope.initPage(data);
-    });
+    if (!sitesNavigator.isInitialized()) {
+        Tumblr.query(function (data) {
+            $scope.init(data);
+            $scope.initPage();
+        });
+    } else {
+        $scope.initPage();
+    }
 
     // FIXME: see to use angularjs directive
     // Dont see how to put a directive on the body and use this controller.

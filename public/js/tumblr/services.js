@@ -18,10 +18,20 @@ angular.module("tumblrNavigation", [])
     .factory("sitesNavigator", function () {
         var currentSiteIndex = -1;
         var sites = null;
+        var sitesByType = null;
 
         return {
-            init: function (tumblrSites, siteId) {
-                sites = tumblrSites;
+            isInitialized: function() {
+                return sites != null;
+            },
+            init: function (data) {
+                sitesByType = data.sitesByType;
+                sites = data.sites;
+            },
+            getSitesByType: function() {
+                return sitesByType;
+            },
+            storeSite: function(siteId) {
                 if (siteId == null) {
                     siteId = sites[0].id;
                 }
@@ -47,7 +57,7 @@ angular.module("tumblrNavigation", [])
                 return sites[currentSiteIndex];
             },
             getCurrentSiteId: function() {
-            return this.getCurrentSite().id;
+                return this.getCurrentSite().id;
             },
             getSiteByIndex: function(index) {
                 if (this.canNavigateToIndex(index)) {
@@ -73,7 +83,7 @@ angular.module("tumblrNavigation", [])
         return {
             getPreviousPageNumber: function (page) {
                 var previousPageNumber = page.pageNumber - 1;
-                 if (previousPageNumber !== 0) {
+                if (previousPageNumber !== 0) {
                     return previousPageNumber;
                 }
 

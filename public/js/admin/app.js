@@ -1,6 +1,9 @@
 'use strict';
 
-angular.module('adminTumblr', [ "httpInterceptor",  "$strap.directives", "ui", "slugifier", "tumblrDirectives", "tumblrServices" ])
+angular.module('adminTumblr', [ "ngRoute", "commonDirectives", "httpInterceptor",
+        "$strap.directives", "ui",
+        "slugifier",
+        "tumblrDirectives", "tumblrServices" ])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.
             when('/site-types', {

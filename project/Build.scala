@@ -21,7 +21,7 @@ object ApplicationBuild extends Build {
 
   lazy  val main = play.Project(appName, appVersion, mainDeps).settings(
     resolvers += "Mandubian repository snapshots" at "https://github.com/mandubian/mandubian-mvn/raw/master/snapshots/",
-    resolvers += "Mandubian repository releases" at "https://github.com/mandubian/mandubian-mvn/raw/master/releases/"
+    resolvers += "Mandubian repository releases"  at "https://github.com/mandubian/mandubian-mvn/raw/master/releases/"
   ).dependsOn(twitter).aggregate(twitter)
 
 }

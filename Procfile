@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/hfrastumblr -Dhttp.port=$PORT -Dmongodb.uri=$MONGOHQ_URL $JAVA_OPTS
+web: java $JAVA_OPTS target/universal/stage/bin/hfrastumblr -Dhttp.port=$PORT -Dmongodb.uri=$MONGOHQ_URL

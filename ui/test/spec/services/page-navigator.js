@@ -2,29 +2,29 @@
 
 describe('Service: pageNavigator', function () {
 
-    var _pagesNavigator = null;
+    var _pageNavigator = null;
 
     beforeEach(module('uiApp'));
 
-    beforeEach(inject(function (pagesNavigator) {
-        expect(pagesNavigator).toBeDefined();
-        _pagesNavigator = pagesNavigator;
+    beforeEach(inject(function (pageNavigator) {
+        expect(pageNavigator).toBeDefined();
+        _pageNavigator = pageNavigator;
     }));
 
     it('checks if a page has last page link infos', function () {
-        expect(_pagesNavigator.hasLastPageInfos({
+        expect(_pageNavigator.hasLastPageInfos({
             linkLastPage: {
                 "url": "http://joiesducode.com"
             }
         })).toBe(true);
 
-        expect(_pagesNavigator.hasLastPageInfos({
+        expect(_pageNavigator.hasLastPageInfos({
             linkLastPage: null
         })).toBe(false);
     });
     it('checks navigation from the first page', function () {
-        expect(_pagesNavigator.getPreviousPageNumber({ pageNumber: 1})).toBe(-1);
-        expect(_pagesNavigator.getNextPageNumber({ pageNumber: 1})).toBe(2);
+        expect(_pageNavigator.getPreviousPageNumber({ pageNumber: 1})).toBe(-1);
+        expect(_pageNavigator.getNextPageNumber({ pageNumber: 1})).toBe(2);
     });
     it('checks navigation from a middle page position', function () {
         var pageInfos = {
@@ -34,8 +34,8 @@ describe('Service: pageNavigator', function () {
                 "url": "http://joiesducode.com"
             }
         };
-        expect(_pagesNavigator.getPreviousPageNumber(pageInfos)).toBe(1);
-        expect(_pagesNavigator.getNextPageNumber(pageInfos)).toBe(3);
+        expect(_pageNavigator.getPreviousPageNumber(pageInfos)).toBe(1);
+        expect(_pageNavigator.getNextPageNumber(pageInfos)).toBe(3);
     });
     it('checks navigation from a middle page position', function () {
         var pageInfos = {
@@ -45,8 +45,8 @@ describe('Service: pageNavigator', function () {
                 "url": "http://joiesducode.com"
             }
         };
-        expect(_pagesNavigator.getPreviousPageNumber(pageInfos)).toBe(3);
-        expect(_pagesNavigator.getNextPageNumber(pageInfos)).toBe(-1);
+        expect(_pageNavigator.getPreviousPageNumber(pageInfos)).toBe(3);
+        expect(_pageNavigator.getNextPageNumber(pageInfos)).toBe(-1);
     });
 
 });

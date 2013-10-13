@@ -2,6 +2,8 @@ import sbt._
 import Keys._
 import play.Project._
 
+import com.tuplejump.sbt.yeoman.Yeoman
+
 object ApplicationBuild extends Build {
 
   val appName         = "hfrastumblr"
@@ -19,7 +21,9 @@ object ApplicationBuild extends Build {
   val cacheDeps = Seq(cache)
   lazy val twitter = play.Project(appName + "-twitter", appVersion, cacheDeps, path = file("modules/twitter"))
 
-  lazy  val main = play.Project(appName, appVersion, mainDeps).settings(
+  lazy val main = play.Project(appName, appVersion, mainDeps).settings(
+    Yeoman.yeomanSettings : _ *
+  ).settings(
     resolvers += "Sonatype Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/",
     resolvers += "Mandubian repository snapshots" at "https://github.com/mandubian/mandubian-mvn/raw/master/snapshots/",
     resolvers += "Mandubian repository releases" at "https://github.com/mandubian/mandubian-mvn/raw/master/releases/"

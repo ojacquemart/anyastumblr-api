@@ -37,6 +37,7 @@ GET           /api/tumblr/admin/sites/slug/exists/:slug             tumblr.admin
 ->            /api/tumblr/admin/site-types                          tumblr.admin.controllers.SiteTypeController
 ->            /api/tumblr/admin/sites                               tumblr.admin.controllers.SiteController
 
+->  /ui/        yeoman.Routes
 ->  /twitter    twitter.Routes
 
 # Map static resources from the /public folder to the /assets URL path

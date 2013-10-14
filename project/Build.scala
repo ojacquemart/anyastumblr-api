@@ -20,6 +20,7 @@ object ApplicationBuild extends Build {
   lazy val twitter = play.Project(appName + "-twitter", appVersion, cacheDeps, path = file("modules/twitter"))
 
   lazy  val main = play.Project(appName, appVersion, mainDeps).settings(
+    resolvers += "Sonatype Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/",
     resolvers += "Mandubian repository snapshots" at "https://github.com/mandubian/mandubian-mvn/raw/master/snapshots/",
     resolvers += "Mandubian repository releases" at "https://github.com/mandubian/mandubian-mvn/raw/master/releases/"
   ).dependsOn(twitter).aggregate(twitter)

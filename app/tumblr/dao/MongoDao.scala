@@ -54,7 +54,7 @@ trait MongoDao[T, PK] {
       .find(finder)
       .sort(sorter)
       .cursor[T]
-      .toList
+      .collect[List]()
   }
 
   /**

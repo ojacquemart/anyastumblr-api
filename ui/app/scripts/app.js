@@ -18,6 +18,10 @@ angular.module('uiApp', [ "ngResource", "$strap.directives", "httpInterceptor" ]
             templateUrl: 'views/stats.html',
             controller: 'TumblrStatsCtrl'
         })
+        .when('/tweets', {
+            templateUrl: 'views/tweets.html',
+            controller: 'TweetsCtrl'
+        })
         .otherwise({
             redirectTo: '/sites'
         });

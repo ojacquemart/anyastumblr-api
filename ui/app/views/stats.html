@@ -1,0 +1,26 @@
+<div class="marginbox-center">
+    <h3>Tumblr statistics</h3>
+
+    <div id="tumblr-stats" class="container">
+        <div class="tumblr-stats-totals">
+            <p>{{stats.nbDocuments}} pages for {{stats.nbViews}} views</p>
+        </div>
+
+        <div class="tumblr-stats-details">
+            <table class="table table-striped">
+                <thead>
+                <th>Site</th>
+                <th>Pages</th>
+                <th>Views</th>
+                </thead>
+                <tbody>
+                <tr ng-repeat="siteStats in stats.sitesStats">
+                    <td>{{siteStats.name}}</td>
+                    <td>{{siteStats.nbDocuments}} </td>
+                    <td>{{siteStats.nbViews}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

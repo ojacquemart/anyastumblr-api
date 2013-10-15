@@ -7,7 +7,8 @@
 #--------------
 
 # Index
-GET           /                                                     tumblr.controllers.Application.index
+GET           /                                                     com.tuplejump.playYeoman.Yeoman.redirectRoot(base = "/ui")
+->  /ui/      yeoman.Routes
 
 # Tumblr
 GET           /api/tumblr/sites                                     tumblr.controllers.TumblrController.getSites

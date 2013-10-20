@@ -32,8 +32,8 @@ object TumblrAdminController extends Controller  {
   def authenticate = Action.async { implicit request =>
     val (username, password) = loginForm.bindFromRequest.get
     UserService.authenticate(username, password).map { exists =>
-      if (exists) Redirect(routes.TumblrAdminController.index).withSession(Security.username -> username)
-      else Redirect(routes.TumblrAdminController.login).flashing("error" -> "Invalid username or password.")
+      if (exists) Ok("token")
+      else Unauthorized
     }
   }
 

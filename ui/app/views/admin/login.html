@@ -1,0 +1,20 @@
+<div class="admin-container container">
+
+    <form name="loginForm" class="form-signin" method="POST" ng-submit="login()">
+        <div ng-show="error" class="alert alert-error">
+            {{error}}
+        </div>
+        <h2 class="form-signin-heading">Administration</h2>
+        <input type="text" name="name"
+               ng-model="user.name"
+               required
+               class="input-block-level"
+               placeholder="Username">
+        <input type="password" name="password"
+               ng-model="user.password"
+               required
+               class="input-block-level"
+               placeholder="Password">
+        <button class="btn btn-large btn-primary" ng-disabled="loginForm.$invalid" type="submit">Signin</button>
+    </form>
+</div>

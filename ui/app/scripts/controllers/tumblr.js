@@ -1,12 +1,14 @@
 'use strict';
 
 angular.module('uiApp')
-    .controller('TumblrCtrl', function ($scope, $routeParams, $location, tumblrApi, sitesNavigator, pageNavigator, animations) {
+    .controller('TumblrCtrl', function ($scope, $cookieStore, $routeParams, Auth, $location, tumblrApi, sitesNavigator, pageNavigator, animations) {
 
         $scope.sitesByType = null;
 
         $scope.page = null;
         $scope.site = null;
+
+        console.log($cookieStore.get("user") + " " + Auth.isLoggedIn());
 
         $scope.init = function (data) {
             sitesNavigator.init(data);

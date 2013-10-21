@@ -1,6 +1,12 @@
 'use strict';
 
-angular.module('uiApp', [ "ngResource", "ngCookies", "$strap.directives", "httpInterceptor" ])
+angular.module('uiApp', [
+        "ngResource",
+        "ngCookies",
+        "httpInterceptor",
+        "admin.directives",
+        "admin.services",
+        "$strap.directives" ])
     .config(function ($routeProvider, $httpProvider) {
         $routeProvider
             .when('/sites', {
@@ -39,9 +45,29 @@ angular.module('uiApp', [ "ngResource", "ngCookies", "$strap.directives", "httpI
                 controller: 'AdminSitesCtrl',
                 access: "admin"
             })
+            .when('/admin/sites/new', {
+                templateUrl: "views/admin/sites-form.html",
+                controller: "AdminNewSiteCtrl",
+                access: "admin"
+            })
+            .when('/admin/sites/edit/:id', {
+                controller: "AdminEditSiteCtrl",
+                resolve: {
+                    site: function(SiteLoader) {
+                        return SiteLoader();
+                    }
+                },
+                templateUrl: "views/admin/sites-form.html",
+                access: "admin"
+            })
             .when('/admin/site-types', {
                 templateUrl: 'views/admin/site-types.html',
                 controller: 'AdminSiteTypesCtrl',
+                access: "admin"
+            })
+            .when('/admin/caches', {
+                controller: "AdminCachesCtrl",
+                templateUrl: "views/admin/caches.html",
                 access: "admin"
             })
             .otherwise({

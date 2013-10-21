@@ -1,16 +1,16 @@
 'use strict';
 
-function CachesController($scope, Caches) {
+angular.module('uiApp')
+    .controller('AdminCachesCtrl', function ($scope, Caches) {
+        $scope.removeAll = function () {
+            Caches.removeAll();
+        };
 
-    $scope.removeAll = function () {
-        Caches.removeAll();
-    }
+        $scope.remove = function ($http, cacheKey) {
+            Caches.remove({ "key": cacheKey });
+        };
 
-    $scope.remove = function (cacheKey) {
-        Caches.remove({ "key": cacheKey });
-    }
+        // @OnLoad...
+        $scope.cacheKeys = Caches.query();
 
-    // @OnLoad...
-    $scope.cacheKeys = Caches.query();
-
-}
+    });

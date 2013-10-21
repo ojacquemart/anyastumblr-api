@@ -93,24 +93,28 @@
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script src="scripts/services/http-broadcaster.js"></script>
     <script src="scripts/app.js"></script>
-    <script src="scripts/directives/favicon-site.js"></script>
-    <script src="scripts/directives/open-parent.js"></script>
-    <script src="scripts/directives/loader.js"></script>
+
     <script src="scripts/services/animations.js"></script>
     <script src="scripts/services/sites-navigator.js"></script>
     <script src="scripts/services/page-navigator.js"></script>
     <script src="scripts/services/tumblr-stats-api.js"></script>
     <script src="scripts/services/tumblr-api.js"></script>
+    <script src="scripts/services/http-interceptor.js"></script>
+    <script src="scripts/directives/favicon-site.js"></script>
+    <script src="scripts/directives/open-parent.js"></script>
+    <script src="scripts/directives/loader.js"></script>
     <script src="scripts/controllers/tumblr.js"></script>
     <script src="scripts/controllers/tumblr-stats.js"></script>
     <script src="scripts/controllers/tweets.js"></script>
-    <script src="scripts/controllers/admin/login.js"></script>
-    <script src="scripts/services/admin/auth.js"></script>
-    <script src="scripts/controllers/admin/sites.js"></script>
-    <script src="scripts/controllers/admin/logout.js"></script>
-    <script src="scripts/controllers/admin/siteTypes.js"></script>
+
+    <script src="scripts/admin/services/services.js"></script>
+    <script src="scripts/admin/directives/directives.js"></script>
+    <script src="scripts/admin/services/auth.js"></script>
+    <script src="scripts/admin/controllers/caches.js"></script>
+    <script src="scripts/admin/controllers/login.js"></script>
+    <script src="scripts/admin/controllers/sites.js"></script>
+    <script src="scripts/admin/controllers/site-types.js"></script>
     <!-- endbuild -->
 </body>
 </html>

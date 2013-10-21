@@ -2,7 +2,7 @@
 
 function AdminSiteTypesCtrl($scope, SiteType) {
 
-    $scope.emptySiteType = function() {
+    var emptySiteType = function() {
         var newTypeSite = new SiteType();
         newTypeSite.ordinal = -1;
         newTypeSite.enabled = true;
@@ -39,6 +39,6 @@ function AdminSiteTypesCtrl($scope, SiteType) {
 
     // @OnLoad...
     $scope.siteTypes = SiteType.query();
-    $scope.newSiteType = $scope.emptySiteType();
+    $scope.newSiteType = emptySiteType();
 
 }

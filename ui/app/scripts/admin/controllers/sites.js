@@ -1,6 +1,6 @@
 'use strict';
 
-function SiteController($scope, Site) {
+function AdminSitesCtrl($scope, Site) {
     $scope.sites = Site.query();
 
     $scope.delete = function(site) {
@@ -15,7 +15,7 @@ function SiteController($scope, Site) {
     }
 }
 
-function RootSiteFormController($scope, SiteType) {
+function AdminRootSiteCtrl($scope, SiteType) {
     $scope.checkImageRule = function() {
         if (typeof $scope.site.configuration.imageRule === "undefined") {
             $scope.site.configuration.imageRule = { "exclude": "", "startsWith": [] };
@@ -35,18 +35,18 @@ function RootSiteFormController($scope, SiteType) {
     }
 }
 
-function NewSiteController($scope, $location, Site, SiteType) {
+function AdminNewSiteCtrl($scope, $location, Site, SiteType) {
     $scope.site = new Site();
     $scope.siteTypes = SiteType.query();
 
     $scope.save = function() {
         $scope.site.$save(function (site) {
-            $location.path("/sites");
+            $location.path("/admin/sites");
         });
     }
 }
 
-function EditSiteController($scope, $location, site, SiteType) {
+function AdminEditSiteCtrl($scope, $location, site, SiteType) {
     $scope.site = site;
     $scope.siteTypes = SiteType.query(function(siteTypes) {
         $scope.site.siteType = $scope.updateSiteType();
@@ -69,7 +69,7 @@ function EditSiteController($scope, $location, site, SiteType) {
 
     $scope.save = function() {
         $scope.site.$update(function (site) {
-           $location.path("/sites");
+           $location.path("/admin/sites");
         });
     }
 }

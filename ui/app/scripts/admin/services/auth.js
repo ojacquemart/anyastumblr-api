@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('uiApp')
-    .service('Auth', function AdminAuth($cookieStore, $http) {
+angular.module('admin.services')
+    .service('Auth', function ($cookieStore, $http) {
         var token = $cookieStore.get("user") || "";
 
         var storeToken = function(_token) {

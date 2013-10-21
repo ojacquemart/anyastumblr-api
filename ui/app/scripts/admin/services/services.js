@@ -1,4 +1,6 @@
-angular.module("tumblrServices", ["ngResource"])
+'use strict';
+
+angular.module("admin.services", [ "ngResource"])
     .factory("SiteType", function ($resource) {
         return $resource("/api/tumblr/admin/site-types/:id", {
             id: "@id"

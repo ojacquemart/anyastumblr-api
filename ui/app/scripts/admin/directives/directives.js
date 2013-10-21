@@ -1,8 +1,6 @@
 'use strict';
 
-var directives = angular.module('tumblrDirectives', []);
-
-directives
+angular.module('admin.directives', [ ])
     .directive('selectYesNo', function () {
         return {
             restrict: "E",

@@ -1,0 +1,193 @@
+<form id="admin-site-form" name="siteForm" class="form-horizontal" ng-controller="AdminRootSiteCtrl">
+    <fieldset>
+        <legend>Site {{site.slug}}</legend>
+    </fieldset>
+
+    <div class="form-actions">
+        <a ng-href="#/sites" class="btn"><i class="icon-remove"></i>&nbsp; Cancel</a>
+        <button ng-click="save(site)" ng-disabled="siteForm.$invalid"
+            class="btn btn-primary" type="submit">
+            <i class="icon-ok icon-white"></i>&nbsp; Save
+        </button>
+    </div>
+
+    <fieldset>
+        <legend>Informations</legend>
+        <div class="control-group">
+            <label class="control-label">Type *</label>
+            <div class="controls">
+                <select ng-model="site.siteType" ng-options="i.name for i in siteTypes"></select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Name *</label>
+            <div class="controls">
+                <input type="text" name="name" ng-model="site.name"
+                       ng-unique-slug="{{ { 'id': site.id, 'objectsVarName': 'sites', 'type': 'sites' } }}"
+                       required
+                       class="input-xxlarge" />
+                <span class="text-error" ng-show="siteForm.name.$error.required">Required</span>
+                <span class="text-error" ng-show="siteForm.name.$error.unique">Slug '{{site.slug}}' already exists</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Slug *</label>
+            <div class="controls">
+                <slug from="site.name" to="site.slug">
+                    <input type="text" name="slug" ng-model="site.slug" ng-disabled="true" class="input-xxlarge" required />
+                    <span class="text-error" ng-show="siteForm.slug.$error.required">Required</span>
+                </slug>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Url *</label>
+            <div class="controls">
+                <input type="text" name="url" ng-model="site.url" class="input-xxlarge" required />
+                <span class="text-error" ng-show="siteForm.url.$error.required">Required</span>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Ordinal *</label>
+            <div class="controls">
+                <input type="number" name="ordinal" ng-model="site.ordinal" class="span2" required />
+                <span class="text-error" ng-show="siteForm.ordinal.$error.required">Required</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Enabled *</label>
+            <div class="controls">
+                <select-yes-no value="site.enabled" />
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Configuration</legend>
+
+        <div class="control-group">
+            <label class="control-label">Retrieves last page by css selector? *</label>
+            <div class="controls">
+                <select-yes-no value="site.configuration.lastPageByCss" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Navigation by ascending order? *</label>
+            <div class="controls">
+                <select-yes-no value="site.configuration.navigationAscending" />
+            </div>
+        </div>
+
+        <fieldset>
+            <legend>CSS image selector</legend>
+
+            <div class="control-group">
+                <label class="control-label">Css selector *</label>
+                <div class="controls">
+                    <input type="text" name="imagesCcssQuery" ng-model="site.configuration.cssSelectors.images.cssQuery" class="input-xxlarge" required />
+                    <span class="text-error" ng-show="siteForm.imagesCcssQuery.$error.required">Required</span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Html attribute *</label>
+                <div class="controls">
+                    <input type="text" name="imagesHtmlAttr" ng-model="site.configuration.cssSelectors.images.htmlAttribute" class="input-xxlarge" required />
+                    <span class="text-error" ng-show="siteForm.imagesHtmlAttr.$error.required">Required</span>
+                </div>
+            </div>
+
+        </fieldset>
+        <fieldset>
+            <legend>CSS text selector</legend>
+
+            <div class="control-group">
+                <label class="control-label">Css selector</label>
+                <div class="controls">
+                    <input type="text" ng-model="site.configuration.cssSelectors.text.cssQuery" class="input-xxlarge" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Html attribute</label>
+                <div class="controls">
+                    <input type="text" ng-model="site.configuration.cssSelectors.text.htmlAttribute" class="input-xxlarge" />
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Page change description</legend>
+
+            <div class="control-group">
+                <label class="control-label">Regex *</label>
+                <div class="controls">
+                    <input type="text" name="pageRegex" ng-model="site.configuration.pageResolver.changePageDescriptor.regex" class="input-xxlarge" required />
+                    <span class="text-error" ng-show="siteForm.pageRegex.$error.required">Required</span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Replacement *</label>
+                <div class="controls">
+                    <input type="text" name="pageRegexReplace" ng-model="site.configuration.pageResolver.changePageDescriptor.replacement" class="input-xxlarge" required />
+                    <span class="text-error" ng-show="siteForm.pageRegexReplace.$error.required">Required</span>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Page number resolution</legend>
+
+            <div class="control-group">
+                <label class="control-label">Css selector</label>
+                <div class="controls">
+                    <input type="text" ng-model="site.configuration.pageResolver.pageNumberDescriptor.cssSelector.cssQuery" class="input-xxlarge" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Html attribute</label>
+                <div class="controls">
+                    <input type="text" ng-model="site.configuration.pageResolver.pageNumberDescriptor.cssSelector.htmlAttribute" class="input-xxlarge" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Regex</label>
+                <div class="controls">
+                    <input type="text" ng-model="site.configuration.pageResolver.pageNumberDescriptor.regex" class="input-xxlarge" />
+                </div>
+            </div>
+
+        </fieldset>
+        <fieldset>
+            <legend>Images rule (hfr specific)</legend>
+
+            <div class="control-group">
+                <label class="control-label">Exclude urls starting by</label>
+                <div class="controls">
+                    <input type="text" ng-model="site.configuration.imageRule.exclude" class="input-xxlarge" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">First images collection must start with</label>
+                <div class="controls">
+                    <button ng-click="addImageRuleException()" class="btn">Add</button>
+                    <div ng-repeat="object in site.configuration.imageRule.startsWith">
+                        <input type="text" ng-model="object.value" class="input-xxlarge" />
+                        <button ng-click="removeImageRuleException($index)" class="btn">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </fieldset>
+
+    <div class="form-actions">
+        <a ng-href="#/sites" class="btn"><i class="icon-remove"></i>&nbsp; Cancel</a>
+        <button ng-click="save(site)" ng-disabled="siteForm.$invalid"
+            class="btn btn-primary" type="submit">
+            <i class="icon-ok icon-white"></i>&nbsp; Save
+        </button>
+    </div>
+
+    <fieldset>
+        <legend>Debug</legend>
+        <pre>form = {{site | json}}</pre>
+    </fieldset>
+
+</form>

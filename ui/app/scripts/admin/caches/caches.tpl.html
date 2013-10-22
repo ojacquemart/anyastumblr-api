@@ -1,0 +1,20 @@
+<admin-navbar></admin-navbar>
+
+<div class="container">
+    <div class="row-fluid">
+        <div class="span6">
+            <fieldset>
+                <legend>Caches</legend>
+            </fieldset>
+
+            <ul>
+                <li>
+                    <a ng-click="removeAll()">Clear all caches</a>
+                </li>
+                <li ng-repeat="cacheKey in cacheKeys">
+                    <a ng-click="remove(cacheKey.key)">Clear cache {{cacheKey.name}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

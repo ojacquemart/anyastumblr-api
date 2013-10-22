@@ -1,0 +1,27 @@
+<div class="navbar navbar-inverse navbar-fixed-top" bs-navbar ng-controller="NavbarCtrl">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="#/admin/index">Administration</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li data-match-route="/admin/site-types"><a href="#/admin/site-types">Site types</a></li>
+                    <li data-match-route="/admin/sites.*"><a href="#/admin/sites">Sites</a></li>
+                    <li data-match-route="/admin/caches"><a href="#/admin/caches">Caches</a></li>
+                </ul>
+                <ul class="nav pull-right">
+                    <li><a ng-click="logout()">Logout</a></li>
+                </ul>
+            </div>
+            <div id="loading" loader class="message-information hide">
+                <p>
+                    <i class="icon-large icon-spinner icon-spin"></i>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

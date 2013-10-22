@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('admin.directives', [ ])
+angular.module('admin.directives', [ 'admin.commons' ])
     .directive('selectYesNo', function () {
         return {
             restrict: "E",

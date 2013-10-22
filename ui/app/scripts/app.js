@@ -4,8 +4,14 @@ angular.module('uiApp', [
         "ngResource",
         "ngCookies",
         "httpInterceptor",
+        "slugifier",
+        "admin.auth",
+        "admin.caches",
+        "admin.commons",
         "admin.directives",
-        "admin.services",
+        "admin.navbar",
+        "admin.sites",
+        "admin.siteTypes",
         "$strap.directives" ])
     .config(function ($routeProvider, $httpProvider) {
         $routeProvider
@@ -28,47 +34,6 @@ angular.module('uiApp', [
             .when('/tweets', {
                 templateUrl: 'views/tweets.html',
                 controller: 'TweetsCtrl'
-            })
-            .when('/admin/login', {
-                templateUrl: 'views/admin/login.html',
-                controller: 'AdminLoginCtrl',
-                access:  "admin",
-                login: true
-            })
-            .when('/admin/index', {
-                templateUrl: 'views/admin/sites.html',
-                controller: 'AdminSitesCtrl',
-                access: "admin"
-            })
-            .when('/admin/sites', {
-                templateUrl: 'views/admin/sites.html',
-                controller: 'AdminSitesCtrl',
-                access: "admin"
-            })
-            .when('/admin/sites/new', {
-                templateUrl: "views/admin/sites-form.html",
-                controller: "AdminNewSiteCtrl",
-                access: "admin"
-            })
-            .when('/admin/sites/edit/:id', {
-                controller: "AdminEditSiteCtrl",
-                resolve: {
-                    site: function(SiteLoader) {
-                        return SiteLoader();
-                    }
-                },
-                templateUrl: "views/admin/sites-form.html",
-                access: "admin"
-            })
-            .when('/admin/site-types', {
-                templateUrl: 'views/admin/site-types.html',
-                controller: 'AdminSiteTypesCtrl',
-                access: "admin"
-            })
-            .when('/admin/caches', {
-                controller: "AdminCachesCtrl",
-                templateUrl: "views/admin/caches.html",
-                access: "admin"
             })
             .otherwise({
                 redirectTo: '/sites'

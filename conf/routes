@@ -19,12 +19,9 @@ GET           /api/tumblr/sites/:slug/page/:pageNumber              tumblr.contr
 GET           /api/tumblr/stats                                     tumblr.controllers.TumblrStatsController.index
 
 # Tumblr administration
-GET           /tumblr/administration                                tumblr.admin.controllers.TumblrAdminController.index
 
 # Authentication
-GET           /tumblr/administration/login                          tumblr.admin.controllers.TumblrAdminController.login
 POST          /tumblr/administration/login                          tumblr.admin.controllers.TumblrAdminController.authenticate
-GET           /tumblr/administration/logout                         tumblr.admin.controllers.TumblrAdminController.logout
 
 GET           /api/tumblr/admin/caches                              tumblr.admin.controllers.CachesController.list
 DELETE        /api/tumblr/admin/caches                              tumblr.admin.controllers.CachesController.removeAll

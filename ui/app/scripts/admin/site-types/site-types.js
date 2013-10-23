@@ -10,12 +10,8 @@ angular.module('admin.siteTypes', [ ])
             })
         ;
     }])
-    .factory("SiteType", function ($resource) {
-        return $resource("/api/tumblr/admin/site-types/:id", {
-            id: "@id"
-        }, {
-            "update": { method: "PUT" }
-        });
+    .factory("SiteType", function (secureResource) {
+        return secureResource("/api/tumblr/admin/site-types/:id", { id: "@id" });
     })
     .controller("SiteTypeCtrl", function ($scope, SiteType) {
 

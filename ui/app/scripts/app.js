@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('uiApp', [
+        "ngRoute",
         "ngResource",
         "ngCookies",
         "httpInterceptor",
@@ -38,8 +39,6 @@ angular.module('uiApp', [
             .otherwise({
                 redirectTo: '/sites'
             });
-
-        $httpProvider.responseInterceptors.push('httpBroadcaster');
     }).run(['$rootScope', '$location', 'Auth', function ($rootScope, $location, Auth) {
 
         $rootScope.$on("$routeChangeStart", function (event, next, current) {

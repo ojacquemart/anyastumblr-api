@@ -9,10 +9,8 @@ angular.module('admin.caches', [])
                 access: "admin"
             })
     }])
-    .factory("Caches", function ($resource) {
-        return $resource("/api/tumblr/admin/caches/:key", {
-            key: "@key"
-        }, {
+    .factory("Caches", function (secureResource) {
+        return secureResource("/api/tumblr/admin/caches/:key", { key: "@key"}, {
             'removeAll': { method: 'DELETE' },
             'remove': { method: 'DELETE' }
         });

@@ -1,7 +1,6 @@
 "use strict"
 
 angular.module('admin.sites', [ 'admin.siteTypes' ])
-
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/admin/index', {
@@ -31,12 +30,8 @@ angular.module('admin.sites', [ 'admin.siteTypes' ])
             })
         ;
     }])
-    .factory("Site", function ($resource) {
-        return $resource("/api/tumblr/admin/sites/:id", {
-            id: "@id"
-        }, {
-            "update": { method: "PUT" }
-        });
+    .factory("Site", function (secureResource) {
+        return secureResource("/api/tumblr/admin/sites/:id", { id: "@id" });
     })
     .factory("SiteLoader", ["Site", "$route", "$q",
         function (Site, $route, $q) {

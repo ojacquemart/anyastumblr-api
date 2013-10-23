@@ -4,6 +4,7 @@ import scala.concurrent.ExecutionContext
 import ExecutionContext.Implicits.global
 
 import scala.concurrent.Future
+import scala.concurrent.future
 
 import play.api._
 
@@ -18,11 +19,18 @@ import play.api.mvc.{Security, RequestHeader}
  */
 object UserService {
 
+  val HeaderAuthName = "Authorization"
+  val HeaderAuthSperator = ":"
+
   /**
    * Checks if the current session contains a username.
    */
-  def hasCurrentUser(request: RequestHeader): Boolean = {
-    request.session.get(Security.username).isDefined
+  def hasCurrentUser(request: RequestHeader): Future[Boolean] = request.headers.get(HeaderAuthName) match {
+    case Some(base64) => {
+      val user = User.decodeBase64(base64)
+      authenticate(user.name, user.password)
+    }
+    case _ => future { false }
   }
 
   /**

@@ -12,8 +12,16 @@ case class User(_id: String, password: String) extends MongoModel[String] {
 
 object User {
 
+  val base64toArrayOfStrings: (String) => User =
+    base4 => {
+      val credentials = new String(new sun.misc.BASE64Decoder().decodeBuffer(base4)).split(":")
+      User(credentials(0), credentials(1))
+    }
+
   implicit val userFormat = Json.format[User]
 
   def generatePassword(plainPassword: String) = BCrypt.hashpw(plainPassword, BCrypt.gensalt(10))
+
+  def decodeBase64(base64: String) = base64toArrayOfStrings(base64)
 
 }

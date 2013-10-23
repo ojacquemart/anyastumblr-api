@@ -22,7 +22,7 @@ object AdminFilter extends EssentialFilter {
     def apply(request: RequestHeader): Iteratee[Array[Byte], SimpleResult] = {
       def result(auth: Boolean) = {
         if (auth) next(request)
-        else Iteratee.ignore[Array[Byte]].map(_ => Results.Forbidden)
+        else Iteratee.ignore[Array[Byte]].map(_ => Results.Unauthorized)
       }
 
       if (!request.path.startsWith(PathApiTumblrAdmin)) next(request)

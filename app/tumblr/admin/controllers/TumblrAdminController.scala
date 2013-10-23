@@ -8,6 +8,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 
 import tumblr.admin.service.UserService
+import tumblr.model.User
 
 object TumblrAdminController extends Controller  {
 
@@ -21,7 +22,7 @@ object TumblrAdminController extends Controller  {
   def authenticate = Action.async { implicit request =>
     val (username, password) = loginForm.bindFromRequest.get
     UserService.authenticate(username, password).map { exists =>
-      if (exists) Ok("token")
+      if (exists) Ok(User.encodeBase64(username, password))
       else Unauthorized
     }
   }

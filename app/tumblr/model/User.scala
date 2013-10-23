@@ -24,4 +24,6 @@ object User {
 
   def decodeBase64(base64: String) = base64toArrayOfStrings(base64)
 
+  def encodeBase64(name: String, password: String) =  new sun.misc.BASE64Encoder().encode(s"$name:$password".getBytes())
+
 }

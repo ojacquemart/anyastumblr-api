@@ -12,6 +12,11 @@ class UserSpec extends Specification {
       user.password must be equalTo("bar")
     }
 
+    "encode base64" in {
+      val base64 = User.encodeBase64("foo", "bar")
+      base64 must be equalTo("Zm9vOmJhcg==")
+    }
+
   }
 
 }

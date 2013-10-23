@@ -7,10 +7,7 @@ angular.module("admin.navbar", [])
     .directive('adminNavbar', function () {
         return {
             restrict: "E",
-            link: function (scope) {
-                scope.templateUrl = "scripts/admin/navbar/navbar.tpl.html";
-            },
-            template: '<div ng-include="templateUrl"></div>'
+            templateUrl: 'scripts/admin/navbar/navbar.tpl.html'
         }
     })
     .controller('NavbarCtrl', function ($scope, $location, Auth) {

@@ -1,0 +1,4 @@
+{ _id: ObjectId("51f5908ab11cb7bbe63fc52c"), name: "Hfr", slug: "hfr", ordinal: 1, enabled: true }
+{ _id: ObjectId("51f5908ab11cb7bbe63fc52d"), enabled: true, name: "Les joies", ordinal: 3, slug: "les-joies" }
+{ _id: ObjectId("51f5908ab11cb7bbe63fc52e"), enabled: true, name: "Divers", ordinal: 4, slug: "divers" }
+{ _id: ObjectId("5238b698f48b149e037fab95"), enabled: true, name: "BD", ordinal: 2, slug: "bd" }

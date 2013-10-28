@@ -47,7 +47,7 @@ angular.module('uiApp', [
                 if (!Auth.isLoggedIn()) {
                     $location.path("/admin/login");
                 } else if (next.login) {
-                    $location.path("/admin/index");
+                    $location.path("/admin/sites");
                 }
 
             }

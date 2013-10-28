@@ -75,7 +75,7 @@ angular.module('admin.auth', [])
         $scope.login = function () {
 
             Auth.login($scope.user, function (data) {
-                    $location.path("/admin/index");
+                    $location.path("/admin/sites");
                 },
                 function (error) {
                     $scope.error = "Invalid username or password.";

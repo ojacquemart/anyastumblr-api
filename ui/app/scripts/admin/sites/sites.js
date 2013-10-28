@@ -3,11 +3,6 @@
 angular.module('admin.sites', [ 'admin.siteTypes' ])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
-            .when('/admin/index', {
-                templateUrl: 'scripts/admin/sites/sites.tpl.html',
-                controller: 'SiteCtrl',
-                access: "admin"
-            })
             .when('/admin/sites', {
                 templateUrl: 'scripts/admin/sites/sites.tpl.html',
                 controller: 'SiteCtrl',

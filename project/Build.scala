@@ -6,7 +6,7 @@ import com.tuplejump.sbt.yeoman.Yeoman
 
 object ApplicationBuild extends Build {
 
-  val appName         = "hfrastumblr"
+  val appName         = "anyastumblr"
   val appVersion      = "1.2.0-SNAPSHOT"
 
   val mainDeps = Seq(

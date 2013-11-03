@@ -8,8 +8,6 @@ angular.module('uiApp')
         $scope.page = null;
         $scope.site = null;
 
-        console.log($cookieStore.get("user") + " " + Auth.isLoggedIn());
-
         $scope.init = function (data) {
             sitesNavigator.init(data);
         };

@@ -69,7 +69,7 @@ angular.module('admin.auth', [])
 
     })
     .controller('LoginCtrl', function ($scope, $location, Auth) {
-        $scope.user = { name: "", password: "IDj89nL6I69431yD4L3l" };
+        $scope.user = { name: "", password: "" };
         $scope.error = "";
 
         $scope.login = function () {

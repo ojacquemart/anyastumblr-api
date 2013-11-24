@@ -4,7 +4,7 @@ import play.Project._
 
 object ApplicationBuild extends Build {
 
-  val appName         = "anyastumblr"
+  val appName         = "tumblrevival"
   val appVersion      = "1.2.0-SNAPSHOT"
 
   val mainDeps = Seq(

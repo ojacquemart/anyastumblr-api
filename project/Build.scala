@@ -12,8 +12,10 @@ object ApplicationBuild extends Build {
     "com.newrelic.agent.java"   % "newrelic-agent"          % "2.21.3",
     "org.jsoup"                 % "jsoup"                   % "1.7.2",
     "org.mindrot"               % "jbcrypt"                 % "0.3m",
-    "org.reactivemongo"         %% "play2-reactivemongo"    % "0.10.0-SNAPSHOT",
-    "play-autosource"           %% "reactivemongo"          % "1.0-SNAPSHOT"
+    "org.reactivemongo"         %% "play2-reactivemongo"    % "0.10.0",
+    ("play-autosource"           %% "reactivemongo"          % "1.0-SNAPSHOT")
+        .exclude("org.reactivemongo", "play2-reactivemongo")
+        .exclude("org.reactivemongo", "reactivemongo")
   )
 
   val cacheDeps = Seq(cache)

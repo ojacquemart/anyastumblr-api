@@ -8,4 +8,6 @@ object Application extends Controller {
     Ok(views.html.index())
   }
 
+  def options(path:String) = Action { Ok("") }
+
 }

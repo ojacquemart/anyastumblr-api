@@ -6,6 +6,9 @@
 # Tumblr
 #--------------
 
+# CORS
+OPTIONS       /*path                                                tumblr.controllers.Application.options(path: String)
+
 # Index
 GET           /                                                     tumblr.controllers.Application.index
 

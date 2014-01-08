@@ -4,8 +4,8 @@ import play.Project._
 
 object ApplicationBuild extends Build {
 
-  val appName         = "tumblrevival"
-  val appVersion      = "1.2.0-SNAPSHOT"
+  val appName         = "anyastumblr-api"
+  val appVersion      = "1.3.0"
 
   val mainDeps = Seq(
     cache,
